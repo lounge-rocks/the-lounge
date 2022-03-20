@@ -4,7 +4,8 @@
   outputs = { self, ... }@inputs:
     with inputs;
     let
-      system = "aarch64-linux";
+      # seems like we don't need that line?
+      # system = "aarch64-linux";
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
@@ -15,9 +16,19 @@
 
         oracle-aarch64-runner-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          modules = [ (import ./machines/oracle-aarch64-runner-1/configuration.nix { inherit self; }) ];
+          modules = builtins.attrValues self.nixosModules ++ [
+            (import ./machines/oracle-aarch64-runner-1/configuration.nix {
+              inherit self;
+            })
+          ];
         };
 
       };
+
+      nixosModules = builtins.listToAttrs (map (x: {
+        name = x;
+        value = import (./modules + "/${x}");
+      }) (builtins.attrNames (builtins.readDir ./modules)));
+
     };
 }

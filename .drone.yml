@@ -19,7 +19,7 @@ steps:
 
   - name: Build drone-runner
     commands:
-      - nix build -v '.#nixosConfigurations.nixos.config.system.build.toplevel'
+      - nix build -v '.#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel'
 
 trigger:
   branch:

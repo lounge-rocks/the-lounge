@@ -1,8 +1,6 @@
 { self, ... }:
 { pkgs, ... }: {
 
-  imports = [ ../../modules/drone ../../modules/oracle-aarch64 ];
-
   lounge-rocks = {
     oracle-aarch64.enable = true;
     drone = {
