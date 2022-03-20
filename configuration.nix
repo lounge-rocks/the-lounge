@@ -1,10 +1,15 @@
 { self, ... }:
 { pkgs, ... }: {
-  imports = [
-    ./modules/oracle-aarch64
-    ./modules/drone/exec-runner.nix
-    ./modules/drone/docker-runner.nix
-  ];
+
+  imports = [ ./modules/drone ./modules/oracle-aarch64 ];
+
+  lounge-rocks = {
+    oracle-aarch64.enable = true;
+    drone = {
+      exec-runner.enable = true;
+      docker-runner.enable = true;
+    };
+  };
 
   networking = { hostName = "nixos"; };
 
