@@ -12,10 +12,12 @@
       lib = nixpkgs.lib;
     in {
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
+
+        oracle-aarch64-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          modules = [ (import ./configuration.nix { inherit self; }) ];
+          modules = [ (import ./machines/oracle-aarch64-1/configuration.nix { inherit self; }) ];
         };
+        
       };
     };
 }

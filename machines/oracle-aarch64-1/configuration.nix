@@ -1,7 +1,7 @@
 { self, ... }:
 { pkgs, ... }: {
 
-  imports = [ ./modules/drone ./modules/oracle-aarch64 ];
+  imports = [ ../../modules/drone ../../modules/oracle-aarch64 ];
 
   lounge-rocks = {
     oracle-aarch64.enable = true;
@@ -11,7 +11,7 @@
     };
   };
 
-  networking = { hostName = "nixos"; };
+  networking = { hostName = "oracle-aarch64-1"; };
 
   users.users.root = {
     openssh.authorizedKeys.keyFiles = [
