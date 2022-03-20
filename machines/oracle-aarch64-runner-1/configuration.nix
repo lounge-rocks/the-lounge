@@ -11,7 +11,7 @@
     };
   };
 
-  networking = { hostName = "oracle-aarch64-1"; };
+  networking = { hostName = "oracle-aarch64-runner-1"; };
 
   users.users.root = {
     openssh.authorizedKeys.keyFiles = [
