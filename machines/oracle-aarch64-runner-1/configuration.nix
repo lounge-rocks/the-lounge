@@ -7,6 +7,7 @@
       exec-runner.enable = true;
       docker-runner.enable = true;
     };
+    nix-build-signature.enable = true;
   };
 
   networking = { hostName = "oracle-aarch64-runner-1"; };
