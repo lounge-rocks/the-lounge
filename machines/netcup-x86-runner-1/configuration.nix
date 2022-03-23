@@ -8,6 +8,7 @@
       docker-runner.enable = true;
     };
     nix-build-signature.enable = true;
+    nix-common.enable = true;
   };
 
   networking = { hostName = "netcup-x86-runner-1"; };
