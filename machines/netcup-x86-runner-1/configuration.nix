@@ -3,10 +3,10 @@
 
   lounge-rocks = {
     netcup-x86.enable = true;
-    # drone = {
-    #   exec-runner.enable = true;
-    #   docker-runner.enable = true;
-    # };
+    drone = {
+      exec-runner.enable = true;
+      docker-runner.enable = true;
+    };
     nix-build-signature.enable = true;
   };
 

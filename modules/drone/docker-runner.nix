@@ -22,7 +22,7 @@ in {
         environment = {
           DRONE_RPC_PROTO = "https";
           DRONE_RPC_HOST = "drone.lounge.rocks";
-          DRONE_RUNNER_CAPACITY = "8";
+          DRONE_RUNNER_CAPACITY = "1";
           DRONE_RUNNER_NAME = "drone-runner-ARM";
         };
 
