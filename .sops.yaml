@@ -1,0 +1,16 @@
+
+
+# This example uses YAML anchors which allows reuse of multiple keys 
+# without having to repeat yourself.
+# Also see https://github.com/Mic92/dotfiles/blob/master/nixos/.sops.yaml
+# for a more complex example.
+keys:
+  - &user_pinpox D03B218CAE771F77D7F920D9823A6154426408D3
+  - &minio_host age1tunq67775pgaupjt2lapt8gv6m4my9v7y44rn3asyxzpmu5tf9lsmh50vc
+creation_rules:
+  - path_regex: secrets/minio_host/[^/]+\.yaml$
+    key_groups:
+    - pgp:
+      - *user_pinpox
+    # - age:
+    #   - *minio_host
