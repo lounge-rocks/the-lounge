@@ -11,7 +11,15 @@
     nix-common.enable = true;
   };
 
-  networking = { hostName = "netcup-x86-runner-1"; };
+  networking = {
+    hostName = "netcup-x86-runner-1";
+    interfaces.ens3 = {
+      ipv6.addresses = [{
+        address = "2a03:4000:60:ece::";
+        prefixLength = 64;
+      }];
+    };
+  };
 
   users.users.root = {
     openssh.authorizedKeys.keyFiles = [
