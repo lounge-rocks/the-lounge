@@ -12,5 +12,5 @@ creation_rules:
     key_groups:
     - pgp:
       - *user_pinpox
-    # - age:
-    #   - *minio_host
+      age:
+      - *minio_host
