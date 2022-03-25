@@ -11,6 +11,8 @@
     nix-common.enable = true;
   };
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   networking = {
     hostName = "netcup-x86-runner-1";
     interfaces.ens3 = {
