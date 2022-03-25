@@ -5,8 +5,8 @@
     pinpox.url = "github:pinpox/nixos";
     pinpox.inputs.nixpkgs.follows = "nixpkgs";
 
-  sops-nix.url = github:Mic92/sops-nix;
-  sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # mayniklas.url = "github:mayniklas/nixos";
     # mayniklas.inputs.nixpkgs.follows = "nixpkgs";
@@ -24,14 +24,12 @@
       lib = nixpkgs.lib;
     in {
       nixosConfigurations = {
-        minio-host = nixpkgs.lib.nixosSystem {
-          # system = "test${(builtins.readFile ./machines/minio-host/arch)}";
-          # system = "aarch64-linux";
-          system = import ./machines/minio-host/arch.nix;
+        stuart = nixpkgs.lib.nixosSystem {
+          system = import ./machines/stuart/arch.nix;
           modules = builtins.attrValues self.nixosModules ++ [
             pinpox.nixosModules.openssh
             sops-nix.nixosModules.sops
-            (import ./machines/minio-host/configuration.nix { inherit self; })
+            (import ./machines/stuart/configuration.nix { inherit self; })
           ];
         };
 

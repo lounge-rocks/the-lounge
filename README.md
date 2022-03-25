@@ -31,5 +31,5 @@ nix-channel --update
 # Initial Rebuild
 
 ```sh
-nixos-rebuild switch --flake '.#minio-host' --target-host root@s3.lounge.rocks --build-host root@s3.lounge.rocks
+nixos-rebuild switch --flake '.#stuart' --target-host root@s3.lounge.rocks --build-host root@s3.lounge.rocks
 ```

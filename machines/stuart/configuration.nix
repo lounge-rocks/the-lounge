@@ -9,12 +9,10 @@
     nix-common.enable = true;
   };
 
-  sops.defaultSopsFile = ../../secrets/minio_host/secrets.yaml;
-
-  # sops.secrets.example_key = { };
+  sops.defaultSopsFile = ../../secrets/stuart/secrets.yaml;
   sops.secrets."minio/env" = { };
 
-  networking = { hostName = "minio-host"; };
+  networking.hostName = "stuart";
 
   networking.firewall.allowedTCPPorts = [ 9000 9001 ];
 
