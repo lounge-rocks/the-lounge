@@ -16,7 +16,7 @@
 
   networking.hostName = "stuart";
 
-  networking.firewall.allowedTCPPorts = [ 9000 9001 ];
+  networking.firewall.allowedTCPPorts = [ 443 80 ];
 
   services.minio = {
     enable = true;
