@@ -1,0 +1,10 @@
+keys:
+  - &user_pinpox D03B218CAE771F77D7F920D9823A6154426408D3
+  - &server_stuart age1tunq67775pgaupjt2lapt8gv6m4my9v7y44rn3asyxzpmu5tf9lsmh50vc
+creation_rules:
+  - path_regex: secrets/stuart/[^/]+\.yaml$
+    key_groups:
+    - pgp:
+      - *user_pinpox
+      age:
+      - *server_stuart

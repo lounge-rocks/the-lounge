@@ -1,12 +1,219 @@
 {
   "nodes": {
+    "dotfiles-awesome": {
+      "inputs": {
+        "flake-compat": [
+          "pinpox",
+          "flake-compat"
+        ],
+        "flake-utils": [
+          "pinpox",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "pinpox",
+          "nixpkgs"
+        ],
+        "wallpaper-generator": [
+          "pinpox",
+          "wallpaper-generator"
+        ]
+      },
+      "locked": {
+        "lastModified": 1637309089,
+        "narHash": "sha256-8BsiXuqIws3zTnsLl5lro8qFSWnrC6kqvO21HicNUQs=",
+        "owner": "pinpox",
+        "repo": "dotfiles-awesome",
+        "rev": "6dd18d7055971eb3bf4bfe37b4812c11c44f1cd0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "repo": "dotfiles-awesome",
+        "type": "github"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1641205782,
+        "narHash": "sha256-4jY7RCWUoZ9cKD8co0/4tFARpWB+57+r1bLLvXNJliY=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "b7547d3eed6f32d06102ead8991ec52ab0a4f1a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1644229661,
+        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "forgit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647861350,
+        "narHash": "sha256-lo9JF8oUwhBUvYiI60QQj7HNI7M9btYUcGMjjatQBi4=",
+        "owner": "wfxr",
+        "repo": "forgit",
+        "rev": "495ac3cba67565c1ceb95446d8e676bb976cbd4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "wfxr",
+        "repo": "forgit",
+        "type": "github"
+      }
+    },
+    "fzf-lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647475543,
+        "narHash": "sha256-rAYhLUbgFRnHTY1365z0ucZ5+Bm/bRY/ezmD6sVHfVQ=",
+        "owner": "ibhagwan",
+        "repo": "fzf-lua",
+        "rev": "ab23fb6569166a6ba1416e78a8c3380bc2d44351",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ibhagwan",
+        "repo": "fzf-lua",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "pinpox",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1647821523,
+        "narHash": "sha256-NAIY357pAOcxK6bAt83kKEJ2LxZhLCiPIlmQ2iTQbk4=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "835797f3a4a59459a316ae8d4ab91fa59faf61a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "indent-blankline-nvim-lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1646791761,
+        "narHash": "sha256-ZDNRTgk5Aqx42T7mBalDMNdkhn7IG5xAcqK+e+Gpjj0=",
+        "owner": "lukas-reineke",
+        "repo": "indent-blankline.nvim",
+        "rev": "9915d46ba9361784c70036bb7259c436249e5b0c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lukas-reineke",
+        "repo": "indent-blankline.nvim",
+        "type": "github"
+      }
+    },
+    "krops": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644656837,
+        "narHash": "sha256-IHX/I74uY8SCD3NLhuXY6cQ6512om+tlKyZyzEUgvT8=",
+        "ref": "master",
+        "rev": "89e5e67659bbbf0da53cc2cc5dea644b9a2301f6",
+        "revCount": 117,
+        "type": "git",
+        "url": "https://cgit.krebsco.de/krops"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://cgit.krebsco.de/krops"
+      }
+    },
+    "matrix-hook": {
+      "inputs": {
+        "flake-compat": [
+          "pinpox",
+          "flake-compat"
+        ],
+        "flake-utils": [
+          "pinpox",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "pinpox",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1638433334,
+        "narHash": "sha256-/ZJ0GgR7JPetLMCyi5KVeNhVFvYUQ4uKpHw1ylIak7k=",
+        "owner": "pinpox",
+        "repo": "matrix-hook",
+        "rev": "ce5a5e1d93c43ac59b3562d68f744e8c565eeb5f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "repo": "matrix-hook",
+        "type": "github"
+      }
+    },
+    "nix-apple-fonts": {
+      "inputs": {
+        "flake-compat": [
+          "pinpox",
+          "flake-compat"
+        ],
+        "flake-utils": [
+          "pinpox",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "pinpox",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1637075535,
+        "narHash": "sha256-QTZZjFvLesYO2DT7JcnuHGDTQw6/MzJcp+ymfKDz1BM=",
+        "owner": "pinpox",
+        "repo": "nix-apple-fonts",
+        "rev": "da5f8facd04a39981c07fc1504649ec03de7b6e6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "repo": "nix-apple-fonts",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1647297614,
-        "narHash": "sha256-ulGq3W5XsrBMU/u5k9d4oPy65pQTkunR4HKKtTq0RwY=",
+        "lastModified": 1647893727,
+        "narHash": "sha256-pOi7VdCb+s5Cwh5CS7YEZVRgH9uCmE87J5W7iXv29Ck=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "73ad5f9e147c0d2a2061f1d4bd91e05078dc0b58",
+        "rev": "1ec61dd4167f04be8d05c45780818826132eea0d",
         "type": "github"
       },
       "original": {
@@ -16,9 +223,213 @@
         "type": "github"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1647872909,
+        "narHash": "sha256-gZT1NQHFfQnqIJbjRiHrYIKfqfd14f8P23JblyEQa8I=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "c485399d8e1af97b7ab718c3a102343d5d92c8de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
+    "nvim-cokeline": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647336734,
+        "narHash": "sha256-/PVW4AfY8ASffGD+DTaSxF520en1DR9Hq72xsrIT3tc=",
+        "owner": "noib3",
+        "repo": "nvim-cokeline",
+        "rev": "ada87f345fd55e39b7f6ef5ac6431723d90418cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noib3",
+        "repo": "nvim-cokeline",
+        "type": "github"
+      }
+    },
+    "nvim-fzf": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1635204440,
+        "narHash": "sha256-65IgJwM0s6RurLL+LCLnOZiuBd/Zom7SeiRlR4pPl7o=",
+        "owner": "vijaymarupudi",
+        "repo": "nvim-fzf",
+        "rev": "7cc3670b00f4d6e0968289f8b3bee7481cab3e73",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vijaymarupudi",
+        "repo": "nvim-fzf",
+        "type": "github"
+      }
+    },
+    "pinpox": {
+      "inputs": {
+        "dotfiles-awesome": "dotfiles-awesome",
+        "flake-compat": "flake-compat",
+        "flake-utils": "flake-utils",
+        "forgit": "forgit",
+        "fzf-lua": "fzf-lua",
+        "home-manager": "home-manager",
+        "indent-blankline-nvim-lua": "indent-blankline-nvim-lua",
+        "krops": "krops",
+        "matrix-hook": "matrix-hook",
+        "nix-apple-fonts": "nix-apple-fonts",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nur": "nur",
+        "nvim-cokeline": "nvim-cokeline",
+        "nvim-fzf": "nvim-fzf",
+        "retiolum": "retiolum",
+        "tfenv": "tfenv",
+        "wallpaper-generator": "wallpaper-generator",
+        "zk-nvim": "zk-nvim",
+        "zsh-abbrev-alias": "zsh-abbrev-alias",
+        "zsh-colored-man-pages": "zsh-colored-man-pages"
+      },
+      "locked": {
+        "lastModified": 1648027006,
+        "narHash": "sha256-8o2wR5+Iky+21TPKMpGZfqLVKpde4DwR7ctoVw1aexU=",
+        "owner": "pinpox",
+        "repo": "nixos",
+        "rev": "d8bf5225fb1f93654d302cff7d648bcc497b8289",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "repo": "nixos",
+        "type": "github"
+      }
+    },
+    "retiolum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647444524,
+        "narHash": "sha256-N4T1UXLkYJMQqk65LkTDpW70ujXXeZ9xe5k+LOpznAI=",
+        "owner": "krebs",
+        "repo": "retiolum",
+        "rev": "de6d7dc9bd671e65f2ee3004b6807625e7553e84",
+        "type": "github"
+      },
+      "original": {
+        "owner": "krebs",
+        "repo": "retiolum",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "pinpox": "pinpox",
+        "sops-nix": "sops-nix"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1647279403,
+        "narHash": "sha256-ZsHfMah9+TElcjaENsaOIFHBNNtSbXmyLFVbiJiAECs=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "c01f48b055ac776f9831c9d4a0fff83e3b74dbe3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "tfenv": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644439109,
+        "narHash": "sha256-qqO+vP7DieCxF5ezNN3rN0ktVj8Ikkmo0xbYdTAjCqc=",
+        "owner": "tfutils",
+        "repo": "tfenv",
+        "rev": "7e89520f4bdbacb5861aca209f0b8f89271287e1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tfutils",
+        "repo": "tfenv",
+        "type": "github"
+      }
+    },
+    "wallpaper-generator": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1646957110,
+        "narHash": "sha256-JLtzeHwcudY/tsGxoqCyf7n1zy64w/uTLl4cfx5m1vE=",
+        "owner": "pinpox",
+        "repo": "wallpaper-generator",
+        "rev": "3ce21c2b9bb7f38da653f7ad6af777d9c026b807",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "repo": "wallpaper-generator",
+        "type": "github"
+      }
+    },
+    "zk-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1629124754,
+        "narHash": "sha256-7XC2I5/XdcAAy+KPGgjY2RRDWZrlGUiqEzSsspUqtPA=",
+        "owner": "megalithic",
+        "repo": "zk.nvim",
+        "rev": "dbe88c5315ead19b99c5174a7eda7533cf6a735f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "megalithic",
+        "repo": "zk.nvim",
+        "type": "github"
+      }
+    },
+    "zsh-abbrev-alias": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1626942886,
+        "narHash": "sha256-jq5YEpIpvmBa/M7F4NeC77mE9WHSnza3tZwvgMPab7M=",
+        "owner": "momo-lab",
+        "repo": "zsh-abbrev-alias",
+        "rev": "33fe094da0a70e279e1cc5376a3d7cb7a5343df5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "momo-lab",
+        "repo": "zsh-abbrev-alias",
+        "type": "github"
+      }
+    },
+    "zsh-colored-man-pages": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1554205411,
+        "narHash": "sha256-087bNmB5gDUKoSriHIjXOVZiUG5+Dy9qv3D69E8GBhs=",
+        "owner": "ael-code",
+        "repo": "zsh-colored-man-pages",
+        "rev": "57bdda68e52a09075352b18fa3ca21abd31df4cb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ael-code",
+        "repo": "zsh-colored-man-pages",
+        "type": "github"
       }
     }
   },

@@ -3,7 +3,9 @@ with lib;
 let cfg = config.lounge-rocks.drone.exec-runner;
 in {
 
-  options.lounge-rocks.drone.exec-runner = { enable = mkEnableOption "enable drone-exec-runner"; };
+  options.lounge-rocks.drone.exec-runner = {
+    enable = mkEnableOption "enable drone-exec-runner";
+  };
 
   config = mkIf cfg.enable {
 

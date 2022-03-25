@@ -1,6 +1,7 @@
 # Oracle Cloud - ARMv8 Drone runner
 
 ### Installation:
+
 ```
 # create instance
 1. Create an instance (https://www.oracle.com/cloud/free)
@@ -21,7 +22,14 @@ OR
 ```
 
 ### Using unstable channel
+
 ```bash
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
+```
+
+# Initial Rebuild
+
+```sh
+nixos-rebuild switch --flake '.#stuart' --target-host root@s3.lounge.rocks --build-host root@s3.lounge.rocks
 ```

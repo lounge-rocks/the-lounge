@@ -1,6 +1,17 @@
 {
   description = "exec runner server";
-  inputs = { nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; };
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    pinpox.url = "github:pinpox/nixos";
+    pinpox.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # mayniklas.url = "github:mayniklas/nixos";
+    # mayniklas.inputs.nixpkgs.follows = "nixpkgs";
+
+  };
   outputs = { self, ... }@inputs:
     with inputs;
     let
@@ -13,6 +24,14 @@
       lib = nixpkgs.lib;
     in {
       nixosConfigurations = {
+        stuart = nixpkgs.lib.nixosSystem {
+          system = import ./machines/stuart/arch.nix;
+          modules = builtins.attrValues self.nixosModules ++ [
+            pinpox.nixosModules.openssh
+            sops-nix.nixosModules.sops
+            (import ./machines/stuart/configuration.nix { inherit self; })
+          ];
+        };
 
         oracle-aarch64-runner-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";

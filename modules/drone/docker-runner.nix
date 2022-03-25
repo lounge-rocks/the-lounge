@@ -3,7 +3,9 @@ with lib;
 let cfg = config.lounge-rocks.drone.docker-runner;
 in {
 
-  options.lounge-rocks.drone.docker-runner = { enable = mkEnableOption "enable drone-docker-runner"; };
+  options.lounge-rocks.drone.docker-runner = {
+    enable = mkEnableOption "enable drone-docker-runner";
+  };
 
   config = mkIf cfg.enable {
 
