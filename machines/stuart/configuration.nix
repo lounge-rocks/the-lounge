@@ -1,5 +1,5 @@
 { self, ... }:
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
 
   pinpox.services.openssh.enable = true;
 
@@ -10,7 +10,9 @@
   };
 
   sops.defaultSopsFile = ../../secrets/stuart/secrets.yaml;
-  sops.secrets."minio/env" = { };
+  sops.secrets."minio/env" = {
+    restartUnits = [ "minio.service" ];
+  };
 
   networking.hostName = "stuart";
 
@@ -22,7 +24,7 @@
     consoleAddress = "127.0.0.1:9001";
     region = "eu-central-1";
 
-    rootCredentialsFile = "/run/secrets/minio/env";
+    rootCredentialsFile = config.sops.secrets."minio/env".path;
 
     # dataDir = [ "/mnt/data/minio/data" ];
     # configDir = "/mnt/data/minio/config";
