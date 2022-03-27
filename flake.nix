@@ -78,7 +78,7 @@
 
           s3uploader = pkgs.writeShellScriptBin "s3uploader" ''
             for path in $(nix-store -qR $1); do
-                echo $path
+                # echo $path
             	sigs=$(nix path-info --sigs --json $path | ${pkgs.jq}/bin/jq 'try .[].signatures[]')
             	if [[ $sigs == *"cache.lounge.rocks"* ]]
             	then
