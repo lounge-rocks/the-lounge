@@ -19,7 +19,13 @@ steps:
 
   - name: Build oracle-aarch64-runner-1
     commands:
-      - nix build -v '.#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel'
+      - nix build '.#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel'
+      - nix run .#s3uploader $(readlink result)
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_key
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret
 
 trigger:
   branch:
@@ -49,7 +55,13 @@ steps:
 
   - name: Build netcup-x86-runner-1
     commands:
-      - nix build -v '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel'
+      - nix build '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel'
+      - nix run .#s3uploader $(readlink result)
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_key
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret
 
 trigger:
   branch:
