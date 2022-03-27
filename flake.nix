@@ -1,6 +1,8 @@
 {
   description = "exec runner server";
   inputs = {
+
+    flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     pinpox.url = "github:pinpox/nixos";
     pinpox.inputs.nixpkgs.follows = "nixpkgs";
@@ -67,5 +69,30 @@
         value = import (./modules + "/${x}");
       }) (builtins.attrNames (builtins.readDir ./modules)));
 
-    };
+    } // flake-utils.lib.eachDefaultSystem (system:
+      let pkgs = nixpkgs.legacyPackages.${system};
+
+      in rec {
+
+        packages = flake-utils.lib.flattenTree rec {
+
+          s3uploader = pkgs.writeShellScriptBin "s3uploader" ''
+            for path in $(nix-store -qR $1); do
+                echo $path
+            	sigs=$(nix path-info --sigs --json $path | ${pkgs.jq}/bin/jq 'try .[].signatures[]')
+            	if [[ $sigs =~ ^cache.lounge.rocks.* ]]
+            	then
+            		echo "Uploading $path"
+            		nix copy --to 's3://nix-cache?scheme=https&region=eu-central-1&endpoint=s3.lounge.rocks' $path
+            	fi
+            done
+          '';
+        };
+
+        apps = {
+          s3uploader = flake-utils.lib.mkApp {
+            drv = packages.s3uploader;
+          };
+        };
+      });
 }
