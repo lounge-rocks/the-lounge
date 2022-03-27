@@ -57,6 +57,16 @@
 
     virtualHosts = {
 
+      "cache.lounge.rocks" = {
+        addSSL = true;
+        enableACME = true;
+        locations = {
+          "/" = {
+            proxyPass = "http://localhost:9000/nix-cache/";
+          };
+        };
+      };
+
       # Minio admin console
       "minio.s3.lounge.rocks" = {
 
