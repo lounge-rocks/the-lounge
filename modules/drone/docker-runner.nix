@@ -5,6 +5,20 @@ in {
 
   options.lounge-rocks.drone.docker-runner = {
     enable = mkEnableOption "enable drone-docker-runner";
+    runner_capacity = mkOption {
+      type = types.str;
+      default = "1";
+      description = ''
+        how many concurrent docker builds should are allowed
+      '';
+    };
+    runner_name = mkOption {
+      type = types.str;
+      default = "drone-runner";
+      description = ''
+        name of the drone-runner
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
@@ -26,8 +40,8 @@ in {
         environment = {
           DRONE_RPC_PROTO = "https";
           DRONE_RPC_HOST = "drone.lounge.rocks";
-          DRONE_RUNNER_CAPACITY = "1";
-          DRONE_RUNNER_NAME = "drone-runner-ARM";
+          DRONE_RUNNER_CAPACITY = cfg.runner_capacity;
+          DRONE_RUNNER_NAME = cfg.runner_name;
         };
 
         extraOptions =

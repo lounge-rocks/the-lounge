@@ -5,7 +5,11 @@
     netcup-x86.enable = true;
     drone = {
       exec-runner.enable = true;
-      docker-runner.enable = true;
+      docker-runner = {
+        enable = true;
+        runner_capacity = "2";
+        runner_name = "netcup-x86-runner-1";
+      };
     };
     nix-build-signature.enable = true;
     nix-common.enable = true;
