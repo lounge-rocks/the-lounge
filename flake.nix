@@ -10,8 +10,8 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # mayniklas.url = "github:mayniklas/nixos";
-    # mayniklas.inputs.nixpkgs.follows = "nixpkgs";
+    mayniklas.url = "github:mayniklas/nixos";
+    mayniklas.inputs.nixpkgs.follows = "nixpkgs";
 
   };
   outputs = { self, ... }@inputs:
@@ -39,6 +39,7 @@
         oracle-aarch64-runner-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           modules = builtins.attrValues self.nixosModules ++ [
+            mayniklas.nixosModules.user
             (import ./machines/oracle-aarch64-runner-1/configuration.nix {
               inherit self;
             })
@@ -48,6 +49,7 @@
         netcup-x86-runner-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = builtins.attrValues self.nixosModules ++ [
+            mayniklas.nixosModules.user
             (import ./machines/netcup-x86-runner-1/configuration.nix {
               inherit self;
             })
@@ -57,6 +59,7 @@
         hetzner-x86-runner-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = builtins.attrValues self.nixosModules ++ [
+            mayniklas.nixosModules.user
             (import ./machines/hetzner-x86-runner-1/configuration.nix {
               inherit self;
             })
@@ -75,7 +78,8 @@
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
 
-      in rec {
+      in
+      rec {
 
         # Use nixpkgs-fmt for `nix fmt'
         formatter = pkgs.nixpkgs-fmt;
@@ -85,12 +89,12 @@
           s3uploader = pkgs.writeShellScriptBin "s3uploader" ''
             for path in $(nix-store -qR $1); do
                 # echo $path
-            	sigs=$(nix path-info --sigs --json $path | ${pkgs.jq}/bin/jq 'try .[].signatures[]')
-            	if [[ $sigs == *"cache.lounge.rocks"* ]]
-            	then
-            		echo "Uploading $path"
-            		nix copy --to 's3://nix-cache?scheme=https&region=eu-central-1&endpoint=s3.lounge.rocks' $path
-            	fi
+              sigs=$(nix path-info --sigs --json $path | ${pkgs.jq}/bin/jq 'try .[].signatures[]')
+              if [[ $sigs == *"cache.lounge.rocks"* ]]
+              then
+                echo "Uploading $path"
+                nix copy --to 's3://nix-cache?scheme=https&region=eu-central-1&endpoint=s3.lounge.rocks' $path
+              fi
             done
           '';
         };
