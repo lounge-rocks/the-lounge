@@ -64,10 +64,12 @@
 
       };
 
-      nixosModules = builtins.listToAttrs (map (x: {
-        name = x;
-        value = import (./modules + "/${x}");
-      }) (builtins.attrNames (builtins.readDir ./modules)));
+      nixosModules = builtins.listToAttrs (map
+        (x: {
+          name = x;
+          value = import (./modules + "/${x}");
+        })
+        (builtins.attrNames (builtins.readDir ./modules)));
 
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
