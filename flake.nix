@@ -1,17 +1,21 @@
 {
-  description = "exec runner server";
+  description = "lounge.rocks - infrastructure";
   inputs = {
 
-    flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    pinpox.url = "github:pinpox/nixos";
-    pinpox.inputs.nixpkgs.follows = "nixpkgs";
+
+    flake-utils.url = "github:numtide/flake-utils";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    pinpox.url = "github:pinpox/nixos";
+    pinpox.inputs.nixpkgs.follows = "nixpkgs";
+    pinpox.inputs.flake-utils.follows = "flake-utils";
+
     mayniklas.url = "github:mayniklas/nixos";
     mayniklas.inputs.nixpkgs.follows = "nixpkgs";
+    mayniklas.inputs.flake-utils.follows = "flake-utils";
 
   };
   outputs = { self, ... }@inputs:
