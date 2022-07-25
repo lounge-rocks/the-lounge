@@ -1,6 +1,7 @@
 { self, ... }:
 { pkgs, config, ... }: {
 
+  mayniklas.user.root.enable = true;
   pinpox.services.openssh.enable = true;
 
   lounge-rocks = {

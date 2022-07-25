@@ -30,6 +30,7 @@
         stuart = nixpkgs.lib.nixosSystem {
           system = import ./machines/stuart/arch.nix;
           modules = builtins.attrValues self.nixosModules ++ [
+            mayniklas.nixosModules.user
             pinpox.nixosModules.openssh
             sops-nix.nixosModules.sops
             (import ./machines/stuart/configuration.nix { inherit self; })
