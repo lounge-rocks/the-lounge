@@ -13,6 +13,7 @@
     };
     nix-build-signature.enable = true;
     nix-common.enable = true;
+    tailscale.enable = true;
   };
 
   networking = { hostName = "oracle-aarch64-runner-1"; };

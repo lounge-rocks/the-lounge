@@ -13,6 +13,7 @@
     };
     nix-build-signature.enable = true;
     nix-common.enable = true;
+    tailscale.enable = true;
   };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
