@@ -36,7 +36,7 @@ in {
     # nix
     nix = {
       # Enable flakes
-      package = pkgs.nixFlakes;
+      package = pkgs.nixVersions.stable;
       extraOptions = ''
         experimental-features = nix-command flakes
         # Free up to 5GiB whenever there is less than 1GiB left.
