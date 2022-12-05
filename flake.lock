@@ -669,6 +669,18 @@
         "url": "https://github.com/pinpox.keys"
       }
     },
+    "pinpox-keys_2": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-gcwC3WsifVF71JQNiLFSrU+sJtSdap27ozJs+39BmmM=",
+        "type": "file",
+        "url": "https://github.com/pinpox.keys"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/pinpox.keys"
+      }
+    },
     "promterm": {
       "inputs": {
         "naersk": "naersk",
@@ -741,6 +753,7 @@
         "mayniklas": "mayniklas",
         "nixpkgs": "nixpkgs",
         "pinpox": "pinpox",
+        "pinpox-keys": "pinpox-keys_2",
         "sops-nix": "sops-nix"
       }
     },

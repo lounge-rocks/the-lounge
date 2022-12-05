@@ -13,6 +13,11 @@
     pinpox.inputs.nixpkgs.follows = "nixpkgs";
     pinpox.inputs.flake-utils.follows = "flake-utils";
 
+    pinpox-keys = {
+      url = "https://github.com/pinpox.keys";
+      flake = false;
+    };
+
     mayniklas.url = "github:mayniklas/nixos";
     mayniklas.inputs.nixpkgs.follows = "nixpkgs";
     mayniklas.inputs.flake-utils.follows = "flake-utils";
@@ -35,6 +40,7 @@
           system = import ./machines/stuart/arch.nix;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
+            { _module.args.pinpox-keys = "pinpox-keys"; }
             pinpox.nixosModules.openssh
             sops-nix.nixosModules.sops
             (import ./machines/stuart/configuration.nix { inherit self; })
