@@ -40,7 +40,7 @@
           system = import ./machines/stuart/arch.nix;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
-            { _module.args.pinpox-keys = "pinpox-keys"; }
+            { _module.args.pinpox-keys = pinpox-keys; }
             pinpox.nixosModules.openssh
             sops-nix.nixosModules.sops
             (import ./machines/stuart/configuration.nix { inherit self; })
