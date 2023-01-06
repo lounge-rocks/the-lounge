@@ -17,26 +17,29 @@ in {
 
   config = mkIf cfg.enable {
 
-    lounge-rocks.drone.exec-runner.package = pkgs.buildGoModule rec {
-      pname = "drone-runner-exec";
-      version = "unstable-2022-06-22";
+    # won't work - the newest won't build with Nix (go.mod is broken).
+    # we COULD use the pre-build binary...
 
-      src = pkgs.fetchFromGitHub {
-        owner = "drone-runners";
-        repo = "drone-runner-exec";
-        rev = "9decf2941d423d0ee4faff892b5e8d8ab657fe36";
-        sha256 = "sha256-0UIJwpC5Y2TQqyZf6C6neICYBZdLQBWAZ8/K1l6KVRs=";
-      };
+    # lounge-rocks.drone.exec-runner.package = pkgs.buildGoModule rec {
+    #   pname = "drone-runner-exec";
+    #   version = "unstable-2022-06-22";
 
-      vendorSha256 = "sha256-ypYuQKxRhRQGX1HtaWt6F6BD9vBpD8AJwx/4esLrJsw=";
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "drone-runners";
+    #     repo = "drone-runner-exec";
+    #     rev = "9decf2941d423d0ee4faff892b5e8d8ab657fe36";
+    #     sha256 = "sha256-dQIN0DXH9j4Qu0Q8vwHjTG/lrtThHnR2bc1UymuUACI=";
+    #   };
 
-      meta = with lib; {
-        description = "Drone pipeline runner that executes builds directly on the host machine";
-        homepage = "https://github.com/drone-runners/drone-runner-exec";
-        license = licenses.unfree;
-        maintainers = with maintainers; [ mic92 ];
-      };
-    };
+    #   vendorSha256 = "sha256-ypYuQKxRhRQGX1HtaWt6F6BD9vBpD8AJwx/4esLrJsw=";
+
+    #   meta = with lib; {
+    #     description = "Drone pipeline runner that executes builds directly on the host machine";
+    #     homepage = "https://github.com/drone-runners/drone-runner-exec";
+    #     license = licenses.unfree;
+    #     maintainers = with maintainers; [ mic92 ];
+    #   };
+    # };
 
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [ "drone-runner-exec" ];
