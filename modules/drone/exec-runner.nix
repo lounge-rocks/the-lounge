@@ -5,9 +5,38 @@ in {
 
   options.lounge-rocks.drone.exec-runner = {
     enable = mkEnableOption "enable drone-exec-runner";
+    package = mkOption {
+      type = types.package;
+      default = pkgs.drone-runner-exec;
+      defaultText = literalExpression "pkgs.drone-runner-exec";
+      description = lib.mdDoc ''
+        The drone-runner-exec package to use.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
+
+    lounge-rocks.drone.exec-runner.package = pkgs.buildGoModule rec {
+      pname = "drone-runner-exec";
+      version = "unstable-2022-06-22";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "drone-runners";
+        repo = "drone-runner-exec";
+        rev = "9decf2941d423d0ee4faff892b5e8d8ab657fe36";
+        sha256 = "sha256-0UIJwpC5Y2TQqyZf6C6neICYBZdLQBWAZ8/K1l6KVRs=";
+      };
+
+      vendorSha256 = "sha256-ypYuQKxRhRQGX1HtaWt6F6BD9vBpD8AJwx/4esLrJsw=";
+
+      meta = with lib; {
+        description = "Drone pipeline runner that executes builds directly on the host machine";
+        homepage = "https://github.com/drone-runners/drone-runner-exec";
+        license = licenses.unfree;
+        maintainers = with maintainers; [ mic92 ];
+      };
+    };
 
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [ "drone-runner-exec" ];
@@ -51,7 +80,7 @@ in {
           "/nix/"
         ];
         EnvironmentFile = [ "/var/src/secrets/drone-ci/envfile" ];
-        ExecStart = "${pkgs.drone-runner-exec}/bin/drone-runner-exec";
+        ExecStart = "${cfg.package}/bin/drone-runner-exec";
         User = "drone-runner-exec";
         Group = "drone-runner-exec";
       };
