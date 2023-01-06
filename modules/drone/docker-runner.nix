@@ -35,7 +35,7 @@ in {
     virtualisation.oci-containers.containers = {
       drone-runner = {
         autoStart = true;
-        image = "drone/drone-runner-docker:1";
+        image = "drone/drone-runner-docker:1.8.3";
 
         environment = {
           DRONE_RPC_PROTO = "https";
