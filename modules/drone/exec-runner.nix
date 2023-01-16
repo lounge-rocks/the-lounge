@@ -47,7 +47,7 @@ in {
       restartIfChanged = true;
       confinement.enable = true;
       confinement.packages =
-        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip ];
+        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.jq ];
       path = [
         pkgs.bash
         pkgs.bind
@@ -55,6 +55,7 @@ in {
         pkgs.git
         pkgs.gnutar
         pkgs.gzip
+        pkgs.jq
         pkgs.nixUnstable
         pkgs.openssh
       ];
