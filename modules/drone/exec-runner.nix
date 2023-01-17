@@ -1,7 +1,10 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, cachix, ... }:
 with lib;
-let cfg = config.lounge-rocks.drone.exec-runner;
-in {
+let
+  cfg = config.lounge-rocks.drone.exec-runner;
+  cachix_package = cachix.packages.${pkgs.system}.cachix;
+in
+{
 
   options.lounge-rocks.drone.exec-runner = {
     enable = mkEnableOption "enable drone-exec-runner";
@@ -47,7 +50,7 @@ in {
       restartIfChanged = true;
       confinement.enable = true;
       confinement.packages =
-        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.jq ];
+        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.jq cachix_package ];
       path = [
         pkgs.bash
         pkgs.bind
@@ -58,6 +61,7 @@ in {
         pkgs.jq
         pkgs.nixUnstable
         pkgs.openssh
+        cachix_package
       ];
       serviceConfig = {
         Environment = [

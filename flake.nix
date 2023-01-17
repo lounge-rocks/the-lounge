@@ -22,6 +22,8 @@
     mayniklas.inputs.nixpkgs.follows = "nixpkgs";
     mayniklas.inputs.flake-utils.follows = "flake-utils";
 
+    cachix.url = "github:cachix/cachix/v1.2";
+
   };
   outputs = { self, ... }@inputs:
     with inputs;
@@ -38,6 +40,7 @@
       nixosConfigurations = {
         stuart = nixpkgs.lib.nixosSystem {
           system = import ./machines/stuart/arch.nix;
+          specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             { _module.args.pinpox-keys = pinpox-keys; }
@@ -49,6 +52,7 @@
 
         oracle-aarch64-runner-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
+          specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             (import ./machines/oracle-aarch64-runner-1/configuration.nix {
@@ -59,6 +63,7 @@
 
         netcup-x86-runner-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             (import ./machines/netcup-x86-runner-1/configuration.nix {
@@ -69,6 +74,7 @@
 
         hetzner-x86-runner-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             (import ./machines/hetzner-x86-runner-1/configuration.nix {
