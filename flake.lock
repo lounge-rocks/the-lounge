@@ -884,6 +884,27 @@
         "url": "https://github.com/pinpox.keys"
       }
     },
+    "pinpox-woodpecker": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1674049904,
+        "narHash": "sha256-lmvPOaIjayRV51W5gDlySYWfFQe894RL4AHXypHSaWQ=",
+        "owner": "pinpox",
+        "repo": "woodpecker",
+        "rev": "5ef9c62e17395c9ea7e6eae7801b56826c3aca37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "ref": "nix-runner",
+        "repo": "woodpecker",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -988,7 +1009,9 @@
         "nixpkgs": "nixpkgs_3",
         "pinpox": "pinpox",
         "pinpox-keys": "pinpox-keys_2",
-        "sops-nix": "sops-nix"
+        "pinpox-woodpecker": "pinpox-woodpecker",
+        "sops-nix": "sops-nix",
+        "woodpecker-plugin-git": "woodpecker-plugin-git"
       }
     },
     "s3photoalbum": {
@@ -1167,6 +1190,22 @@
       "original": {
         "owner": "pinpox",
         "repo": "wallpaper-generator",
+        "type": "github"
+      }
+    },
+    "woodpecker-plugin-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1672287000,
+        "narHash": "sha256-KU/A3V7KS8R1nAZoJJwkDc9C8y3t148kUzGnkeYtFjs=",
+        "owner": "woodpecker-ci",
+        "repo": "plugin-git",
+        "rev": "fef90451f78ec1363010cdad88ca4b36332591ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "woodpecker-ci",
+        "repo": "plugin-git",
         "type": "github"
       }
     },

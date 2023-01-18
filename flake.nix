@@ -18,6 +18,16 @@
       flake = false;
     };
 
+    woodpecker-plugin-git = {
+      flake = false;
+      url = "github:woodpecker-ci/plugin-git";
+    };
+
+    pinpox-woodpecker = {
+      url = "github:pinpox/woodpecker/nix-runner";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     mayniklas.url = "github:mayniklas/nixos";
     mayniklas.inputs.nixpkgs.follows = "nixpkgs";
     mayniklas.inputs.flake-utils.follows = "flake-utils";
@@ -88,7 +98,9 @@
           specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
-            { _module.args.pinpox-keys = pinpox-keys; }
+            {
+              _module.args.pinpox-keys = pinpox-keys;
+            }
             pinpox.nixosModules.openssh
             (import ./machines/woodpecker-server/configuration.nix {
               inherit self;
@@ -114,7 +126,7 @@
         # Use nixpkgs-fmt for `nix fmt'
         formatter = pkgs.nixpkgs-fmt;
 
-        packages = flake-utils.lib.flattenTree rec {
+        packages = flake-utils.lib.flattenTree {
 
           s3uploader = pkgs.writeShellScriptBin "s3uploader" ''
             for path in $(nix-store -qR $1); do

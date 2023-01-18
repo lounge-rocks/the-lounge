@@ -31,8 +31,19 @@ nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
 ```
 
-# Initial Rebuild
+## Initial Rebuild
 
 ```sh
 nixos-rebuild switch --flake '.#stuart' --target-host root@s3.lounge.rocks --build-host root@s3.lounge.rocks
 ```
+
+## Secrets
+
+1. Get key for machine:
+
+```
+nix-shell -p ssh-to-age --run 'ssh-keyscan example.com | ssh-to-age'
+```
+2. Edit `.sops.yml`
+3. Create `secrets/example.com` accordingly
+
