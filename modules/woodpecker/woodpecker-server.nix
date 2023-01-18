@@ -1,4 +1,4 @@
-{ config, lib, options, pkgs, ... }:
+{ config,pinpox, lib, options, pkgs, ... }:
 
 with lib;
 
@@ -64,6 +64,13 @@ in
         type = types.nullOr types.path;
         default = null;
         description = lib.mdDoc "Read the agent secret from this file path.";
+      };
+
+
+      environmentFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = lib.mdDoc "Extra environment file";
       };
 
       database = {
@@ -183,7 +190,7 @@ in
       after = [ "network.target" ] ++ lib.optional usePostgresql "postgresql.service" ++ lib.optional useMysql "mysql.service";
       wantedBy = [ "multi-user.target" ];
       path = [
-        pkgs.woodpecker-plugin-git
+        pinpox.packages.x86_64-linux.woodpecker-plugin-git
         pkgs.bash
         pkgs.git
         pkgs.gzip
@@ -191,7 +198,7 @@ in
       ];
       serviceConfig = mkMerge [
         {
-          EnvironmentFile = [ config.lollypops.secrets.files."woodpecker/server-envfile".path ];
+          EnvironmentFile = [ cfg.environmentFile ];
           Type = "simple";
           User = cfg.user;
           Group = "woodpecker-server";

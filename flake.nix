@@ -9,7 +9,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    pinpox.url = "github:pinpox/nixos";
+    pinpox.url = "github:pinpox/nixos/woodpecker";
     pinpox.inputs.nixpkgs.follows = "nixpkgs";
     pinpox.inputs.flake-utils.follows = "flake-utils";
 
@@ -98,6 +98,7 @@
           specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
+            sops-nix.nixosModules.sops
             {
               _module.args.pinpox-keys = pinpox-keys;
             }

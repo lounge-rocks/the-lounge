@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pinpox, ... }:
 
 with lib;
 
@@ -55,16 +55,36 @@ in
   };
 
   config = mkIf cfg.enable {
+
+
+    # TODO remove here
+    nix.settings.allowed-users = [ cfg.user ];
+
+
     systemd.services.woodpecker-agent = {
       description = "woodpecker-agent";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+
+
+      confinement.enable = true;
+      confinement.packages =
+        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip ];
+
+
+      restartIfChanged = false;
+
+
       path = [
-        pkgs.woodpecker-plugin-git
+        pinpox.packages.x86_64-linux.woodpecker-plugin-git
         pkgs.bash
+        pkgs.bind
+        pkgs.dnsutils
         pkgs.git
+        pkgs.gnutar
         pkgs.gzip
         pkgs.nixUnstable
+        pkgs.openssh
       ];
       serviceConfig = {
         Type = "simple";
@@ -73,6 +93,42 @@ in
         ExecStart = "${cfg.package}/bin/woodpecker-agent";
         Restart = "always";
         # TODO add security/sandbox params.
+
+
+        Environment = [
+          "NIX_REMOTE=daemon"
+          "PAGER=cat"
+        ];
+
+        BindPaths = [
+          "/nix/var/nix/daemon-socket/socket"
+          "/run/nscd/socket"
+          # TODO This was enabled in drone
+          # "/var/lib/woodpecker-agent"
+        ];
+        BindReadOnlyPaths = [
+          "/etc/passwd:/etc/passwd"
+          "/etc/resolv.conf:/etc/resolv.conf"
+          "/etc/hosts:/etc/hosts"
+          "/etc/group:/etc/group"
+          "/nix/var/nix/profiles/system/etc/nix:/etc/nix"
+          "${
+            config.environment.etc."ssl/certs/ca-certificates.crt".source
+          }:/etc/ssl/certs/ca-certificates.crt"
+          "${
+            config.environment.etc."ssh/ssh_known_hosts".source
+          }:/etc/ssh/ssh_known_hosts"
+          # "${
+          #   builtins.toFile "ssh_config" ''
+          #     Host eve.thalheim.io
+          #       ForwardAgent yes
+          #   ''
+          # }:/etc/ssh/ssh_config"
+          "/etc/machine-id"
+          # channels are dynamic paths in the nix store, therefore we need to bind mount the whole thing
+          "/nix/"
+        ];
+
 
         # EnvironmentFile = [ config.lollypops.secrets.files."woodpecker/agent-envfile".path ];
       };
@@ -97,7 +153,7 @@ in
 
     users.users = mkIf (cfg.user == "woodpecker-agent") {
       woodpecker-agent = {
-        # createHome = true;
+        createHome = true;
         # home = cfg.stateDir;
         useDefaultShell = true;
         group = "woodpecker-agent";

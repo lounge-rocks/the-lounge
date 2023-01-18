@@ -223,7 +223,11 @@
     };
   };
 
+
+
   services.woodpecker-server = {
+
+    giteaUrl = "https://git.0cx.de";
     enable = true;
     rootUrl = "https://ci.tecosaur.net";
     httpPort = 3030;
