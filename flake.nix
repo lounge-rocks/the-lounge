@@ -83,6 +83,19 @@
           ];
         };
 
+        woodpecker-server = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { flake-self = self; } // inputs;
+          modules = builtins.attrValues self.nixosModules ++ [
+            mayniklas.nixosModules.user
+            { _module.args.pinpox-keys = pinpox-keys; }
+            pinpox.nixosModules.openssh
+            (import ./machines/woodpecker-server/configuration.nix {
+              inherit self;
+            })
+          ];
+        };
+
       };
 
       nixosModules = builtins.listToAttrs (map
