@@ -104,7 +104,7 @@ in
           "/nix/var/nix/daemon-socket/socket"
           "/run/nscd/socket"
           # TODO This was enabled in drone
-          # "/var/lib/woodpecker-agent"
+          "/var/lib/woodpecker-agent"
         ];
         BindReadOnlyPaths = [
           "/etc/passwd:/etc/passwd"
@@ -154,7 +154,7 @@ in
     users.users = mkIf (cfg.user == "woodpecker-agent") {
       woodpecker-agent = {
         createHome = true;
-        # home = cfg.stateDir;
+        home = "/var/lib/woodpecker-agent";
         useDefaultShell = true;
         group = "woodpecker-agent";
         extraGroups = [ "woodpecker" ];
