@@ -835,7 +835,6 @@
         "nvim-cokeline": "nvim-cokeline",
         "nvim-fzf": "nvim-fzf",
         "pinpox-keys": "pinpox-keys",
-        "pinpox-woodpecker": "pinpox-woodpecker",
         "promterm": "promterm",
         "restic-exporter": "restic-exporter",
         "retiolum": "retiolum",
@@ -843,22 +842,20 @@
         "tfenv": "tfenv",
         "vpub-plus-plus": "vpub-plus-plus",
         "wallpaper-generator": "wallpaper-generator",
-        "woodpecker-plugin-git": "woodpecker-plugin-git",
         "zk-nvim": "zk-nvim",
         "zsh-abbrev-alias": "zsh-abbrev-alias",
         "zsh-colored-man-pages": "zsh-colored-man-pages"
       },
       "locked": {
-        "lastModified": 1674051612,
-        "narHash": "sha256-Dzlr0MRKfkFr1KSpg9sZ8ENSGzK7AOWoS779/Zc9GnQ=",
+        "lastModified": 1674140870,
+        "narHash": "sha256-+Pi6v2tNGyW7yn4jMqKTj95Eg6oaCeah5EQyU3oqnxA=",
         "owner": "pinpox",
         "repo": "nixos",
-        "rev": "9628b85ec1287b5d8cc0f63b37172de2dab2332a",
+        "rev": "9132b3a6c45c9aa1174ac43a0018716380eacc26",
         "type": "github"
       },
       "original": {
         "owner": "pinpox",
-        "ref": "woodpecker",
         "repo": "nixos",
         "type": "github"
       }
@@ -888,28 +885,6 @@
       }
     },
     "pinpox-woodpecker": {
-      "inputs": {
-        "nixpkgs": [
-          "pinpox",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1674049904,
-        "narHash": "sha256-lmvPOaIjayRV51W5gDlySYWfFQe894RL4AHXypHSaWQ=",
-        "owner": "pinpox",
-        "repo": "woodpecker",
-        "rev": "5ef9c62e17395c9ea7e6eae7801b56826c3aca37",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pinpox",
-        "ref": "nix-runner",
-        "repo": "woodpecker",
-        "type": "github"
-      }
-    },
-    "pinpox-woodpecker_2": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -1034,9 +1009,9 @@
         "nixpkgs": "nixpkgs_3",
         "pinpox": "pinpox",
         "pinpox-keys": "pinpox-keys_2",
-        "pinpox-woodpecker": "pinpox-woodpecker_2",
+        "pinpox-woodpecker": "pinpox-woodpecker",
         "sops-nix": "sops-nix",
-        "woodpecker-plugin-git": "woodpecker-plugin-git_2"
+        "woodpecker-plugin-git": "woodpecker-plugin-git"
       }
     },
     "s3photoalbum": {
@@ -1219,22 +1194,6 @@
       }
     },
     "woodpecker-plugin-git": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1672287000,
-        "narHash": "sha256-KU/A3V7KS8R1nAZoJJwkDc9C8y3t148kUzGnkeYtFjs=",
-        "owner": "woodpecker-ci",
-        "repo": "plugin-git",
-        "rev": "fef90451f78ec1363010cdad88ca4b36332591ff",
-        "type": "github"
-      },
-      "original": {
-        "owner": "woodpecker-ci",
-        "repo": "plugin-git",
-        "type": "github"
-      }
-    },
-    "woodpecker-plugin-git_2": {
       "flake": false,
       "locked": {
         "lastModified": 1672287000,

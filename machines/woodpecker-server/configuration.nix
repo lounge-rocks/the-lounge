@@ -6,8 +6,8 @@
 
   sops.defaultSopsFile = ../../secrets/woodpecker-server/secrets.yaml;
   sops.secrets = {
-    "woodpecker/gitea-client-id".restartUnits = [ "woodpecker-server.service" ];
-    "woodpecker/gitea-client-secret".restartUnits = [ "woodpecker-server.service" ];
+    # "woodpecker/gitea-client-id".restartUnits = [ "woodpecker-server.service" ];
+    # "woodpecker/gitea-client-secret".restartUnits = [ "woodpecker-server.service" ];
     "woodpecker/server-envfile".restartUnits = [ "woodpecker-server.service" ];
 
     "woodpecker/agent-secret".restartUnits = [ "woodpecker-agent.service" "woodpecker-server.service" ];
@@ -17,9 +17,9 @@
   networking.firewall.allowedTCPPorts = [ 443 80 ];
 
   services.woodpecker-server = {
-    giteaUrl = "https://git.0cx.de";
+    # giteaUrl = "https://git.0cx.de";
 
-    useGitea = true;
+    useGitea = false;
 
     package = pinpox-woodpecker.packages.x86_64-linux.woodpecker-server;
     enable = true;
@@ -27,10 +27,10 @@
     httpPort = 3030;
     admins = "pinpox";
     database = {
-      type = "postgres";
+      type = "sqlite3";
     };
-    giteaClientIdFile = "${config.sops.screts."woodpecker/gitea-client-id".path}";
-    giteaClientSecretFile = "${config.sops.secrets."woodpecker/gitea-client-secret".path}";
+    # giteaClientIdFile = "${config.sops.screts."woodpecker/gitea-client-id".path}";
+    # giteaClientSecretFile = "${config.sops.secrets."woodpecker/gitea-client-secret".path}";
     agentSecretFile = "${config.sops.secrets."woodpecker/agent-secret".path}";
     environmentFile = "${config.sops.secrets."woodpecker/server-envfile".path}";
   };

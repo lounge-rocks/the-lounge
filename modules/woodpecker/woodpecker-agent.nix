@@ -1,10 +1,11 @@
-{ config, lib, pkgs, pinpox, ... }:
+{ config, lib, pkgs, pinpox, woodpecker-plugin-git, ... }:
 
 with lib;
 
 let
   cfg = config.services.woodpecker-agent;
   servercfg = config.services.woodpecker-server;
+  plugin-git = pkgs.callPackage ./plugin-git.nix { inherit woodpecker-plugin-git; };
 in
 {
   options = {
@@ -69,20 +70,23 @@ in
 
       confinement.enable = true;
       confinement.packages =
-        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip ];
+        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.coreutils pkgs.git-lfs ];
 
 
       restartIfChanged = false;
 
 
       path = [
-        pinpox.packages.x86_64-linux.woodpecker-plugin-git
+        plugin-git
+        pkgs.coreutils
         pkgs.bash
         pkgs.bind
         pkgs.dnsutils
         pkgs.git
+        pkgs.git-lfs
         pkgs.gnutar
         pkgs.gzip
+        pkgs.coreutils
         pkgs.nixUnstable
         pkgs.openssh
       ];

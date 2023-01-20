@@ -9,7 +9,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    pinpox.url = "github:pinpox/nixos/woodpecker";
+    pinpox.url = "github:pinpox/nixos";
     pinpox.inputs.nixpkgs.follows = "nixpkgs";
     pinpox.inputs.flake-utils.follows = "flake-utils";
 
@@ -126,6 +126,11 @@
 
         # Use nixpkgs-fmt for `nix fmt'
         formatter = pkgs.nixpkgs-fmt;
+
+
+
+
+
 
         packages = flake-utils.lib.flattenTree {
 

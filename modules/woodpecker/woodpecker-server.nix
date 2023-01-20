@@ -1,4 +1,4 @@
-{ config,pinpox, lib, options, pkgs, ... }:
+{ config, pinpox, lib, options, pkgs, woodpecker-plugin-git, ... }:
 
 with lib;
 
@@ -7,10 +7,12 @@ let
   useMysql = cfg.database.type == "mysql";
   usePostgresql = cfg.database.type == "postgres";
   useSqlite = cfg.database.type == "sqlite3";
+  plugin-git = pkgs.callPackage ./plugin-git.nix { inherit woodpecker-plugin-git;
+  };
 in
 {
   options = {
-    services.woodpecker-server = {
+    services. woodpecker-server = {
       enable = mkOption {
         default = false;
         type = types.bool;
@@ -190,8 +192,9 @@ in
       after = [ "network.target" ] ++ lib.optional usePostgresql "postgresql.service" ++ lib.optional useMysql "mysql.service";
       wantedBy = [ "multi-user.target" ];
       path = [
-        pinpox.packages.x86_64-linux.woodpecker-plugin-git
+        woodpecker-plugin-git
         pkgs.bash
+        pkgs.coreutils
         pkgs.git
         pkgs.gzip
         pkgs.nixUnstable
@@ -219,14 +222,19 @@ in
           WOODPECKER_LIMIT_MEM = toString cfg.limitMem;
           WOODPECKER_LIMIT_CPU_QUOTA = toString cfg.limitCPU;
 
-          # TODO remove
+          # TODO remove or put into options
           WOODPECKER_LOG_LEVEL = "debug";
           WOODPECKER_DEBUG_PRETTY = "true";
+
+          WOODPECKER_GITHUB = "true";
+
+
+
         }
-        (mkIf cfg.useGitea {
-          WOODPECKER_GITEA = "true";
-          WOODPECKER_GITEA_URL = cfg.giteaUrl;
-        })
+        # (mkIf cfg.useGitea {
+        #   WOODPECKER_GITEA = "true";
+        #   WOODPECKER_GITEA_URL = cfg.giteaUrl;
+        # })
         (mkIf usePostgresql {
           WOODPECKER_DATABASE_DRIVER = "postgres";
           WOODPECKER_DATABASE_DATASOURCE =
