@@ -70,7 +70,7 @@ in
 
       confinement.enable = true;
       confinement.packages =
-        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.coreutils pkgs.git-lfs ];
+        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.coreutils-full pkgs.git-lfs ];
 
 
       restartIfChanged = false;
@@ -78,7 +78,6 @@ in
 
       path = [
         plugin-git
-        pkgs.coreutils
         pkgs.bash
         pkgs.bind
         pkgs.dnsutils
@@ -86,7 +85,7 @@ in
         pkgs.git-lfs
         pkgs.gnutar
         pkgs.gzip
-        pkgs.coreutils
+        pkgs.coreutils-full
         pkgs.nixUnstable
         pkgs.openssh
       ];

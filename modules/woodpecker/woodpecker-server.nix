@@ -194,7 +194,7 @@ in
       path = [
         woodpecker-plugin-git
         pkgs.bash
-        pkgs.coreutils
+        pkgs.coreutils-full
         pkgs.git
         pkgs.gzip
         pkgs.nixUnstable

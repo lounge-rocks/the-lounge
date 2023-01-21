@@ -14,24 +14,20 @@ buildGoModule {
 
   doCheck = false;
 
-
-  nativeBuildInputs = [
-    makeWrapper
-  ];
+  nativeBuildInputs = [ makeWrapper ];
 
   postFixup = ''
     wrapProgram $out/bin/plugin-git \
       --set PATH ${lib.makeBinPath [
         pkgs.git-lfs
         pkgs.git
-        pkgs.coreutils
+        pkgs.coreutils-full
         pkgs.findutils
         pkgs.gnumake
         pkgs.gnused
         pkgs.gnugrep
       ]}
   '';
-
 
   # subPackages = "cmd/agent";
 

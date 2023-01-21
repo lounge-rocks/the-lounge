@@ -47,7 +47,6 @@
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "acme@pablo.tools";
 
-
   services.nginx = {
     enable = true;
     recommendedOptimisation = true;
@@ -92,6 +91,5 @@
   system.stateVersion = "22.05";
 
 }
-
 
 
