@@ -42,7 +42,6 @@ trigger:
     - main
   event:
     - push
-    - cron
 
 ---
 kind: pipeline
@@ -88,4 +87,3 @@ trigger:
     - main
   event:
     - push
-    - cron
