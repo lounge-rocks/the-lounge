@@ -77,28 +77,31 @@
     "cachix": {
       "inputs": {
         "devenv": "devenv",
-        "flake-compat": "flake-compat_2",
+        "flake-compat": "flake-compat",
         "hnix-store-core": "hnix-store-core",
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1673029258,
-        "narHash": "sha256-7JpmmRt5rTVjTpQE9uhwHKhstyGcLmYqvaGq/wVXj+M=",
+        "lastModified": 1678364319,
+        "narHash": "sha256-fYQrAgxEMdtMAYadff9Hg4MAh0PSfGPiYw5Z4BrvgFU=",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "a0e16ee5d1a57b3000765ab801a1bbb245be8fd5",
+        "rev": "23ea3ffba73c5fa450d63733c5f471eae7e3850d",
         "type": "github"
       },
       "original": {
         "owner": "cachix",
-        "ref": "v1.2",
+        "ref": "v1.3.1",
         "repo": "cachix",
         "type": "github"
       }
     },
     "devenv": {
       "inputs": {
-        "flake-compat": "flake-compat",
+        "flake-compat": [
+          "cachix",
+          "flake-compat"
+        ],
         "nix": "nix",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks"
@@ -167,22 +170,6 @@
       }
     },
     "flake-compat_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1668681692,
-        "narHash": "sha256-Ht91NGdewz8IQLtWZ9LCeNXMSXHUss+9COoqu6JLmXU=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "009399224d5e398d03b22badca40a37ac85412a1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
-    "flake-compat_3": {
       "flake": false,
       "locked": {
         "lastModified": 1673956053,
@@ -722,16 +709,18 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1671417167,
-        "narHash": "sha256-JkHam6WQOwZN1t2C2sbp1TqMv3TVRjzrdoejqfefwrM=",
+        "lastModified": 1678872516,
+        "narHash": "sha256-/E1YwtMtFAu2KUQKV/1+KFuReYPANM2Rzehk84VxVoc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bb31220cca6d044baa6dc2715b07497a2a7c4bc7",
+        "rev": "9b8e5abb18324c7fe9f07cb100c3cd4a29cda8b8",
         "type": "github"
       },
       "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
+        "owner": "NixOS",
+        "ref": "nixos-22.11",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "nixpkgs_3": {
@@ -813,7 +802,7 @@
       "inputs": {
         "alertmanager-ntfy": "alertmanager-ntfy",
         "dotfiles-awesome": "dotfiles-awesome",
-        "flake-compat": "flake-compat_3",
+        "flake-compat": "flake-compat_2",
         "flake-utils": [
           "flake-utils"
         ],
