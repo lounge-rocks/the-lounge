@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pinpox, woodpecker-plugin-git, ... }:
+{ config, lib, pkgs, pinpox, woodpecker-plugin-git, cachix, ... }:
 
 with lib;
 
@@ -6,6 +6,7 @@ let
   cfg = config.services.woodpecker-agent;
   servercfg = config.services.woodpecker-server;
   plugin-git = pkgs.callPackage ./plugin-git.nix { inherit woodpecker-plugin-git; };
+  cachix_package = cachix.packages.${pkgs.system}.cachix;
 in
 {
   options = {
@@ -88,6 +89,7 @@ in
         pkgs.coreutils-full
         pkgs.nixUnstable
         pkgs.openssh
+        cachix_package
       ];
       serviceConfig = {
         Type = "simple";
