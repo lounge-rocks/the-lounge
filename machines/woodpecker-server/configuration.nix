@@ -16,33 +16,33 @@
 
   networking.firewall.allowedTCPPorts = [ 443 80 ];
 
-  services.lounge-rocks.woodpecker-server = {
-    # giteaUrl = "https://git.0cx.de";
+  # services.lounge-rocks.woodpecker-server = {
+  #   # giteaUrl = "https://git.0cx.de";
 
-    useGitea = false;
+  #   useGitea = false;
 
-    package = pinpox-woodpecker.packages.x86_64-linux.woodpecker-server;
-    enable = true;
-    rootUrl = "https://build.lounge.rocks";
-    httpPort = 3030;
-    admins = "pinpox";
-    database = {
-      type = "sqlite3";
-    };
-    # giteaClientIdFile = "${config.sops.screts."woodpecker/gitea-client-id".path}";
-    # giteaClientSecretFile = "${config.sops.secrets."woodpecker/gitea-client-secret".path}";
-    agentSecretFile = "${config.sops.secrets."woodpecker/agent-secret".path}";
-    environmentFile = "${config.sops.secrets."woodpecker/server-envfile".path}";
-  };
+  #   package = pinpox-woodpecker.packages.x86_64-linux.woodpecker-server;
+  #   enable = true;
+  #   rootUrl = "https://build.lounge.rocks";
+  #   httpPort = 3030;
+  #   admins = "pinpox";
+  #   database = {
+  #     type = "sqlite3";
+  #   };
+  #   # giteaClientIdFile = "${config.sops.screts."woodpecker/gitea-client-id".path}";
+  #   # giteaClientSecretFile = "${config.sops.secrets."woodpecker/gitea-client-secret".path}";
+  #   agentSecretFile = "${config.sops.secrets."woodpecker/agent-secret".path}";
+  #   environmentFile = "${config.sops.secrets."woodpecker/server-envfile".path}";
+  # };
 
-  services.lounge-rocks.woodpecker-agent = {
-    enable = true;
-    backend = "local";
-    maxProcesses = 5;
-    agentSecretFile = "${config.sops.secrets."woodpecker/agent-secret".path}";
+  # services.lounge-rocks.woodpecker-agent = {
+  #   enable = true;
+  #   backend = "local";
+  #   maxProcesses = 5;
+  #   agentSecretFile = "${config.sops.secrets."woodpecker/agent-secret".path}";
 
-    package = pinpox-woodpecker.packages.x86_64-linux.woodpecker-agent;
-  };
+  #   package = pinpox-woodpecker.packages.x86_64-linux.woodpecker-agent;
+  # };
 
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "acme@pablo.tools";
