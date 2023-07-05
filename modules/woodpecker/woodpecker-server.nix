@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.services.woodpecker-server;
+  cfg = config.services.lounge-rocks.woodpecker-server;
   useMysql = cfg.database.type == "mysql";
   usePostgresql = cfg.database.type == "postgres";
   useSqlite = cfg.database.type == "sqlite3";
@@ -12,7 +12,7 @@ let
 in
 {
   options = {
-    services. woodpecker-server = {
+    services.lounge-rocks.woodpecker-server = {
       enable = mkOption {
         default = false;
         type = types.bool;

@@ -16,7 +16,7 @@
 
   networking.firewall.allowedTCPPorts = [ 443 80 ];
 
-  services.woodpecker-server = {
+  services.lounge-rocks.woodpecker-server = {
     # giteaUrl = "https://git.0cx.de";
 
     useGitea = false;
@@ -35,7 +35,7 @@
     environmentFile = "${config.sops.secrets."woodpecker/server-envfile".path}";
   };
 
-  services.woodpecker-agent = {
+  services.lounge-rocks.woodpecker-agent = {
     enable = true;
     backend = "local";
     maxProcesses = 5;

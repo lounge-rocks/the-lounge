@@ -3,14 +3,14 @@
 with lib;
 
 let
-  cfg = config.services.woodpecker-agent;
+  cfg = config.services.lounge-rocks.woodpecker-agent;
   servercfg = config.services.woodpecker-server;
   plugin-git = pkgs.callPackage ./plugin-git.nix { inherit woodpecker-plugin-git; };
   cachix_package = cachix.packages.${pkgs.system}.cachix;
 in
 {
   options = {
-    services.woodpecker-agent = {
+    services.lounge-rocks.woodpecker-agent = {
       enable = mkOption {
         default = false;
         type = types.bool;
