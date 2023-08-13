@@ -32,6 +32,8 @@
     mayniklas.inputs.nixpkgs.follows = "nixpkgs";
     mayniklas.inputs.flake-utils.follows = "flake-utils";
 
+    attic.url = "github:zhaofengli/attic";
+
     cachix.url = "github:cachix/cachix/v1.6";
 
   };

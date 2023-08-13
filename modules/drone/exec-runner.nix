@@ -1,7 +1,8 @@
-{ lib, pkgs, config, cachix, ... }:
+{ lib, pkgs, config, attic, cachix, ... }:
 with lib;
 let
   cfg = config.lounge-rocks.drone.exec-runner;
+  attic_package = attic.packages.${pkgs.system}.attic;
   cachix_package = cachix.packages.${pkgs.system}.cachix;
 in
 {
@@ -50,7 +51,7 @@ in
       restartIfChanged = true;
       confinement.enable = true;
       confinement.packages =
-        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.jq cachix_package ];
+        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.jq attic_package cachix_package ];
       path = [
         pkgs.bash
         pkgs.bind
@@ -61,6 +62,7 @@ in
         pkgs.jq
         pkgs.nixUnstable
         pkgs.openssh
+        attic_package
         cachix_package
       ];
       serviceConfig = {
