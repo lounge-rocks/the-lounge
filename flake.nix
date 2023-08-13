@@ -32,7 +32,7 @@
     mayniklas.inputs.nixpkgs.follows = "nixpkgs";
     mayniklas.inputs.flake-utils.follows = "flake-utils";
 
-    cachix.url = "github:cachix/cachix/v1.3.1";
+    cachix.url = "github:cachix/cachix/v1.6";
 
   };
   outputs = { self, ... }@inputs:
