@@ -1,6 +1,37 @@
 ---
 kind: pipeline
 type: exec
+name: flake info
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  depth: 1
+
+steps:
+  - name: show flake show
+    commands:
+      - nix flake show
+
+  - name: show flake info
+    commands:
+      - nix flake info
+
+  - name: run flake checks
+    commands:
+      - nix flake check
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+---
+kind: pipeline
+type: exec
 name: Build arm64
 
 platform:
@@ -8,15 +39,6 @@ platform:
   arch: arm64
 
 steps:
-  - name: Show flake info
-    commands:
-      - nix --experimental-features "nix-command flakes" flake show
-      - nix --experimental-features "nix-command flakes" flake metadata
-
-  - name: Run flake checks
-    commands:
-      - nix --experimental-features "nix-command flakes" flake check --show-trace
-
   - name: Build oracle-aarch64-runner-1
     commands:
       - nix build '.#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel'
@@ -53,15 +75,6 @@ platform:
   arch: amd64
 
 steps:
-  - name: Show flake info
-    commands:
-      - nix --experimental-features "nix-command flakes" flake show
-      - nix --experimental-features "nix-command flakes" flake metadata
-
-  - name: Run flake checks
-    commands:
-      - nix --experimental-features "nix-command flakes" flake check --show-trace
-
   - name: Build netcup-x86-runner-1
     commands:
       - nix build '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel'
