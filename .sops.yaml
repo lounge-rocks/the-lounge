@@ -1,17 +1,19 @@
 keys:
   - &user_pinpox D03B218CAE771F77D7F920D9823A6154426408D3
+  - &user_pinpox_new 3D65EA322A8D9D6FB657DF2EA5BCEFD22D30118A
   - &server_stuart age1tunq67775pgaupjt2lapt8gv6m4my9v7y44rn3asyxzpmu5tf9lsmh50vc
-  - &server_woodpecker_server age175uvqnr3w83njeawt455w693c7xlxqjzn3r2w25maa2m75sfaa8slv9jy7
+  - &server_woodpecker_server age1l7u4nf4sszhnnvpvagsvh3v3gv0m03zcfytlvmms5fgevmkyrpmqzeq4y2
 creation_rules:
   - path_regex: secrets/stuart/[^/]+\.yaml$
     key_groups:
     - pgp:
       - *user_pinpox
+      - *user_pinpox_new
       age:
       - *server_stuart
   - path_regex: secrets/woodpecker-server/[^/]+\.yaml$
     key_groups:
     - pgp:
-      - *user_pinpox
+      - *user_pinpox_new
       age:
       - *server_woodpecker_server

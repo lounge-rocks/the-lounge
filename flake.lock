@@ -420,6 +420,26 @@
     "flake-pipeliner": {
       "inputs": {
         "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1691772038,
+        "narHash": "sha256-ESK0zf4TNt+Ap4bJZtJsg/2PL2rIBBOkSCWO/eAPwJ4=",
+        "owner": "pinpox",
+        "repo": "woodpecker-flake-pipeliner",
+        "rev": "9655b747d58f6d06bdb6a3d80904979cc05c57f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pinpox",
+        "repo": "woodpecker-flake-pipeliner",
+        "type": "github"
+      }
+    },
+    "flake-pipeliner_2": {
+      "inputs": {
+        "nixpkgs": [
           "pinpox",
           "nixpkgs"
         ]
@@ -1385,7 +1405,7 @@
         "aoe-taunt-discord-bot": "aoe-taunt-discord-bot",
         "attic": "attic_2",
         "flake-compat": "flake-compat_6",
-        "flake-pipeliner": "flake-pipeliner",
+        "flake-pipeliner": "flake-pipeliner_2",
         "flake-utils": [
           "flake-utils"
         ],
@@ -1605,6 +1625,7 @@
         "attic": "attic",
         "cachix": "cachix",
         "disko": "disko",
+        "flake-pipeliner": "flake-pipeliner",
         "flake-utils": "flake-utils_3",
         "mayniklas": "mayniklas",
         "nixpkgs": "nixpkgs_8",
