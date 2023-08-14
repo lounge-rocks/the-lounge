@@ -1,17 +1,8 @@
 { self, ... }:
-{ pkgs, pinpox-woodpecker, modulesPath, config, ... }: {
+{ pkgs, lib, config, ... }: {
 
-  imports = [
-    # disko.nixosModules.disko
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
-  ];
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
-  boot.loader.grub = {
-    devices = [ "/dev/sda" ];
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
 
   # nix.settings.allowed-users = [ config.services.woodpecker-agent.user "woodpecker-agent" ];
   #sops.defaultSopsFile = ../../secrets/woodpecker-server/secrets.yaml;
@@ -33,36 +24,23 @@
   security.acme.defaults.email = "acme@pablo.tools";
 
   # General stuff
-  lounge-rocks.nix-common.enable = true;
   mayniklas.user.root.enable = true;
   pinpox.services.openssh.enable = true;
 
   networking = {
     hostName = "woodpecker-server";
-
-    # set cfg.ipv6_address to the IPv6 address of the server
-    # set cfg.interface to the interface to use
-    interfaces.enp1s0 = {
-      ipv6.addresses =
-        [
-          {
-            address = "2a01:4f8:1c17:636f::";
-            prefixLength = 64;
-          }
-        ];
-    };
-    defaultGateway6 = {
-      address = "fe80::1";
-      interface = "enp1s0";
-    };
   };
 
-  # system.stateVersion = "22.05";
+  lounge-rocks = {
+    hetzner = {
+      enable = true;
+      interface = "enp1s0";
+      ipv6_address = "2a01:4f8:1c17:636f::";
+    };
 
-  # aarch64-linux specific
-  # workaround because the console defaults to serial
-  boot.kernelParams = [ "console=tty" ];
-  # initialize the display early to get a complete log
-  boot.initrd.kernelModules = [ "virtio_gpu" ];
+    nix-common.enable = true;
+  };
+
+  system.stateVersion = "23.05";
 
 }
