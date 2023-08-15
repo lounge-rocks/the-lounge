@@ -27,11 +27,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    pinpox-keys = {
-      url = "https://github.com/pinpox.keys";
-      flake = false;
-    };
-
     woodpecker-plugin-git = {
       flake = false;
       url = "github:woodpecker-ci/plugin-git";

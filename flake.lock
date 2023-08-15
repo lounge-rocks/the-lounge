@@ -1478,18 +1478,6 @@
         "url": "https://github.com/pinpox.keys"
       }
     },
-    "pinpox-keys_2": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-X9E0ZRVGZWvLkcB247oKuHlZJmCU0bGFX08lfshEzf4=",
-        "type": "file",
-        "url": "https://github.com/pinpox.keys"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/pinpox.keys"
-      }
-    },
     "pinpox-woodpecker": {
       "inputs": {
         "nixpkgs": [
@@ -1643,7 +1631,6 @@
         "mayniklas": "mayniklas",
         "nixpkgs": "nixpkgs_8",
         "pinpox": "pinpox",
-        "pinpox-keys": "pinpox-keys_2",
         "pinpox-woodpecker": "pinpox-woodpecker",
         "sops-nix": "sops-nix",
         "woodpecker-plugin-git": "woodpecker-plugin-git"
