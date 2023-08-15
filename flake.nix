@@ -57,8 +57,7 @@
         config = { allowUnfree = true; };
       };
       lib = nixpkgs.lib;
-    in
-    {
+    in {
       nixosConfigurations = {
         stuart = nixpkgs.lib.nixosSystem {
           system = import ./machines/stuart/arch.nix;
@@ -111,9 +110,7 @@
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             sops-nix.nixosModules.sops
-            {
-              _module.args.pinpox-keys = pinpox-keys;
-            }
+            { _module.args.pinpox-keys = pinpox-keys; }
             pinpox.nixosModules.openssh
             (import ./machines/woodpecker-server/configuration.nix {
               inherit self;
@@ -123,26 +120,18 @@
 
       };
 
-      nixosModules = builtins.listToAttrs (map
-        (x: {
-          name = x;
-          value = import (./modules + "/${x}");
-        })
-        (builtins.attrNames (builtins.readDir ./modules)));
+      nixosModules = builtins.listToAttrs (map (x: {
+        name = x;
+        value = import (./modules + "/${x}");
+      }) (builtins.attrNames (builtins.readDir ./modules)));
 
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
 
-      in
-      rec {
+      in rec {
 
         # Use nixpkgs-fmt for `nix fmt'
         formatter = pkgs.nixpkgs-fmt;
-
-
-
-
-
 
         packages = flake-utils.lib.flattenTree {
 
@@ -161,10 +150,6 @@
           '';
         };
 
-        apps = {
-          s3uploader = flake-utils.lib.mkApp {
-            drv = packages.s3uploader;
-          };
-        };
+        apps.s3uploader = flake-utils.lib.mkApp { drv = packages.s3uploader; };
       });
 }

@@ -13,9 +13,7 @@
   };
 
   sops.defaultSopsFile = ../../secrets/stuart/secrets.yaml;
-  sops.secrets."minio/env" = {
-    restartUnits = [ "minio.service" ];
-  };
+  sops.secrets."minio/env" = { restartUnits = [ "minio.service" ]; };
 
   networking.hostName = "stuart";
 
@@ -64,9 +62,7 @@
         addSSL = true;
         enableACME = true;
         locations = {
-          "/" = {
-            proxyPass = "http://localhost:9000/nix-cache/";
-          };
+          "/" = { proxyPass = "http://localhost:9000/nix-cache/"; };
         };
       };
 

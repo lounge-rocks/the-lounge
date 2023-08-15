@@ -28,12 +28,9 @@
     virtualHosts."build.lounge.rocks" = {
       addSSL = true;
       enableACME = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8000";
-      };
+      locations."/" = { proxyPass = "http://127.0.0.1:8000"; };
     };
   };
-
 
   # Server
 
@@ -48,7 +45,8 @@
       WOODPECKER_HOST = "https://build.lounge.rocks";
       WOODPECKER_OPEN = "false";
       WOODPECKER_GITHUB = "true";
-      WOODPECKER_ADMIN = "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
+      WOODPECKER_ADMIN =
+        "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
       WOODPECKER_ORGS = "lounge-rocks";
       WOODPECKER_CONFIG_SERVICE_ENDPOINT = "http://127.0.0.1:8585";
     };
@@ -72,25 +70,24 @@
     };
   };
 
-
   # Adjust runner service for nix usage
   systemd.services.woodpecker-agent-exec = {
 
     serviceConfig = {
       # Same option as upstream, without @setuid
-      SystemCallFilter = lib.mkForce "~@clock @privileged @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io @reboot @swap";
+      SystemCallFilter = lib.mkForce
+        "~@clock @privileged @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io @reboot @swap";
 
       User = "woodpecker-agent";
 
-      BindPaths = [
-        "/nix/var/nix/daemon-socket/socket"
-        "/run/nscd/socket"
-      ];
+      BindPaths = [ "/nix/var/nix/daemon-socket/socket" "/run/nscd/socket" ];
       BindReadOnlyPaths = [
         "/etc/passwd:/etc/passwd"
         "/etc/group:/etc/group"
         "/etc/nix:/etc/nix"
-        "${config.environment.etc."ssh/ssh_known_hosts".source}:/etc/ssh/ssh_known_hosts"
+        "${
+          config.environment.etc."ssh/ssh_known_hosts".source
+        }:/etc/ssh/ssh_known_hosts"
         "/etc/machine-id"
         # channels are dynamic paths in the nix store, therefore we need to bind mount the whole thing
         "/nix/"
@@ -164,8 +161,6 @@
   #    };
   #  };
   #};
-
-
 
   # GENERAL STUFF
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
