@@ -57,7 +57,8 @@
         config = { allowUnfree = true; };
       };
       lib = nixpkgs.lib;
-    in {
+    in
+    {
       nixosConfigurations = {
         stuart = nixpkgs.lib.nixosSystem {
           system = import ./machines/stuart/arch.nix;
@@ -93,17 +94,6 @@
           ];
         };
 
-        hetzner-x86-runner-1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { flake-self = self; } // inputs;
-          modules = builtins.attrValues self.nixosModules ++ [
-            mayniklas.nixosModules.user
-            (import ./machines/hetzner-x86-runner-1/configuration.nix {
-              inherit self;
-            })
-          ];
-        };
-
         woodpecker-server = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = { flake-self = self; } // inputs;
@@ -120,10 +110,12 @@
 
       };
 
-      nixosModules = builtins.listToAttrs (map (x: {
-        name = x;
-        value = import (./modules + "/${x}");
-      }) (builtins.attrNames (builtins.readDir ./modules)));
+      nixosModules = builtins.listToAttrs (map
+        (x: {
+          name = x;
+          value = import (./modules + "/${x}");
+        })
+        (builtins.attrNames (builtins.readDir ./modules)));
 
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
