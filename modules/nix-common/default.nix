@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nixpkgs, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.nix-common;
@@ -72,6 +72,14 @@ in {
         dates = "weekly";
         options = "--delete-older-than 30d";
       };
+      # Set the $NIX_PATH entry for nixpkgs. This is necessary in
+      # this setup with flakes, otherwise commands like `nix-shell
+      # -p pkgs.htop` will keep using an old version of nixpkgs.
+      # With this entry in $NIX_PATH it is possible (and
+      # recommended) to remove the `nixos` channel for both users
+      # and root e.g. `nix-channel --remove nixos`. `nix-channel
+      # --list` should be empty for all users afterwards
+      nixPath = [ "nixpkgs=${nixpkgs}" ];
     };
 
   };
