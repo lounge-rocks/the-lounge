@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   # our packages are accessible via lounge-rocks.<name>
 
-  # woodpecker
+  s3uploader = pkgs.callPackage ./s3uploader { };
   woodpecker-agent = pkgs.callPackage woodpecker/agent.nix { };
+
 }

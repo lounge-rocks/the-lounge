@@ -117,31 +117,22 @@
         })
         (builtins.attrNames (builtins.readDir ./modules)));
 
-    } // flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
+    } // flake-utils.lib.eachDefaultSystem
+      (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
 
-      in rec {
+        in rec {
 
-        # Use nixpkgs-fmt for `nix fmt'
-        formatter = pkgs.nixpkgs-fmt;
+          # Use nixpkgs-fmt for `nix fmt'
+          formatter = pkgs.nixpkgs-fmt;
 
-        packages = flake-utils.lib.flattenTree {
+          packages = let lounge-rocks = import ./pkgs { inherit pkgs; }; in
+            flake-utils.lib.flattenTree {
+              s3uploader = lounge-rocks.s3uploader;
+            };
 
-          s3uploader = pkgs.writeShellScriptBin "s3uploader" ''
-            for path in $(nix-store -qR $1); do
-                # echo $path
-              sigs=$(nix path-info --sigs --json $path | ${pkgs.jq}/bin/jq 'try .[].signatures[]')
-              if [[ $sigs == *"cache.lounge.rocks"* ]]
-              then
-                echo "add $path to upload.list"
-                echo $path >> upload.list
-              fi
-            done
-            cat upload.list | uniq > upload
-            nix copy --to 's3://nix-cache?scheme=https&region=eu-central-1&endpoint=s3.lounge.rocks&compression=zstd&parallel-compression=true' $(cat upload)
-          '';
-        };
-
-        apps.s3uploader = flake-utils.lib.mkApp { drv = packages.s3uploader; };
-      });
+          apps.s3uploader = flake-utils.lib.mkApp {
+            drv = packages.s3uploader;
+          };
+        });
 }
