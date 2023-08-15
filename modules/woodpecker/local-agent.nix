@@ -67,6 +67,10 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
         gnutar
         gzip
         nix
+
+        # CI tools
+        attic
+        cachix
       ];
     };
 

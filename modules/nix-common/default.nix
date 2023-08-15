@@ -1,4 +1,4 @@
-{ config, pkgs, lib, nixpkgs, ... }:
+{ config, pkgs, lib, nixpkgs, attic, cachix, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.nix-common;
@@ -16,8 +16,11 @@ in {
     environment.systemPackages = with pkgs; [ git htop nixfmt nixpkgs-fmt ];
 
     nixpkgs.overlays = [
+      attic.overlays.default
       # our packages are accessible via lounge-rocks.<name>
       (final: prev: { lounge-rocks = import ../../pkgs { inherit pkgs; }; })
+      # apps from external flakes
+      (final: prev: { cachix = cachix.packages.${pkgs.system}.cachix; })
     ];
 
     # Openssh

@@ -1,10 +1,9 @@
-{ lib, pkgs, config, attic, cachix, ... }:
+{ lib, pkgs, config, ... }:
 with lib;
 let
   cfg = config.lounge-rocks.drone.exec-runner;
-  attic_package = attic.packages.${pkgs.system}.attic;
-  cachix_package = cachix.packages.${pkgs.system}.cachix;
-in {
+in
+{
 
   options.lounge-rocks.drone.exec-runner = {
     enable = mkEnableOption "enable drone-exec-runner";
@@ -57,8 +56,10 @@ in {
         pkgs.nixUnstable
         pkgs.gzip
         pkgs.jq
-        attic_package
-        cachix_package
+
+        # CI tools
+        pkgs.attic
+        pkgs.cachix
       ];
       path = [
         pkgs.bash
@@ -70,8 +71,10 @@ in {
         pkgs.jq
         pkgs.nixUnstable
         pkgs.openssh
-        attic_package
-        cachix_package
+
+        # CI tools
+        pkgs.attic
+        pkgs.cachix
       ];
       serviceConfig = {
         Environment = [
