@@ -4,8 +4,7 @@ let
   cfg = config.lounge-rocks.drone.exec-runner;
   attic_package = attic.packages.${pkgs.system}.attic;
   cachix_package = cachix.packages.${pkgs.system}.cachix;
-in
-{
+in {
 
   options.lounge-rocks.drone.exec-runner = {
     enable = mkEnableOption "enable drone-exec-runner";
@@ -35,7 +34,8 @@ in
       vendorSha256 = "sha256-Atl8jY4h7d1K4lCemX/fwiS3Nc0w56LUPy8ZrdZrqxg=";
 
       meta = with lib; {
-        description = "Drone pipeline runner that executes builds directly on the host machine";
+        description =
+          "Drone pipeline runner that executes builds directly on the host machine";
         homepage = "https://github.com/drone-runners/drone-runner-exec";
         license = licenses.unfree;
         maintainers = with maintainers; [ mic92 ];
@@ -50,8 +50,16 @@ in
       # might break deployment
       restartIfChanged = true;
       confinement.enable = true;
-      confinement.packages =
-        [ pkgs.git pkgs.gnutar pkgs.bash pkgs.nixUnstable pkgs.gzip pkgs.jq attic_package cachix_package ];
+      confinement.packages = [
+        pkgs.git
+        pkgs.gnutar
+        pkgs.bash
+        pkgs.nixUnstable
+        pkgs.gzip
+        pkgs.jq
+        attic_package
+        cachix_package
+      ];
       path = [
         pkgs.bash
         pkgs.bind

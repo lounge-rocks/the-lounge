@@ -31,13 +31,10 @@ in {
     # set cfg.interface to the interface to use
     networking = {
       interfaces.${cfg.interface} = {
-        ipv6.addresses = (mkIf (cfg.ipv6_address != "NONE"))
-          [
-            {
-              address = "${cfg.ipv6_address}";
-              prefixLength = 64;
-            }
-          ];
+        ipv6.addresses = (mkIf (cfg.ipv6_address != "NONE")) [{
+          address = "${cfg.ipv6_address}";
+          prefixLength = 64;
+        }];
       };
       defaultGateway6 = (mkIf (cfg.ipv6_address != "NONE")) {
         address = "fe80::1";
@@ -53,9 +50,13 @@ in {
 
     # aarch64-linux specific config goes here
     # workaround because the console defaults to serial
-    boot.kernelParams = lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux") [ "console=tty" ];
+    boot.kernelParams =
+      lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux")
+      [ "console=tty" ];
     # initialize the display early to get a complete log
-    boot.initrd.kernelModules = lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux") [ "virtio_gpu" ];
+    boot.initrd.kernelModules =
+      lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux")
+      [ "virtio_gpu" ];
 
     disko = {
       devices = {
@@ -100,9 +101,6 @@ in {
         };
       };
     };
-
-
-
 
   };
 }
