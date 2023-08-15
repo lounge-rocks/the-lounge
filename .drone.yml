@@ -59,6 +59,16 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: aws_secret
 
+  - name: Build woodpecker-server
+    commands:
+      - nix build '.#nixosConfigurations.woodpecker-server.config.system.build.toplevel'
+      - nix run .#s3uploader $(readlink result)
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_key
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret
+
 trigger:
   branch:
     - main
