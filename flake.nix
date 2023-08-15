@@ -92,54 +92,35 @@
         })
         (builtins.attrNames (builtins.readDir ./modules)));
 
-      nixosConfigurations = {
-        stuart = nixpkgs.lib.nixosSystem {
-          system = import ./machines/stuart/arch.nix;
-          specialArgs = { flake-self = self; } // inputs;
-          modules = builtins.attrValues self.nixosModules ++ [
-            mayniklas.nixosModules.user
-            pinpox.nixosModules.openssh
-            sops-nix.nixosModules.sops
-            (import ./machines/stuart/configuration.nix { inherit self; })
-          ];
-        };
+      # Each subdirectory in ./machines is a host. Add them all to
+      # nixosConfiguratons. Host configurations need a file called
+      # configuration.nix that will be read first
+      nixosConfigurations = builtins.listToAttrs (map
+        (x: {
+          name = x;
+          value = nixpkgs.lib.nixosSystem {
 
-        oracle-aarch64-runner-1 = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          specialArgs = { flake-self = self; } // inputs;
-          modules = builtins.attrValues self.nixosModules ++ [
-            mayniklas.nixosModules.user
-            (import ./machines/oracle-aarch64-runner-1/configuration.nix {
-              inherit self;
-            })
-          ];
-        };
+            # Make inputs and the flake itself accessible as module parameters.
+            # Technically, adding the inputs is redundant as they can be also
+            # accessed with flake-self.inputs.X, but adding them individually
+            # allows to only pass what is needed to each module.
+            specialArgs = { flake-self = self; } // inputs;
 
-        netcup-x86-runner-1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { flake-self = self; } // inputs;
-          modules = builtins.attrValues self.nixosModules ++ [
-            mayniklas.nixosModules.user
-            (import ./machines/netcup-x86-runner-1/configuration.nix {
-              inherit self;
-            })
-          ];
-        };
+            system = import ./machines/${x}/arch.nix;
 
-        woodpecker-server = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          specialArgs = { flake-self = self; } // inputs;
-          modules = builtins.attrValues self.nixosModules ++ [
-            mayniklas.nixosModules.user
-            sops-nix.nixosModules.sops
-            pinpox.nixosModules.openssh
-            (import ./machines/woodpecker-server/configuration.nix {
-              inherit self;
-            })
-          ];
-        };
+            modules = builtins.attrValues self.nixosModules ++ [
+              mayniklas.nixosModules.user
+              pinpox.nixosModules.openssh
+              sops-nix.nixosModules.sops
+              (import ./machines + "/${x}/configuration.nix" { inherit self; })
+              {
+                nixpkgs.hostPlatform = nixpkgs.lib.mkDefault import ./machines/${x}/arch.nix;
+              }
+            ];
 
-      };
+          };
+        })
+        (builtins.attrNames (builtins.readDir ./machines)));
 
     };
 }
