@@ -6,9 +6,7 @@
 | stuart                  | ORACLE CLOUD | ARM-64   | s3.lounge.rocks<br>minio.s3.lounge.rocks<br>cache.lounge.rocks | minio (S3)                               |
 | oracle-aarch64-runner-1 | ORACLE CLOUD | ARM-64   | oracle-aarch64-runner-1.lounge.rocks                           | drone-exec-runner<br>drone-docker-runner |
 | netcup-x86-runner-1     | netcup       | X86      | netcup-x86-runner-1.lounge.rocks                               | drone-exec-runner<br>drone-docker-runner |
-| woodpecker-server       | Hetzner      | X86      | tba                                                            | dev                                      |
-
-
+| woodpecker-server       | Hetzner      | ARM-64   | build.lounge.rocks                                             | wodpecker-{server,agent,pipeliner}       |
 
 ### Using the binary cache
 ```nix

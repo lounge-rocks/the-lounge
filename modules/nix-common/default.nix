@@ -13,7 +13,7 @@ in {
   config = mkIf cfg.enable {
 
     # Install some basic utilities
-    environment.systemPackages = with pkgs; [ git htop nixfmt ];
+    environment.systemPackages = with pkgs; [ git htop nixfmt nixpkgs-fmt ];
 
     # Openssh
     programs.ssh.startAgent = false;
@@ -35,12 +35,22 @@ in {
 
     # nix
     nix = {
-      # Enable flakes
       package = pkgs.nixVersions.stable;
       extraOptions = ''
+        # Enable flakes
         experimental-features = nix-command flakes
-        # Free up to 5GiB whenever there is less than 1GiB left.
-        min-free = ${toString (1 * 1024 * 1024 * 1024)}
+
+         # If set to true, Nix will fall back to building from source if a binary substitute fails.
+        fallback = true
+
+        # the timeout (in seconds) for establishing connections in the binary cache substituter. 
+        connect-timeout = 10
+
+        # these log lines are only shown on a failed build
+        log-lines = 25
+
+        # Free up to 5GiB whenever there is less than 2GiB left.
+        min-free = ${toString (2 * 1024 * 1024 * 1024)}
         max-free = ${toString (5 * 1024 * 1024 * 1024)}
       '';
       # binary cache -> build by DroneCI

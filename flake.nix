@@ -4,6 +4,16 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-pipeliner = {
+      url = "github:pinpox/woodpecker-flake-pipeliner";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils.url = "github:numtide/flake-utils";
 
     sops-nix.url = "github:Mic92/sops-nix";
@@ -84,26 +94,13 @@
           ];
         };
 
-        hetzner-x86-runner-1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { flake-self = self; } // inputs;
-          modules = builtins.attrValues self.nixosModules ++ [
-            mayniklas.nixosModules.user
-            (import ./machines/hetzner-x86-runner-1/configuration.nix {
-              inherit self;
-            })
-          ];
-        };
-
         woodpecker-server = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+          system = "aarch64-linux";
           specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             sops-nix.nixosModules.sops
-            {
-              _module.args.pinpox-keys = pinpox-keys;
-            }
+            { _module.args.pinpox-keys = pinpox-keys; }
             pinpox.nixosModules.openssh
             (import ./machines/woodpecker-server/configuration.nix {
               inherit self;
@@ -123,16 +120,10 @@
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
 
-      in
-      rec {
+      in rec {
 
         # Use nixpkgs-fmt for `nix fmt'
         formatter = pkgs.nixpkgs-fmt;
-
-
-
-
-
 
         packages = flake-utils.lib.flattenTree {
 
@@ -151,10 +142,6 @@
           '';
         };
 
-        apps = {
-          s3uploader = flake-utils.lib.mkApp {
-            drv = packages.s3uploader;
-          };
-        };
+        apps.s3uploader = flake-utils.lib.mkApp { drv = packages.s3uploader; };
       });
 }
