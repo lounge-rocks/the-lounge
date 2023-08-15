@@ -82,6 +82,13 @@
       packages = forAllSystems
         (system: import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; });
 
+      # TODO: fix this
+      # Problem: pkgs is not available in the flake's root scope
+      # pkgs is architecture specific.
+      # How do we make this overlay externally available without hardcoding the architecture?
+      overlays.default =
+        (final: prev: { lounge-rocks = import ./pkgs { inherit pkgs; }; });
+
       nixosModules = builtins.listToAttrs (map
         (x: {
           name = x;
