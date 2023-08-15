@@ -79,9 +79,6 @@
       formatter =
         forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      overlays.default =
-        (final: prev: { lounge-rocks = import ./pkgs { inherit pkgs; }; });
-
       packages = forAllSystems
         (system: import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; });
 

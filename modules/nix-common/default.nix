@@ -17,10 +17,10 @@ in {
 
     nixpkgs.overlays = [
       attic.overlays.default
-      # our packages are accessible via lounge-rocks.<name>
-      (final: prev: { lounge-rocks = import ../../pkgs { inherit pkgs; }; })
       # apps from external flakes
       (final: prev: { cachix = cachix.packages.${pkgs.system}.cachix; })
+      # our packages are accessible via lounge-rocks.<name>
+      (final: prev: { lounge-rocks = import ../../pkgs { inherit pkgs; }; })
     ];
 
     # Openssh
