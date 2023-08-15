@@ -6,7 +6,6 @@ in {
 
   options.lounge-rocks.hetzner = {
     enable = mkEnableOption "activate hetzner";
-
     interface = mkOption {
       type = types.str;
       default = "enp1s0";
@@ -27,8 +26,7 @@ in {
 
   config = mkIf cfg.enable {
 
-    # set cfg.ipv6_address to the IPv6 address of the server
-    # set cfg.interface to the interface to use
+    ### Networking ###
     networking = {
       interfaces.${cfg.interface} = {
         ipv6.addresses = (mkIf (cfg.ipv6_address != "NONE")) [{
@@ -42,22 +40,7 @@ in {
       };
     };
 
-    boot.loader.grub = {
-      devices = [ "/dev/sda" ];
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-    };
-
-    # aarch64-linux specific config goes here
-    # workaround because the console defaults to serial
-    boot.kernelParams =
-      lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux")
-      [ "console=tty" ];
-    # initialize the display early to get a complete log
-    boot.initrd.kernelModules =
-      lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux")
-      [ "virtio_gpu" ];
-
+    ### Partitioning ###
     disko = {
       devices = {
         disk = {
@@ -100,6 +83,25 @@ in {
           };
         };
       };
+    };
+
+    ### Bootloader ###
+    boot.loader.grub = {
+      devices = [ "/dev/sda" ];
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+    };
+
+    ### aarch64-linux specific configuration ###
+    boot = {
+      kernelParams = lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux") [
+        # workaround because the console defaults to serial
+        "console=tty"
+      ];
+      initrd.kernelModules = lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux") [
+        # initialize the display early to get a complete log
+        "virtio_gpu"
+      ];
     };
 
   };
