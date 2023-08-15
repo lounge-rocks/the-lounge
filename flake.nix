@@ -76,8 +76,8 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
-      formatter =
-        forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+      formatter = forAllSystems
+        (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       packages = forAllSystems
         (system: import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; });
