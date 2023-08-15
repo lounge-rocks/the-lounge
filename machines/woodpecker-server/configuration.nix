@@ -162,9 +162,6 @@
   #  };
   #};
 
-  # GENERAL STUFF
-  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
-
   # nix.settings.allowed-users = [ config.services.woodpecker-agent.user "woodpecker-agent" ];
   #sops.defaultSopsFile = ../../secrets/woodpecker-server/secrets.yaml;
   #sops.secrets = {
@@ -175,15 +172,17 @@
   #};
   # rootCredentialsFile = config.sops.secrets."minio/env".path;
 
-  networking.firewall.allowedTCPPorts = [ 443 80 22 ];
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "acme@pablo.tools";
+
+  networking = {
+    firewall.allowedTCPPorts = [ 443 80 22 ];
+    hostName = "woodpecker-server";
+  };
 
   # General stuff
   mayniklas.user.root.enable = true;
   pinpox.services.openssh.enable = true;
-
-  networking.hostName = "woodpecker-server";
 
   lounge-rocks = {
     hetzner = {
@@ -191,10 +190,10 @@
       interface = "enp1s0";
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
-
     nix-common.enable = true;
   };
 
   system.stateVersion = "23.05";
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
 }
