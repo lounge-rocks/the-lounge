@@ -98,27 +98,28 @@
       nixosConfigurations = builtins.listToAttrs (map
         (x: {
           name = x;
-          value = nixpkgs.lib.nixosSystem {
+          value = let system = import ./machines/${x}/arch.nix; in
+            nixpkgs.lib.nixosSystem {
 
-            # Make inputs and the flake itself accessible as module parameters.
-            # Technically, adding the inputs is redundant as they can be also
-            # accessed with flake-self.inputs.X, but adding them individually
-            # allows to only pass what is needed to each module.
-            specialArgs = { flake-self = self; } // inputs;
+              # Make inputs and the flake itself accessible as module parameters.
+              # Technically, adding the inputs is redundant as they can be also
+              # accessed with flake-self.inputs.X, but adding them individually
+              # allows to only pass what is needed to each module.
+              specialArgs = { flake-self = self; } // inputs;
 
-            system = import ./machines/${x}/arch.nix;
+              inherit system;
 
-            modules = builtins.attrValues self.nixosModules ++ [
-              mayniklas.nixosModules.user
-              pinpox.nixosModules.openssh
-              sops-nix.nixosModules.sops
-              (import ./machines + "/${x}/configuration.nix" { inherit self; })
-              {
-                nixpkgs.hostPlatform = nixpkgs.lib.mkDefault import ./machines/${x}/arch.nix;
-              }
-            ];
+              modules = builtins.attrValues self.nixosModules ++ [
+                mayniklas.nixosModules.user
+                pinpox.nixosModules.openssh
+                sops-nix.nixosModules.sops
+                (import "${./.}/machines/${x}/configuration.nix" { inherit self; })
+                {
+                  nixpkgs.hostPlatform = nixpkgs.lib.mkDefault system;
+                }
+              ];
 
-          };
+            };
         })
         (builtins.attrNames (builtins.readDir ./machines)));
 
