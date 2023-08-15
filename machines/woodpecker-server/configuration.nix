@@ -49,6 +49,7 @@
         "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
       WOODPECKER_ORGS = "lounge-rocks";
       WOODPECKER_CONFIG_SERVICE_ENDPOINT = "http://127.0.0.1:8585";
+      WOODPECKER_LOG_LEVEL = "info";
     };
   };
 
@@ -65,6 +66,7 @@
         WOODPECKER_FILTER_LABELS = "type=exec";
         WOODPECKER_HEALTHCHECK = "false";
         NIX_REMOTE = "daemon";
+        WOODPECKER_LOG_LEVEL = "info";
         PAGER = "cat";
       };
     };
