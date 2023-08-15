@@ -1478,27 +1478,6 @@
         "url": "https://github.com/pinpox.keys"
       }
     },
-    "pinpox-woodpecker": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1674049904,
-        "narHash": "sha256-lmvPOaIjayRV51W5gDlySYWfFQe894RL4AHXypHSaWQ=",
-        "owner": "pinpox",
-        "repo": "woodpecker",
-        "rev": "5ef9c62e17395c9ea7e6eae7801b56826c3aca37",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pinpox",
-        "ref": "nix-runner",
-        "repo": "woodpecker",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -1631,9 +1610,7 @@
         "mayniklas": "mayniklas",
         "nixpkgs": "nixpkgs_8",
         "pinpox": "pinpox",
-        "pinpox-woodpecker": "pinpox-woodpecker",
-        "sops-nix": "sops-nix",
-        "woodpecker-plugin-git": "woodpecker-plugin-git"
+        "sops-nix": "sops-nix"
       }
     },
     "rust-overlay": {
@@ -1926,22 +1903,6 @@
       "original": {
         "owner": "MayNiklas",
         "repo": "whisper_api",
-        "type": "github"
-      }
-    },
-    "woodpecker-plugin-git": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691954633,
-        "narHash": "sha256-siPLI463qUQs9tBMlmrMv6G5ry0JrEEIelpid9/cf88=",
-        "owner": "woodpecker-ci",
-        "repo": "plugin-git",
-        "rev": "1e88dcd6e97b4ed9cfdc0322a5b565dbabb9c915",
-        "type": "github"
-      },
-      "original": {
-        "owner": "woodpecker-ci",
-        "repo": "plugin-git",
         "type": "github"
       }
     },

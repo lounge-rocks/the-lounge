@@ -2,39 +2,64 @@
   description = "lounge.rocks - infrastructure";
   inputs = {
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    flake-pipeliner = {
-      url = "github:pinpox/woodpecker-flake-pipeliner";
-      inputs.nixpkgs.follows = "nixpkgs";
+    # https://github.com/nixos/nixpkgs
+    # Nix Packages collection & NixOS
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    ### User repositories (mainly used for users / keys)
 
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
+    # https://github.com/mayniklas/nixos
+    # MayNiklas NixOS modules
     mayniklas = {
       url = "github:mayniklas/nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # https://github.com/pinpox/nixos
+    # pinpox NixOS modules
     pinpox = {
       url = "github:pinpox/nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    pinpox-woodpecker = {
-      url = "github:pinpox/woodpecker/nix-runner";
+    ### Tools for managing NixOS
+
+    # https://github.com/nix-community/disko
+    # Format disks with nix-config 
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    attic.url = "github:zhaofengli/attic";
+    # https://github.com/Mic92/sops-nix
+    # Atomic secret provisioning for NixOS based on sops
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    cachix.url = "github:cachix/cachix/v1.6";
+    ### Applications from outside nixpkgs
+
+    # https://github.com/zhaofengli/attic
+    # Multi-tenant Nix Binary Cache
+    attic = {
+      url = "github:zhaofengli/attic";
+    };
+
+    # https://github.com/cachix/cachix
+    # Command line client for Nix binary cache hosting
+    cachix = {
+      url = "github:cachix/cachix/v1.6";
+    };
+
+    # https://github.com/pinpox/woodpecker-flake-pipeliner
+    # Woodpecker configuration Service to dynamically generate pipelines from nix flakes
+    flake-pipeliner = {
+      url = "github:pinpox/woodpecker-flake-pipeliner";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
   outputs = { self, ... }@inputs:
@@ -67,7 +92,6 @@
           specialArgs = { flake-self = self; } // inputs;
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
-            { _module.args.pinpox-keys = pinpox-keys; }
             pinpox.nixosModules.openssh
             sops-nix.nixosModules.sops
             (import ./machines/stuart/configuration.nix { inherit self; })
@@ -102,7 +126,6 @@
           modules = builtins.attrValues self.nixosModules ++ [
             mayniklas.nixosModules.user
             sops-nix.nixosModules.sops
-            { _module.args.pinpox-keys = pinpox-keys; }
             pinpox.nixosModules.openssh
             (import ./machines/woodpecker-server/configuration.nix {
               inherit self;
