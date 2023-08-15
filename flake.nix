@@ -14,14 +14,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
-
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    pinpox.url = "github:pinpox/nixos";
-    pinpox.inputs.nixpkgs.follows = "nixpkgs";
-    pinpox.inputs.flake-utils.follows = "flake-utils";
+    mayniklas = {
+      url = "github:mayniklas/nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    pinpox = {
+      url = "github:pinpox/nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     pinpox-keys = {
       url = "https://github.com/pinpox.keys";
@@ -38,10 +42,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    mayniklas.url = "github:mayniklas/nixos";
-    mayniklas.inputs.nixpkgs.follows = "nixpkgs";
-    mayniklas.inputs.flake-utils.follows = "flake-utils";
-
     attic.url = "github:zhaofengli/attic";
 
     cachix.url = "github:cachix/cachix/v1.6";
@@ -50,15 +50,27 @@
   outputs = { self, ... }@inputs:
     with inputs;
     let
-      # seems like we don't need that line?
-      # system = "aarch64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-      };
-      lib = nixpkgs.lib;
+      supportedSystems =
+        [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
+      formatter =
+        forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+
+      overlays.default =
+        (final: prev: { lounge-rocks = import ./pkgs { inherit pkgs; }; });
+
+      packages = forAllSystems
+        (system: import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; });
+
+      nixosModules = builtins.listToAttrs (map
+        (x: {
+          name = x;
+          value = import (./modules + "/${x}");
+        })
+        (builtins.attrNames (builtins.readDir ./modules)));
+
       nixosConfigurations = {
         stuart = nixpkgs.lib.nixosSystem {
           system = import ./machines/stuart/arch.nix;
@@ -110,29 +122,5 @@
 
       };
 
-      nixosModules = builtins.listToAttrs (map
-        (x: {
-          name = x;
-          value = import (./modules + "/${x}");
-        })
-        (builtins.attrNames (builtins.readDir ./modules)));
-
-    } // flake-utils.lib.eachDefaultSystem
-      (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-
-        in rec {
-
-          # Use nixpkgs-fmt for `nix fmt'
-          formatter = pkgs.nixpkgs-fmt;
-
-          packages = let lounge-rocks = import ./pkgs { inherit pkgs; }; in
-            flake-utils.lib.flattenTree {
-              s3uploader = lounge-rocks.s3uploader;
-            };
-
-          apps.s3uploader = flake-utils.lib.mkApp {
-            drv = packages.s3uploader;
-          };
-        });
+    };
 }
