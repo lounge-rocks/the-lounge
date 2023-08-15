@@ -17,11 +17,7 @@ let
 
   # Filters out directories that don't end with .nix or are this file, also makes the strings absolute
   validFiles = dir:
-    map (file: ./. + "/${file}") (filter
-      (file:
-        hasSuffix ".nix" file && file != "default.nix" && !lib.hasPrefix "pkgs/" file
-        && !lib.hasPrefix "x/taffybar/" file)
-      (files dir));
+    map (file: ./. + "/${file}") (filter (file: hasSuffix ".nix" file && file != "default.nix" && !lib.hasPrefix "pkgs/" file) (files dir));
 
 in
 {
