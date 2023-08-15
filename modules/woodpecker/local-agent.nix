@@ -44,6 +44,10 @@ in
 
   config = mkIf cfg.enable {
 
+    # Enable git-lfs
+    programs.git.enable = true;
+    programs.git.lfs.enable = true;
+
     # local runner
     services.woodpecker-agents.agents = {
       exec = {
