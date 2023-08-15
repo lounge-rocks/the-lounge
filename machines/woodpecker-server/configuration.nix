@@ -1,9 +1,8 @@
 { self, ... }:
-{ pkgs, lib, config, flake-pipeliner, ... }:
+{ pkgs, lib, config, ... }:
 {
 
   imports = [
-    flake-pipeliner.nixosModules.flake-pipeliner
     # attic.nixosModules.atticd
   ];
 
@@ -11,23 +10,6 @@
   sops.secrets."woodpecker/server-envfile" = { };
   sops.secrets."woodpecker/agent-envfile" = { };
   # sops.secrets."attic/env" = { };
-
-  # Pipeliner
-  services.flake-pipeliner = {
-    enable = true;
-    environment = {
-
-      PIPELINER_PUBLIC_KEY_FILE = "${./woodpecker-public-key}";
-      PIPELINER_HOST = "localhost:8585";
-      PIPELINER_OVERRIDE_FILTER = "test-*";
-      PIPELINER_SKIP_VERIFY = "false";
-      PIPELINER_FLAKE_OUTPUT = "woodpecker-pipeline";
-      PIPELINER_DEBUG = "true";
-      NIX_REMOTE = "daemon";
-      PRE_CMD = "git -v";
-      PAGER = "cat";
-    };
-  };
 
   #services.atticd = {
   #  enable = true;
@@ -91,8 +73,9 @@
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
     nix-common.enable = true;
-    woodpecker.server.enable = true;
     woodpecker.local-agent.enable = true;
+    woodpecker.pipeliner.enable = true;
+    woodpecker.server.enable = true;
   };
 
   system.stateVersion = "23.05";
