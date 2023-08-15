@@ -1,41 +1,6 @@
 { pkgs, lib, config, ... }:
 with lib;
-let
-  cfg = config.lounge-rocks.woodpecker.local-agent;
-
-  woodpecker-agent-master = pkgs.buildGoModule rec {
-    pname = "woodpecker-agent";
-    version = "1f956753659204d46d834ac3d0cb68fd71a5b941";
-
-    src = pkgs.fetchFromGitHub {
-      owner = "woodpecker-ci";
-      repo = "woodpecker";
-      rev = "${version}";
-      sha256 = "sha256-3RD8FecSMQHUzN8FHUhw+G6zxX4b603IsVvDi+bKNRw=";
-    };
-
-    vendorSha256 = "sha256-nSKZTL6YbGma5xB78e5eKrfat3VHK9eVb81yevQkh4g=";
-
-    postInstall = ''
-      cd $out/bin
-      for f in *; do
-        mv -- "$f" "woodpecker-$f"
-      done
-      cd -
-    '';
-
-    ldflags = [
-      "-s"
-      "-w"
-      "-X github.com/woodpecker-ci/woodpecker/version.Version=${version}"
-    ];
-
-    subPackages = "cmd/agent";
-
-    CGO_ENABLED = 0;
-  };
-
-in
+let cfg = config.lounge-rocks.woodpecker.local-agent; in
 {
 
   options.lounge-rocks.woodpecker.local-agent = {
@@ -52,7 +17,7 @@ in
     services.woodpecker-agents.agents = {
       exec = {
         enable = true;
-        package = woodpecker-agent-master;
+        package = pkgs.callPackage ./pkgs/agent.nix { };
 
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
         environmentFile = [ config.sops.secrets."woodpecker/agent-envfile".path ];
