@@ -15,6 +15,11 @@ in {
     # Install some basic utilities
     environment.systemPackages = with pkgs; [ git htop nixfmt nixpkgs-fmt ];
 
+    nixpkgs.overlays = [
+      # our packages are accessible via lounge-rocks.<name>
+      (final: prev: { lounge-rocks = import ../../pkgs { inherit pkgs; }; })
+    ];
+
     # Openssh
     programs.ssh.startAgent = false;
     services.openssh = {
