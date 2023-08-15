@@ -1,5 +1,5 @@
 { self, ... }:
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
 
   lounge-rocks = {
     netcup-x86.enable = true;
@@ -31,5 +31,6 @@
   mayniklas = { user.root.enable = true; };
 
   system.stateVersion = "22.05";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
 }

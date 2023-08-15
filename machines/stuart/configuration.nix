@@ -1,5 +1,5 @@
 { self, ... }:
-{ pkgs, config, ... }: {
+{ pkgs, lib, config, ... }: {
 
   mayniklas.user.root.enable = true;
   pinpox.services.openssh.enable = true;
@@ -140,4 +140,5 @@
       };
     };
   };
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
