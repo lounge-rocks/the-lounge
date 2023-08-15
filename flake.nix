@@ -27,11 +27,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    woodpecker-plugin-git = {
-      flake = false;
-      url = "github:woodpecker-ci/plugin-git";
-    };
-
     pinpox-woodpecker = {
       url = "github:pinpox/woodpecker/nix-runner";
       inputs.nixpkgs.follows = "nixpkgs";
