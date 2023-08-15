@@ -21,5 +21,6 @@
   mayniklas = { user.root.enable = true; };
 
   system.stateVersion = "22.05";
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
 }
