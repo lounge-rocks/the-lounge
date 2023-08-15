@@ -1,5 +1,20 @@
 { self, ... }:
-{ pkgs, lib, config, flake-pipeliner, ... }: {
+{ pkgs, lib, config, flake-pipeliner, ... }:
+let
+  version = "1f956753659204d46d834ac3d0cb68fd71a5b941";
+  srcSha256 = "sha256-3RD8FecSMQHUzN8FHUhw+G6zxX4b603IsVvDi+bKNRw=";
+  vendorHash = "sha256-NYWJorVeRxbQTiirHK8gqpDddn2RsKsNWwDNdcOpVQA=";
+  yarnHash = "sha256-QNeQwWU36A05zaARWmqEOhfyZRW68OgF4wTonQLYQfs=";
+  src = pkgs.fetchFromGitHub {
+    owner = "woodpecker-ci";
+    repo = "woodpecker";
+    rev = "${version}";
+    sha256 = srcSha256;
+  };
+
+  unstable-agent = pkgs.woodpecker-agent.overrideAttrs (finalAttrs: previousAttrs: { inherit src version vendorHash; });
+in
+{
 
   imports = [
     flake-pipeliner.nixosModules.flake-pipeliner
@@ -57,6 +72,8 @@
   services.woodpecker-agents.agents = {
     exec = {
       enable = true;
+      package = unstable-agent;
+
       # Secrets in envfile: WOODPECKER_AGENT_SECRET
       environmentFile = [ config.sops.secrets."woodpecker/agent-envfile".path ];
       environment = {
