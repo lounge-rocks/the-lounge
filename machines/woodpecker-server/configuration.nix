@@ -12,48 +12,6 @@
   sops.secrets."woodpecker/agent-envfile" = { };
   # sops.secrets."attic/env" = { };
 
-  services.nginx = {
-
-    enable = true;
-    recommendedOptimisation = true;
-    recommendedTlsSettings = true;
-    clientMaxBodySize = "128m";
-    recommendedProxySettings = true;
-
-    commonHttpConfig = ''
-      server_names_hash_bucket_size 128;
-      proxy_headers_hash_max_size 1024;
-      proxy_headers_hash_bucket_size 256;
-    '';
-
-    virtualHosts."build.lounge.rocks" = {
-      addSSL = true;
-      enableACME = true;
-      locations."/" = { proxyPass = "http://127.0.0.1:8000"; };
-    };
-  };
-
-  # Server
-
-  services.woodpecker-server = {
-    enable = true;
-
-    # Secrets in env file: WOODPECKER_GITHUB_CLIENT, WOODPECKER_GITHUB_SECRET,
-    # WOODPECKER_AGENT_SECRET, WOODPECKER_PROMETHEUS_AUTH_TOKEN
-    environmentFile = config.sops.secrets."woodpecker/server-envfile".path;
-
-    environment = {
-      WOODPECKER_HOST = "https://build.lounge.rocks";
-      WOODPECKER_OPEN = "false";
-      WOODPECKER_GITHUB = "true";
-      WOODPECKER_ADMIN =
-        "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
-      WOODPECKER_ORGS = "lounge-rocks";
-      WOODPECKER_CONFIG_SERVICE_ENDPOINT = "http://127.0.0.1:8585";
-      WOODPECKER_LOG_LEVEL = "info";
-    };
-  };
-
   # Agents
   services.woodpecker-agents.agents = {
     exec = {
@@ -207,11 +165,8 @@
   #};
   # rootCredentialsFile = config.sops.secrets."minio/env".path;
 
-  security.acme.acceptTerms = true;
-  security.acme.defaults.email = "acme@pablo.tools";
-
   networking = {
-    firewall.allowedTCPPorts = [ 443 80 22 ];
+    firewall.allowedTCPPorts = [ 22 ];
     hostName = "woodpecker-server";
   };
 
@@ -226,6 +181,7 @@
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
     nix-common.enable = true;
+    woodpecker.server.enable = true;
   };
 
   system.stateVersion = "23.05";
