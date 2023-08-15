@@ -1478,6 +1478,18 @@
         "url": "https://github.com/pinpox.keys"
       }
     },
+    "pinpox-keys_2": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-X9E0ZRVGZWvLkcB247oKuHlZJmCU0bGFX08lfshEzf4=",
+        "type": "file",
+        "url": "https://github.com/pinpox.keys"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/pinpox.keys"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -1610,6 +1622,7 @@
         "mayniklas": "mayniklas",
         "nixpkgs": "nixpkgs_8",
         "pinpox": "pinpox",
+        "pinpox-keys": "pinpox-keys_2",
         "sops-nix": "sops-nix"
       }
     },

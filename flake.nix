@@ -24,6 +24,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # for some reason this needs to be present for the pinpox keys module to work
+    pinpox-keys = {
+      url = "https://github.com/pinpox.keys";
+      flake = false;
+    };
+
     ### Tools for managing NixOS
 
     # https://github.com/nix-community/disko
