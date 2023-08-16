@@ -12,6 +12,8 @@ let cfg = config.lounge-rocks.attic.server; in
   config = mkIf cfg.enable {
 
     # https://docs.attic.rs/admin-guide/deployment/nixos.html
+    # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
+
     services.atticd = {
       enable = true;
 
