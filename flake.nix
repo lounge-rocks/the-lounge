@@ -83,6 +83,9 @@
       overlays.default = final: prev:
         (import ./pkgs inputs) final prev;
 
+      # TODO:
+      # is is possible to inherit all packages from nixpkgsFor.${system}.lounge-rocks?
+      # this would be much cleaner since we would not need to list all packages here
       packages = forAllSystems (system: {
         inherit (nixpkgsFor.${system}.lounge-rocks)
           s3uploader
