@@ -74,20 +74,21 @@
       supportedSystems =
         [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; overlays = [ self.overlays.default ]; });
     in
     {
       formatter = forAllSystems
-        (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+        (system: nixpkgsFor.${system}.nixpkgs-fmt);
 
-      packages = forAllSystems
-        (system: import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; });
+      overlays.default = final: prev:
+        (import ./pkgs inputs) final prev;
 
-      # TODO: fix this
-      # Problem: pkgs is not available in the flake's root scope
-      # pkgs is architecture specific.
-      # How do we make this overlay externally available without hardcoding the architecture?
-      overlays.default =
-        (final: prev: { lounge-rocks = import ./pkgs { inherit pkgs; }; });
+      packages = forAllSystems (system: {
+        inherit (nixpkgsFor.${system}.lounge-rocks)
+          s3uploader
+          woodpecker-agent
+          ;
+      });
 
       nixosModules = builtins.listToAttrs (map
         (x: {
