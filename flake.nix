@@ -90,6 +90,8 @@
         inherit (nixpkgsFor.${system}.lounge-rocks)
           s3uploader
           woodpecker-agent
+          woodpecker-cli
+          woodpecker-server
           ;
       });
 
