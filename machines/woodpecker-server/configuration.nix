@@ -5,7 +5,7 @@
   sops.defaultSopsFile = ../../secrets/woodpecker-server/secrets.yaml;
   sops.secrets."woodpecker/server-envfile" = { };
   sops.secrets."woodpecker/agent-envfile" = { };
-  # sops.secrets."attic/env" = { };
+  sops.secrets."woodpecker/attic-envfile" = { };
 
   networking = {
     firewall.allowedTCPPorts = [ 22 ];
@@ -23,6 +23,7 @@
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
     nix-common.enable = true;
+    # attic.server.enable = true;
     woodpecker.docker-agent.enable = true;
     woodpecker.local-agent.enable = true;
     woodpecker.pipeliner.enable = true;

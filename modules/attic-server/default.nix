@@ -22,7 +22,7 @@ let cfg = config.lounge-rocks.attic.server; in
       # openssl rand 64 | base64 -w0
 
       # Replace with absolute path to your credentials file
-      credentialsFile = config.sops.secrets."attic/envfile".path;
+      credentialsFile = config.sops.secrets."woodpecker/attic-envfile".path;
 
       settings = {
         listen = "[::]:7373";
