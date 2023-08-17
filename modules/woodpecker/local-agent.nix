@@ -110,7 +110,7 @@ config.environment.etc."ssh/ssh_known_hosts".source
     # fixes builds that are failing due to lack of disk space on tmpfs
     # 'note: build failure may have been caused by lack of free disk space'
     boot.tmp.cleanOnBoot = true;
-    boot.tmp.tmpfsSize = "2G";
+    boot.tmp.tmpfsSize = "4G";
     boot.tmp.useTmpfs = true;
 
   };
