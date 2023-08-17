@@ -33,7 +33,7 @@
     ### Tools for managing NixOS
 
     # https://github.com/nix-community/disko
-    # Format disks with nix-config 
+    # Format disks with nix-config
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -121,7 +121,6 @@
               pinpox.nixosModules.openssh
               sops-nix.nixosModules.sops
               (import "${./.}/machines/${x}/configuration.nix" { inherit self; })
-              { }
             ];
 
           };
