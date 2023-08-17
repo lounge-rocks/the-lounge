@@ -77,6 +77,12 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     # Allow user to run nix
     nix.settings.allowed-users = [ "woodpecker-agent" ];
 
+    # fixes builds that are failing due to lack of disk space on tmpfs
+    # 'note: build failure may have been caused by lack of free disk space'
+    boot.tmp.cleanOnBoot = true;
+    boot.tmp.tmpfsSize = "2G";
+    boot.tmp.useTmpfs = true;
+
   };
 
 }
