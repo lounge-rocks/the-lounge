@@ -23,7 +23,7 @@
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
     nix-common.enable = true;
-    # attic.server.enable = true;
+    attic.server.enable = true;
     woodpecker.docker-agent.enable = true;
     woodpecker.local-agent.enable = true;
     woodpecker.pipeliner.enable = true;
