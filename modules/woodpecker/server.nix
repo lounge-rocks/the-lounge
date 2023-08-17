@@ -15,7 +15,9 @@ in {
       enable = true;
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
-      clientMaxBodySize = "128m";
+      # tmp fix for attic:
+      # should be set only for attic!
+      clientMaxBodySize = "512m";
       recommendedProxySettings = true;
 
       commonHttpConfig = ''
