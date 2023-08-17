@@ -11,6 +11,14 @@ let cfg = config.lounge-rocks.attic.server; in
 
   config = mkIf cfg.enable {
 
+    services.nginx = {
+      virtualHosts."attic.lounge.rocks" = {
+        addSSL = true;
+        enableACME = true;
+        locations."/" = { proxyPass = "http://127.0.0.1:7373"; };
+      };
+    };
+
     # https://docs.attic.rs/admin-guide/deployment/nixos.html
     # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
 
@@ -25,7 +33,7 @@ let cfg = config.lounge-rocks.attic.server; in
       credentialsFile = config.sops.secrets."woodpecker/attic-envfile".path;
 
       settings = {
-        listen = "[::]:7373";
+        listen = "127.0.0.1:7373";
 
         # Data chunking
         #
