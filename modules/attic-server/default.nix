@@ -35,6 +35,15 @@ let cfg = config.lounge-rocks.attic.server; in
       settings = {
         listen = "127.0.0.1:7373";
 
+        compression = {
+          type = "zstd";
+        };
+
+        garbage-collection = {
+          interval = "12 hours";
+          default-retention-period = "12 months";
+        };
+
         # Data chunking
         #
         # Warning: If you change any of the values here, it will be
