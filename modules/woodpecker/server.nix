@@ -6,6 +6,11 @@ in {
   ### TODO: create a common module for NGINX / ACME stuff
   options.lounge-rocks.woodpecker.server = {
     enable = mkEnableOption "enable woodpecker server";
+    hostName = mkOption {
+      type = types.str;
+      default = "build.lounge.rocks";
+      description = "The hostname of the attic server";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -26,7 +31,7 @@ in {
         proxy_headers_hash_bucket_size 256;
       '';
 
-      virtualHosts."build.lounge.rocks" = {
+      virtualHosts."${cfg.hostName}" = {
         addSSL = true;
         enableACME = true;
         locations."/" = { proxyPass = "http://127.0.0.1:8000"; };
@@ -47,7 +52,7 @@ in {
       environmentFile = config.sops.secrets."woodpecker/server-envfile".path;
 
       environment = {
-        WOODPECKER_HOST = "https://build.lounge.rocks";
+        WOODPECKER_HOST = "https://${cfg.hostName}";
         WOODPECKER_OPEN = "false";
         WOODPECKER_GITHUB = "true";
         WOODPECKER_ADMIN = "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
