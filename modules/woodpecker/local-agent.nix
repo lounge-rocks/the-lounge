@@ -28,7 +28,6 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
           WOODPECKER_FILTER_LABELS = "type=exec";
           WOODPECKER_HEALTHCHECK = "false";
           NIX_REMOTE = "daemon";
-          WOODPECKER_LOG_LEVEL = "info";
           PAGER = "cat";
         };
       };

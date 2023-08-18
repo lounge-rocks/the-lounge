@@ -58,7 +58,6 @@ in {
         WOODPECKER_ADMIN = "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
         WOODPECKER_ORGS = "lounge-rocks";
         WOODPECKER_CONFIG_SERVICE_ENDPOINT = mkIf config.lounge-rocks.woodpecker.pipeliner.enable "http://127.0.0.1:8585";
-        WOODPECKER_LOG_LEVEL = "info";
       };
     };
 
