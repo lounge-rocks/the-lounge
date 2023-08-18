@@ -33,6 +33,9 @@ let cfg = config.lounge-rocks.attic.server; in
       credentialsFile = config.sops.secrets."woodpecker/attic-envfile".path;
 
       settings = {
+        # available options:
+        # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
+
         listen = "127.0.0.1:7373";
 
         compression = {
