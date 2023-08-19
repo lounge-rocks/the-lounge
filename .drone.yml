@@ -39,6 +39,10 @@ platform:
   arch: arm64
 
 steps:
+  - name: init attic
+    commands:
+      - attic --version
+
   - name: Build oracle-aarch64-runner-1
     commands:
       - nix build '.#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel'
@@ -85,6 +89,10 @@ platform:
   arch: amd64
 
 steps:
+  - name: init attic
+    commands:
+      - attic --version
+
   - name: Build netcup-x86-runner-1
     commands:
       - nix build '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel'
