@@ -62,10 +62,13 @@ in {
         max-free = ${toString (5 * 1024 * 1024 * 1024)}
       '';
       # binary cache -> build by DroneCI
-      settings.trusted-public-keys = mkIf (cfg.disable-cache != true)
-        [ "cache.lounge.rocks:uXa8UuAEQoKFtU8Om/hq6d7U+HgcrduTVr8Cfl6JuaY=" ];
+      settings.trusted-public-keys = mkIf (cfg.disable-cache != true) [
+        "the-lounge:pb6Cpef3NSdhUCyAL9OW2KiiEPlOX56ctNdKm11r2Ac="
+        "cache.lounge.rocks:uXa8UuAEQoKFtU8Om/hq6d7U+HgcrduTVr8Cfl6JuaY="
+      ];
       settings.substituters = mkIf (cfg.disable-cache != true) [
         "https://cache.nixos.org"
+        "https://attic.lounge.rocks/the-lounge"
         "https://s3.lounge.rocks/nix-cache?priority=50"
       ];
       settings.trusted-substituters = mkIf (cfg.disable-cache != true) [
