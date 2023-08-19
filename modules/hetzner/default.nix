@@ -94,11 +94,11 @@ in {
 
     ### aarch64-linux specific configuration ###
     boot = {
-      kernelParams = lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux") [
+      kernelParams = lib.optionals (config.nixpkgs.hostPlatform.system == "aarch64-linux") [
         # workaround because the console defaults to serial
         "console=tty"
       ];
-      initrd.kernelModules = lib.optionals (config.nixpkgs.hostPlatform == "aarch64-linux") [
+      initrd.kernelModules = lib.optionals (config.nixpkgs.hostPlatform.system == "aarch64-linux") [
         # initialize the display early to get a complete log
         "virtio_gpu"
       ];
