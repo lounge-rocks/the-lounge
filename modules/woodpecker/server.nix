@@ -29,7 +29,7 @@ in {
     # woodpecker server
     services.woodpecker-server = {
       enable = true;
-      package = pkgs.lounge-rocks.woodpecker-server;
+      # package = pkgs.lounge-rocks.woodpecker-server;
 
       # Secrets in env file: WOODPECKER_GITHUB_CLIENT, WOODPECKER_GITHUB_SECRET,
       # WOODPECKER_AGENT_SECRET, WOODPECKER_PROMETHEUS_AUTH_TOKEN
