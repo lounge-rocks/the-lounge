@@ -15,32 +15,16 @@ in {
 
   config = mkIf cfg.enable {
 
+    lounge-rocks.nginx.enable = true;
+
     # reverse proxy
-    services.nginx = {
-      enable = true;
-      recommendedOptimisation = true;
-      recommendedTlsSettings = true;
-      # tmp fix for attic:
-      # should be set only for attic!
-      clientMaxBodySize = "512m";
-      recommendedProxySettings = true;
-
-      commonHttpConfig = ''
-        server_names_hash_bucket_size 128;
-        proxy_headers_hash_max_size 1024;
-        proxy_headers_hash_bucket_size 256;
-      '';
-
-      virtualHosts."${cfg.hostName}" = {
-        addSSL = true;
-        enableACME = true;
-        locations."/" = { proxyPass = "http://127.0.0.1:8000"; };
+    services.nginx.virtualHosts."${cfg.hostName}" = {
+      addSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8000";
       };
     };
-
-    # ACME config
-    security.acme.acceptTerms = true;
-    security.acme.defaults.email = "acme@pablo.tools";
 
     # woodpecker server
     services.woodpecker-server = {
@@ -60,8 +44,6 @@ in {
         WOODPECKER_CONFIG_SERVICE_ENDPOINT = mkIf config.lounge-rocks.woodpecker.pipeliner.enable "http://127.0.0.1:8585";
       };
     };
-
-    networking.firewall.allowedTCPPorts = [ 443 80 ];
 
   };
 

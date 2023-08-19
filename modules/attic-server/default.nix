@@ -16,11 +16,13 @@ let cfg = config.lounge-rocks.attic.server; in
 
   config = mkIf cfg.enable {
 
-    services.nginx = {
-      virtualHosts."${cfg.hostName}" = {
-        addSSL = true;
-        enableACME = true;
-        locations."/" = { proxyPass = "http://127.0.0.1:7373"; };
+    lounge-rocks.nginx.enable = true;
+
+    services.nginx.virtualHosts."${cfg.hostName}" = {
+      addSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:7373";
       };
     };
 
