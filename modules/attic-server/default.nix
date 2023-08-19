@@ -23,6 +23,9 @@ let cfg = config.lounge-rocks.attic.server; in
       enableACME = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:7373";
+        extraConfig = ''
+          client_max_body_size 512m;
+        '';
       };
     };
 

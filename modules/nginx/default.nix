@@ -19,9 +19,7 @@ let cfg = config.lounge-rocks.nginx; in
       enable = true;
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
-      # tmp fix for attic:
-      # should be set only for attic!
-      clientMaxBodySize = "512m";
+      clientMaxBodySize = "128m";
       recommendedProxySettings = true;
 
       commonHttpConfig = ''
