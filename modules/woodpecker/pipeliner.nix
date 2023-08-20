@@ -19,7 +19,7 @@ in {
 
         PIPELINER_PUBLIC_KEY_FILE = "${./woodpecker-public-key}";
         PIPELINER_HOST = "localhost:8585";
-        PIPELINER_OVERRIDE_FILTER = "test-*";
+        PIPELINER_OVERRIDE_FILTER = ".*";
         PIPELINER_SKIP_VERIFY = "false";
         PIPELINER_FLAKE_OUTPUT = "woodpecker-pipeline";
         PIPELINER_DEBUG = "true";

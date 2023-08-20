@@ -359,11 +359,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1692530068,
-        "narHash": "sha256-Yrmfce1OlXgmQ91QjIv8qMuMFWyGKJlvcjHOaXmlI0Y=",
+        "lastModified": 1692531244,
+        "narHash": "sha256-MUpLg/H81HF0iyMy7d3VZcfRNbgVxFwq4hF98QuAMfE=",
         "owner": "pinpox",
         "repo": "woodpecker-flake-pipeliner",
-        "rev": "ce239c46d8eb05f5acf582d4c80254d775ec5dc1",
+        "rev": "8e198a581e0e5d9779dd9764b9eeaa5ac456b33c",
         "type": "github"
       },
       "original": {
