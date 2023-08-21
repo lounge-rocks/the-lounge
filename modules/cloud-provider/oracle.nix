@@ -1,11 +1,9 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.oracle-aarch64;
 
 in {
-
-  imports = [ "${modulesPath}/profiles/qemu-guest.nix" ];
 
   options.lounge-rocks.oracle-aarch64 = {
     enable = mkEnableOption "activate oracle-aarch64";

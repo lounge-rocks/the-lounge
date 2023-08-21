@@ -1,11 +1,9 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.netcup-x86;
 
 in {
-
-  imports = [ "${modulesPath}/profiles/qemu-guest.nix" ];
 
   options.lounge-rocks.netcup-x86 = {
     enable = mkEnableOption "activate netcup-x86";

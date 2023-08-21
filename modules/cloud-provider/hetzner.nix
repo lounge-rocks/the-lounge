@@ -1,4 +1,4 @@
-{ config, lib, disko, modulesPath, ... }:
+{ config, lib, ... }:
 with lib;
 let cfg = config.lounge-rocks.hetzner;
 
@@ -17,12 +17,6 @@ in {
       description = "IPv6 address of the server";
     };
   };
-
-  imports = [
-    disko.nixosModules.disko
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
-  ];
 
   config = mkIf cfg.enable {
 

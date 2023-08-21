@@ -5,7 +5,7 @@
 # SCSI Controller: VirtIO SCSI
 # Hard Disk: VirtIO Block
 
-{ config, lib, disko, modulesPath, ... }:
+{ config, lib, modulesPath, ... }:
 with lib;
 let cfg = config.lounge-rocks.proxmox;
 
@@ -15,16 +15,6 @@ in {
     enable = mkEnableOption "activate proxmox";
   };
 
-  imports = [
-    # allready imported by hetzner module
-    # -> can't be imported twice
-    # maybe we should move those imports to the flake.nix?
-    # or: only import modules where we need them?
-    # disko.nixosModules.disko
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
-  ];
-
   config = mkIf cfg.enable {
 
     ### Partitioning ###
@@ -33,7 +23,7 @@ in {
         disk = {
           main = {
             type = "disk";
-            device = "/dev/sda";
+            device = "/dev/vda";
             content = {
               type = "table";
               format = "gpt";
@@ -80,11 +70,10 @@ in {
 
     ### Bootloader ###
     boot.loader.grub = {
-      device = "nodev";
+      device = "/dev/vda";
       efiSupport = true;
       efiInstallAsRemovable = true;
     };
-
 
     boot.initrd.availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uas" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
     boot.initrd.kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
