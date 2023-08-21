@@ -2,8 +2,6 @@
 { pkgs, lib, config, ... }:
 {
 
-  imports = [ ./hardware-configuration.nix ];
-
   networking = {
     firewall.allowedTCPPorts = [ 22 ];
     hostName = "attic-server";
@@ -12,8 +10,9 @@
   mayniklas.user.root.enable = true;
 
   lounge-rocks = {
+    # attic.server.enable = true;
     nix-common.enable = true;
-    attic.server.enable = true;
+    proxmox.enable = true;
   };
 
   system.stateVersion = "23.05";
