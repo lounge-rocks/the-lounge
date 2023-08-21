@@ -4,12 +4,16 @@ let cfg = config.lounge-rocks.proxmox;
 
 in {
 
-  options.lounge-rocks.hetzner = {
+  options.lounge-rocks.proxmox = {
     enable = mkEnableOption "activate proxmox";
   };
 
   imports = [
-    disko.nixosModules.disko
+    # allready imported by hetzner module
+    # -> can't be imported twice
+    # maybe we should move those imports to the flake.nix?
+    # or: only import modules where we need them?
+    # disko.nixosModules.disko
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
@@ -74,7 +78,8 @@ in {
       efiInstallAsRemovable = true;
     };
 
-    boot.initrd.availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
+
+    boot.initrd.availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uas" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
     boot.initrd.kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
     boot.kernelModules = [ "kvm-intel" ];
 
