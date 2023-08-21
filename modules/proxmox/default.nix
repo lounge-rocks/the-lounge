@@ -1,3 +1,10 @@
+# Proxmox PVE settings
+# Processors: CPU type host
+# BIOS: OVMF (UEFI)
+# Machine: Default (i440fx)
+# SCSI Controller: VirtIO SCSI
+# Hard Disk: VirtIO Block
+
 { config, lib, disko, modulesPath, ... }:
 with lib;
 let cfg = config.lounge-rocks.proxmox;
