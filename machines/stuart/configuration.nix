@@ -4,10 +4,8 @@
   mayniklas.user.root.enable = true;
   pinpox.services.openssh.enable = true;
 
-  system.stateVersion = "22.05";
-
   lounge-rocks = {
-    oracle-aarch64.enable = true;
+    cloud-provider.oracle.enable = true;
     nix-build-signature.enable = true;
     nix-common.enable = true;
   };

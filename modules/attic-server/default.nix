@@ -7,6 +7,7 @@ let cfg = config.lounge-rocks.attic.server; in
 
   options.lounge-rocks.attic.server = {
     enable = mkEnableOption "enable attic server";
+    enableNginx = mkEnableOption "enable nginx for attic server";
     hostName = mkOption {
       type = types.str;
       default = "attic.lounge.rocks";
@@ -16,9 +17,9 @@ let cfg = config.lounge-rocks.attic.server; in
 
   config = mkIf cfg.enable {
 
-    lounge-rocks.nginx.enable = true;
+    lounge-rocks.nginx.enable = mkIf cfg.enableNginx true;
 
-    services.nginx.virtualHosts."${cfg.hostName}" = {
+    services.nginx.virtualHosts."${cfg.hostName}" = mkIf cfg.enableNginx {
       addSSL = true;
       enableACME = true;
       locations."/" = {
@@ -46,7 +47,7 @@ let cfg = config.lounge-rocks.attic.server; in
         # available options:
         # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
 
-        listen = "127.0.0.1:7373";
+        listen = mkIf cfg.enableNginx "127.0.0.1:7373";
         api-endpoint = "https://${cfg.hostName}/";
 
         compression = {

@@ -1,17 +1,18 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
-let cfg = config.lounge-rocks.oracle-aarch64;
+let cfg = config.lounge-rocks.cloud-provider.oracle;
 
 in {
 
-  imports = [ "${modulesPath}/profiles/qemu-guest.nix" ];
-
-  options.lounge-rocks.oracle-aarch64 = {
+  options.lounge-rocks.cloud-provider.oracle = {
     enable = mkEnableOption "activate oracle-aarch64";
   };
 
   config = mkIf cfg.enable {
+
+    # enable our base module that is common across all providers
+    lounge-rocks.cloud-provider.enable = true;
 
     boot = {
       loader.grub = {
@@ -19,7 +20,7 @@ in {
         efiInstallAsRemovable = true;
         device = "nodev";
       };
-      cleanTmpDir = true;
+      tmp.cleanOnBoot = true;
       initrd.kernelModules = [ "nvme" ];
     };
     zramSwap.enable = true;
