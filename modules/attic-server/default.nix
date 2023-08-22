@@ -7,28 +7,9 @@ let cfg = config.lounge-rocks.attic.server; in
 
   options.lounge-rocks.attic.server = {
     enable = mkEnableOption "enable attic server";
-    enableNginx = mkEnableOption "enable nginx for attic server";
-    hostName = mkOption {
-      type = types.str;
-      default = "attic.lounge.rocks";
-      description = "The hostname of the attic server";
-    };
   };
 
   config = mkIf cfg.enable {
-
-    lounge-rocks.nginx.enable = mkIf cfg.enableNginx true;
-
-    services.nginx.virtualHosts."${cfg.hostName}" = mkIf cfg.enableNginx {
-      addSSL = true;
-      enableACME = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:7373";
-        extraConfig = ''
-          client_max_body_size 512m;
-        '';
-      };
-    };
 
     # https://docs.attic.rs/admin-guide/deployment/nixos.html
     # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
@@ -47,8 +28,8 @@ let cfg = config.lounge-rocks.attic.server; in
         # available options:
         # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
 
-        listen = mkIf cfg.enableNginx "127.0.0.1:7373";
-        api-endpoint = "https://${cfg.hostName}/";
+        # listen = "127.0.0.1:7373";
+        # api-endpoint = "https://attic.lounge.rocks/";
 
         compression = {
           type = "zstd";

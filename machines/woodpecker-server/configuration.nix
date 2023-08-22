@@ -7,6 +7,17 @@
   sops.secrets."woodpecker/agent-envfile" = { };
   sops.secrets."woodpecker/attic-envfile" = { };
 
+  services.nginx.virtualHosts."attic.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.server.enable {
+    addSSL = true;
+    enableACME = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:7373";
+      extraConfig = ''
+        client_max_body_size 512m;
+      '';
+    };
+  };
+
   networking = {
     firewall.allowedTCPPorts = [ 22 ];
     hostName = "woodpecker-server";
