@@ -6,7 +6,7 @@ let cfg = config.lounge-rocks.cloud-provider.netcup;
 in {
 
   options.lounge-rocks.cloud-provider.netcup = {
-    enable = mkEnableOption "activate netcup";
+    enable = mkEnableOption "netcup configuration";
   };
 
   config = mkIf cfg.enable {
