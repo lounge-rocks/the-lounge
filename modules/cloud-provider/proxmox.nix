@@ -15,7 +15,7 @@ let cfg = config.lounge-rocks.cloud-provider.proxmox;
 in {
 
   options.lounge-rocks.cloud-provider.proxmox = {
-    enable = mkEnableOption "activate proxmox";
+    enable = mkEnableOption "proxmox configuration";
   };
 
   config = mkIf cfg.enable {
