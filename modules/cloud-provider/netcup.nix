@@ -19,7 +19,7 @@ in {
 
     # Bootloader
     boot.kernelParams = [ "console=ttyS0" ];
-    boot.loader.grub.device = "/dev/sda";
+    boot.loader.grub.devices = [ config.lounge-rocks.cloud-provider.primaryDisk ];
     boot.loader.timeout = 15;
 
     # swapfile

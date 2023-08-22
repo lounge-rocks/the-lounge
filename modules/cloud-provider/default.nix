@@ -31,6 +31,11 @@ in
 
   options.lounge-rocks.cloud-provider = {
     enable = mkEnableOption "cloud-provider";
+    primaryDisk = mkOption {
+      type = types.str;
+      default = "/dev/sda";
+      description = "The name of the primary disk";
+    };
   };
 
   config = mkIf cfg.enable {

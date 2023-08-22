@@ -20,10 +20,13 @@ in {
 
   config = mkIf cfg.enable {
 
+    # If /dev/sda is not shown, you need to set your disk to VirtIO Block in the Proxmox GUI
+    lounge-rocks.cloud-provider.primaryDisk = "/dev/vda";
+
     ### Partitioning ###
     disko.devices.disk.main = {
       type = "disk";
-      device = "/dev/vda";
+      device = config.lounge-rocks.cloud-provider.primaryDisk;
       content = {
         type = "table";
         format = "gpt";
@@ -61,7 +64,7 @@ in {
 
     ### Bootloader ###
     boot.loader.grub = {
-      device = "/dev/vda";
+      devices = [ config.lounge-rocks.cloud-provider.primaryDisk ];
       efiSupport = true;
       efiInstallAsRemovable = true;
     };

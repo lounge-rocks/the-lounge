@@ -37,7 +37,7 @@ in {
     ### Partitioning ###
     disko.devices.disk.main = {
       type = "disk";
-      device = "/dev/sda";
+      device = config.lounge-rocks.cloud-provider.primaryDisk;
       content = {
         type = "table";
         format = "gpt";
@@ -75,7 +75,7 @@ in {
 
     ### Bootloader ###
     boot.loader.grub = {
-      devices = [ "/dev/sda" ];
+      devices = [ config.lounge-rocks.cloud-provider.primaryDisk ];
       efiSupport = true;
       efiInstallAsRemovable = true;
     };
