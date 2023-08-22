@@ -34,52 +34,6 @@ in {
       };
     };
 
-    ### Partitioning ###
-    disko.devices.disk.main = {
-      type = "disk";
-      device = config.lounge-rocks.cloud-provider.primaryDisk;
-      content = {
-        type = "table";
-        format = "gpt";
-        partitions = [
-          {
-            name = "boot";
-            start = "0";
-            end = "1M";
-            flags = [ "bios_grub" ];
-          }
-          {
-            name = "ESP";
-            start = "1M";
-            end = "512M";
-            bootable = true;
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-            };
-          }
-          {
-            name = "nixos";
-            start = "512M";
-            end = "100%";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
-            };
-          }
-        ];
-      };
-    };
-
-    ### Bootloader ###
-    boot.loader.grub = {
-      devices = [ config.lounge-rocks.cloud-provider.primaryDisk ];
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-    };
-
     ### aarch64-linux specific configuration ###
     boot = {
       kernelParams = lib.optionals (config.nixpkgs.hostPlatform.system == "aarch64-linux") [
