@@ -43,6 +43,13 @@ in
       interval = "weekly";
     };
 
+    # During boot, resize the root partition to the size of the disk.
+    # This makes upgrading the size of the vDisk easier.
+    # TODO: can we do this through Disko?
+    # Haven't found something about this in the docs yet.
+    fileSystems."/".autoResize = true;
+    boot.growPartition = true;
+
     # Currently all our providers use KVM / QEMU
     services.qemuGuest.enable = true;
 

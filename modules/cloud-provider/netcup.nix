@@ -15,11 +15,9 @@ in {
     fileSystems."/" = {
       device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
-      autoResize = true;
     };
 
     # Bootloader
-    boot.growPartition = true;
     boot.kernelParams = [ "console=ttyS0" ];
     boot.loader.grub.device = "/dev/sda";
     boot.loader.timeout = 15;
