@@ -17,7 +17,7 @@ in {
         efiInstallAsRemovable = true;
         device = "nodev";
       };
-      cleanTmpDir = true;
+      tmp.cleanOnBoot = true;
       initrd.kernelModules = [ "nvme" ];
     };
     zramSwap.enable = true;
