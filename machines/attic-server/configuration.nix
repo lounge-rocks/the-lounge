@@ -3,7 +3,6 @@
 {
 
   networking = {
-    firewall.allowedTCPPorts = [ 22 ];
     hostName = "attic-server";
   };
 

@@ -5,6 +5,9 @@
 # SCSI Controller: VirtIO SCSI
 # Hard Disk: VirtIO Block
 
+# deploying a Proxmox system via nix-anywhere:
+# nix run github:numtide/nixos-anywhere -- --flake .#<host> root@<ip>
+
 { config, lib, modulesPath, ... }:
 with lib;
 let cfg = config.lounge-rocks.cloud-provider.proxmox;
