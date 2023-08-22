@@ -9,10 +9,7 @@
   lounge-rocks = {
     # attic.server.enable = true;
     nix-common.enable = true;
-    cloud-provider = {
-      enable = true;
-      proxmox.enable = true;
-    };
+    cloud-provider.proxmox.enable = true;
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

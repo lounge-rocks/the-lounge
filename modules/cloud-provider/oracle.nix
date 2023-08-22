@@ -11,6 +11,9 @@ in {
 
   config = mkIf cfg.enable {
 
+    # enable our base module that is common across all providers
+    lounge-rocks.cloud-provider.enable = true;
+
     boot = {
       loader.grub = {
         efiSupport = true;

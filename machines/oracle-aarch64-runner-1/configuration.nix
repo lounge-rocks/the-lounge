@@ -2,10 +2,7 @@
 { pkgs, lib, ... }: {
 
   lounge-rocks = {
-    cloud-provider = {
-      enable = true;
-      oracle.enable = true;
-    };
+    cloud-provider.oracle.enable = true;
     drone = {
       exec-runner.enable = true;
       docker-runner = {

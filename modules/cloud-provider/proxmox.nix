@@ -20,8 +20,12 @@ in {
 
   config = mkIf cfg.enable {
 
-    # If /dev/sda is not shown, you need to set your disk to VirtIO Block in the Proxmox GUI
-    lounge-rocks.cloud-provider.primaryDisk = "/dev/vda";
+    lounge-rocks.cloud-provider = {
+      # enable our base module that is common across all providers
+      enable = true;
+      # If /dev/sda is not shown, you need to set your disk to VirtIO Block in the Proxmox GUI
+      primaryDisk = "/dev/vda";
+    };
 
     boot.initrd.availableKernelModules = [
       "9p"

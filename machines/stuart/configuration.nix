@@ -5,10 +5,7 @@
   pinpox.services.openssh.enable = true;
 
   lounge-rocks = {
-    cloud-provider = {
-      enable = true;
-      oracle.enable = true;
-    };
+    cloud-provider.oracle.enable = true;
     nix-build-signature.enable = true;
     nix-common.enable = true;
   };

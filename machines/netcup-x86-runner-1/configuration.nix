@@ -2,10 +2,7 @@
 { pkgs, lib, ... }: {
 
   lounge-rocks = {
-    cloud-provider = {
-      enable = true;
-      netcup.enable = true;
-    };
+    cloud-provider.netcup.enable = true;
     drone = {
       exec-runner.enable = true;
       docker-runner = {
