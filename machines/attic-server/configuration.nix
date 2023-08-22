@@ -2,9 +2,7 @@
 { pkgs, lib, config, ... }:
 {
 
-  networking = {
-    hostName = "attic-server";
-  };
+  networking.hostName = "attic-server";
 
   mayniklas.user.root.enable = true;
 
