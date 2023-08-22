@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let cfg = config.lounge-rocks.oracle-aarch64;
+let cfg = config.lounge-rocks.cloud-provider.oracle;
 
 in {
 
-  options.lounge-rocks.oracle-aarch64 = {
+  options.lounge-rocks.cloud-provider.oracle = {
     enable = mkEnableOption "activate oracle-aarch64";
   };
 

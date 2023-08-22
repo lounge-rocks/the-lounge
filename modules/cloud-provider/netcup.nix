@@ -1,12 +1,12 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let cfg = config.lounge-rocks.netcup-x86;
+let cfg = config.lounge-rocks.cloud-provider.netcup;
 
 in {
 
-  options.lounge-rocks.netcup-x86 = {
-    enable = mkEnableOption "activate netcup-x86";
+  options.lounge-rocks.cloud-provider.netcup = {
+    enable = mkEnableOption "activate netcup";
   };
 
   config = mkIf cfg.enable {

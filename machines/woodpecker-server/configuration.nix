@@ -17,7 +17,7 @@
   pinpox.services.openssh.enable = true;
 
   lounge-rocks = {
-    hetzner = {
+    cloud-provider.hetzner = {
       enable = true;
       interface = "enp1s0";
       ipv6_address = "2a01:4f8:1c17:636f::";

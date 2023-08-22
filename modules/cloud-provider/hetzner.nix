@@ -1,10 +1,10 @@
 { config, lib, ... }:
 with lib;
-let cfg = config.lounge-rocks.hetzner;
+let cfg = config.lounge-rocks.cloud-provider.hetzner;
 
 in {
 
-  options.lounge-rocks.hetzner = {
+  options.lounge-rocks.cloud-provider.hetzner = {
     enable = mkEnableOption "activate hetzner";
     interface = mkOption {
       type = types.str;

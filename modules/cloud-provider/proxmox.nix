@@ -7,11 +7,11 @@
 
 { config, lib, modulesPath, ... }:
 with lib;
-let cfg = config.lounge-rocks.proxmox;
+let cfg = config.lounge-rocks.cloud-provider.proxmox;
 
 in {
 
-  options.lounge-rocks.proxmox = {
+  options.lounge-rocks.cloud-provider.proxmox = {
     enable = mkEnableOption "activate proxmox";
   };
 
