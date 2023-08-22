@@ -8,7 +8,7 @@
 # deploying a Proxmox system via nix-anywhere:
 # nix run github:numtide/nixos-anywhere -- --flake .#<host> root@<ip>
 
-{ config, lib, modulesPath, ... }:
+{ config, lib, ... }:
 with lib;
 let cfg = config.lounge-rocks.cloud-provider.proxmox;
 
