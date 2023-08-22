@@ -23,7 +23,7 @@ in {
     # If /dev/sda is not shown, you need to set your disk to VirtIO Block in the Proxmox GUI
     lounge-rocks.cloud-provider.primaryDisk = "/dev/vda";
 
-    boot.initrd.availableKernelModules = [ 
+    boot.initrd.availableKernelModules = [
       "9p"
       "9pnet_virtio"
       "ata_piix"
