@@ -4,8 +4,6 @@
   mayniklas.user.root.enable = true;
   pinpox.services.openssh.enable = true;
 
-  system.stateVersion = "22.05";
-
   lounge-rocks = {
     cloud-provider = {
       enable = true;

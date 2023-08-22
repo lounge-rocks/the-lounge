@@ -93,5 +93,7 @@ in {
       nixPath = [ "nixpkgs=${nixpkgs}" ];
     };
 
+    system.stateVersion = "23.05";
+
   };
 }
