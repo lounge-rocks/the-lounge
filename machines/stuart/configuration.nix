@@ -7,7 +7,10 @@
   system.stateVersion = "22.05";
 
   lounge-rocks = {
-    cloud-provider.oracle.enable = true;
+    cloud-provider = {
+      enable = true;
+      oracle.enable = true;
+    };
     nix-build-signature.enable = true;
     nix-common.enable = true;
   };

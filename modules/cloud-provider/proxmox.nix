@@ -56,12 +56,6 @@ in {
       };
     };
 
-    # reduce size of the VM
-    services.fstrim = {
-      enable = true;
-      interval = "weekly";
-    };
-
     ### Bootloader ###
     boot.loader.grub = {
       device = "/dev/vda";
@@ -74,8 +68,6 @@ in {
     boot.kernelModules = [ "kvm-intel" ];
 
     boot.growPartition = true;
-
-    services.qemuGuest.enable = true;
 
   };
 }

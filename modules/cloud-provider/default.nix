@@ -19,6 +19,8 @@ let
   validFiles = dir:
     map (file: ./. + "/${file}") (filter (file: hasSuffix ".nix" file && file != "default.nix") (files dir));
 
+  cfg = config.lounge-rocks.cloud-provider;
+
 in
 {
   imports = validFiles ./. ++ [
@@ -27,6 +29,23 @@ in
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  config = { };
+  options.lounge-rocks.cloud-provider = {
+    enable = mkEnableOption "cloud-provider";
+  };
+
+  config = mkIf cfg.enable {
+
+    # Running fstrim weekly is a good idea for VMs.
+    # Empty blocks are returned to the host, which can then be used for other VMs.
+    # It also reduces the size of the qcow2 image, which is good for backups.
+    services.fstrim = {
+      enable = true;
+      interval = "weekly";
+    };
+
+    # Currently all our providers use KVM / QEMU
+    services.qemuGuest.enable = true;
+
+  };
 
 }

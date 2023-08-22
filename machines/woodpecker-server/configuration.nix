@@ -17,10 +17,13 @@
   pinpox.services.openssh.enable = true;
 
   lounge-rocks = {
-    cloud-provider.hetzner = {
+    cloud-provider = {
       enable = true;
-      interface = "enp1s0";
-      ipv6_address = "2a01:4f8:1c17:636f::";
+      hetzner = {
+        enable = true;
+        interface = "enp1s0";
+        ipv6_address = "2a01:4f8:1c17:636f::";
+      };
     };
     nix-common.enable = true;
     attic.server = {

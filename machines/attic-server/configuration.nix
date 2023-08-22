@@ -12,7 +12,10 @@
   lounge-rocks = {
     # attic.server.enable = true;
     nix-common.enable = true;
-    cloud-provider.proxmox.enable = true;
+    cloud-provider = {
+      enable = true;
+      proxmox.enable = true;
+    };
   };
 
   system.stateVersion = "23.05";
