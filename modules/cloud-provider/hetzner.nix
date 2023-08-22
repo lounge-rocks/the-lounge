@@ -5,7 +5,7 @@ let cfg = config.lounge-rocks.cloud-provider.hetzner;
 in {
 
   options.lounge-rocks.cloud-provider.hetzner = {
-    enable = mkEnableOption "activate hetzner";
+    enable = mkEnableOption "hetzner configuration";
     interface = mkOption {
       type = types.str;
       default = "enp1s0";
