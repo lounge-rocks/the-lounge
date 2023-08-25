@@ -31,6 +31,13 @@ let cfg = config.lounge-rocks.attic.server; in
         # listen = "127.0.0.1:7373";
         # api-endpoint = "https://attic.lounge.rocks/";
 
+        storage = {
+          type = "s3";
+          region = "eu-central-1";
+          bucket = "attic";
+          endpoint = "https://s3.lounge.rocks";
+        };
+
         compression = {
           type = "zstd";
         };
