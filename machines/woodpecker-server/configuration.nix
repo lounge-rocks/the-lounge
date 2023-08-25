@@ -7,6 +7,11 @@
   sops.secrets."woodpecker/agent-envfile" = { };
   sops.secrets."woodpecker/attic-envfile" = { };
 
+  services.atticd.settings = {
+    listen = "127.0.0.1:7373";
+    api-endpoint = "https://attic.lounge.rocks/";
+  };
+
   services.nginx.virtualHosts."attic.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.server.enable {
     addSSL = true;
     enableACME = true;
