@@ -44,8 +44,8 @@ let cfg = config.lounge-rocks.attic.server; in
 
         storage = {
           type = "s3";
-          region = "us-east";
-          bucket = "attic";
+          region = "us-east-005";
+          bucket = "lounge-rocks-cache";
           endpoint = "https://s3.us-east-005.backblazeb2.com";
         };
 
