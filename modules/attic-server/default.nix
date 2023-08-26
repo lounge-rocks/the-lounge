@@ -17,12 +17,12 @@ let cfg = config.lounge-rocks.attic.server; in
     services.postgresql = {
       enable = true;
       ensureUsers = [{
-        name = "attic";
+        name = "atticd";
         ensurePermissions = {
-          "DATABASE attic" = "ALL PRIVILEGES";
+          "DATABASE atticd" = "ALL PRIVILEGES";
         };
       }];
-      ensureDatabases = [ "attic" ];
+      ensureDatabases = [ "atticd" ];
     };
 
     services.atticd = {
@@ -49,7 +49,7 @@ let cfg = config.lounge-rocks.attic.server; in
           endpoint = "https://s3.us-east-005.backblazeb2.com";
         };
 
-        database.url = "pqsql:dbname=attic;host=/run/postgresql;port=5442";
+        database.url = "postgresql:///atticd?user=atticd&host=/run/postgresql";
 
         compression.type = "zstd";
 
