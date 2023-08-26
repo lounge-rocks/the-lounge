@@ -14,6 +14,17 @@ let cfg = config.lounge-rocks.attic.server; in
     # https://docs.attic.rs/admin-guide/deployment/nixos.html
     # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
 
+    services.postgresql = {
+      enable = true;
+      ensureUsers = [{
+        name = "attic";
+        ensurePermissions = {
+          "DATABASE attic" = "ALL PRIVILEGES";
+        };
+      }];
+      ensureDatabases = [ "attic" ];
+    };
+
     services.atticd = {
       enable = true;
 
@@ -25,22 +36,22 @@ let cfg = config.lounge-rocks.attic.server; in
       credentialsFile = config.sops.secrets."woodpecker/attic-envfile".path;
 
       settings = {
+
         # available options:
         # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
-
-        # listen = "127.0.0.1:7373";
-        # api-endpoint = "https://attic.lounge.rocks/";
+        listen = "127.0.0.1:7373";
+        api-endpoint = "https://cache.lounge.rocks/";
 
         storage = {
           type = "s3";
-          region = "eu-central-1";
+          region = "us-east";
           bucket = "attic";
-          endpoint = "https://s3.lounge.rocks";
+          endpoint = "https://s3.us-east-005.backblazeb2.com";
         };
 
-        compression = {
-          type = "zstd";
-        };
+        database.url = "pqsql:dbname=attic;host=/run/postgresql;port=5442";
+
+        compression.type = "zstd";
 
         garbage-collection = {
           interval = "12 hours";
@@ -48,7 +59,6 @@ let cfg = config.lounge-rocks.attic.server; in
         };
 
         # Data chunking
-        #
         # Warning: If you change any of the values here, it will be
         # difficult to reuse existing chunks for newly-uploaded NARs
         # since the cutpoints will be different. As a result, the
