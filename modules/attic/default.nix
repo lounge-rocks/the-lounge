@@ -1,12 +1,12 @@
 { lib, config, attic, ... }:
 with lib;
-let cfg = config.lounge-rocks.attic.server; in
+let cfg = config.lounge-rocks.attic; in
 {
 
   imports = [ attic.nixosModules.atticd ];
 
-  options.lounge-rocks.attic.server = {
-    enable = mkEnableOption "enable attic server";
+  options.lounge-rocks.attic = {
+    enable = mkEnableOption "attic server";
   };
 
   config = mkIf cfg.enable {
