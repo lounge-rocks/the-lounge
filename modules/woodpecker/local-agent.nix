@@ -24,7 +24,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
         environment = {
           WOODPECKER_BACKEND = "local";
           WOODPECKER_SERVER = "127.0.0.1:9000";
-          WOODPECKER_MAX_WORKFLOWS = "10";
+          WOODPECKER_MAX_WORKFLOWS = "1";
           WOODPECKER_FILTER_LABELS = "type=exec";
           WOODPECKER_HEALTHCHECK = "false";
           NIX_REMOTE = "daemon";
