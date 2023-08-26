@@ -67,7 +67,7 @@ in {
           "nix-cache:4FILs79Adxn/798F8qk2PC1U8HaTlaPqptwNJrXNA1g="
         ];
         substituters = mkIf (cfg.disable-cache != true) [
-          "https://cache.lounge.rocks"
+          "https://cache.lounge.rocks/nix-cache"
         ];
         # Save space by hardlinking store files
         auto-optimise-store = true;
