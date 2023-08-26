@@ -12,12 +12,8 @@
 ```nix
 { config, ... }: {
   nix = {
-    binaryCachePublicKeys =
-      [ "cache.lounge.rocks:uXa8UuAEQoKFtU8Om/hq6d7U+HgcrduTVr8Cfl6JuaY=" ];
-    binaryCaches =
-      [ "https://cache.nixos.org" "https://cache.lounge.rocks?priority=50" ];
-    trustedBinaryCaches =
-      [ "https://cache.nixos.org" "https://cache.lounge.rocks" ];
+    trusted-public-keys = [ "nix-cache:4FILs79Adxn/798F8qk2PC1U8HaTlaPqptwNJrXNA1g=" ];
+    substituters = [ "https://cache.lounge.rocks/nix-cache" ];
   };
 }
 ```
