@@ -8,15 +8,6 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    ### User repositories (mainly used for users / keys)
-
-    # https://github.com/mayniklas/nixos
-    # MayNiklas NixOS modules
-    mayniklas = {
-      url = "github:mayniklas/nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     ### Tools for managing NixOS
 
     # https://github.com/nix-community/disko
@@ -104,7 +95,6 @@
             specialArgs = { flake-self = self; } // inputs;
 
             modules = builtins.attrValues self.nixosModules ++ [
-              mayniklas.nixosModules.user
               sops-nix.nixosModules.sops
               (import "${./.}/machines/${x}/configuration.nix" { inherit self; })
             ];

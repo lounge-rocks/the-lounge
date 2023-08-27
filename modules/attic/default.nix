@@ -28,6 +28,8 @@ let cfg = config.lounge-rocks.attic; in
     services.atticd = {
       enable = true;
 
+      # TODO: document all the secrets we put in our envfile
+
       # Secrets:
       # ATTIC_SERVER_TOKEN_HS256_SECRET_BASE64="output from openssl"
       # openssl rand 64 | base64 -w0

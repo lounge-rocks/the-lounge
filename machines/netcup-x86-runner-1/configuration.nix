@@ -14,6 +14,7 @@
     nix-build-signature.enable = true;
     nix-common.enable = true;
     tailscale.enable = true;
+    users.MayNiklas.root = true;
   };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -27,8 +28,6 @@
       }];
     };
   };
-
-  mayniklas = { user.root.enable = true; };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
