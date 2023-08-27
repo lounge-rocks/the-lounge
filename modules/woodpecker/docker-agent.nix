@@ -9,18 +9,21 @@ let cfg = config.lounge-rocks.woodpecker.docker-agent; in
 
   config = mkIf cfg.enable {
 
+    # Shared secrets file
+    sops.secrets.agent-envfile.sopsFile = ../../secrets/woodpecker-agents.yaml;
+
     services.woodpecker-agents = {
       agents.docker = {
         enable = true;
         environment = {
-          WOODPECKER_SERVER = "127.0.0.1:9000";
+          WOODPECKER_SERVER = "100.65.12.86:9000";
           WOODPECKER_MAX_WORKFLOWS = "1";
           WOODPECKER_BACKEND = "docker";
           WOODPECKER_FILTER_LABELS = "type=docker";
           WOODPECKER_HEALTHCHECK = "false";
         };
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
-        environmentFile = [ config.sops.secrets."woodpecker/agent-envfile".path ];
+        environmentFile = [ config.sops.secrets.agent-envfile.path ];
         extraGroups = [ "docker" ];
       };
     };

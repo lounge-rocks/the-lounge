@@ -45,6 +45,9 @@ in {
       };
     };
 
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts =
+      mkIf config.services.tailscale.enable [ 9000 ];
+
   };
 
 }
