@@ -5,6 +5,7 @@
   lounge-rocks = {
     cloud-provider.proxmox.enable = true;
     nix-common.enable = true;
+    tailscale.enable = true;
     users.MayNiklas.root = true;
   };
 

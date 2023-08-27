@@ -12,9 +12,9 @@ in {
 
     services.tailscale = {
       enable = true;
+      # port = 39140;
       interfaceName = "tailscale0";
       package = pkgs.tailscale;
-      port = 39140;
     };
 
     # strict reverse path filtering breaks Tailscale exit node use and some subnet routing setups

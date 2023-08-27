@@ -34,6 +34,7 @@
       interface = "enp1s0";
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
+    tailscale.enable = true;
     nix-common.enable = true;
     attic.enable = true;
     # woodpecker.docker-agent.enable = true;
