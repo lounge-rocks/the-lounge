@@ -13,7 +13,7 @@ let cfg = config.lounge-rocks.woodpecker.docker-agent; in
       agents.docker = {
         enable = true;
         environment = {
-          WOODPECKER_SERVER = "127.0.0.1:9000";
+          WOODPECKER_SERVER = "100.65.12.86:9000";
           WOODPECKER_MAX_WORKFLOWS = "1";
           WOODPECKER_BACKEND = "docker";
           WOODPECKER_FILTER_LABELS = "type=docker";
