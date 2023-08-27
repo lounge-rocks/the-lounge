@@ -3,7 +3,14 @@ keys:
   - &user_pinpox_new 3D65EA322A8D9D6FB657DF2EA5BCEFD22D30118A
   - &server_stuart age1tunq67775pgaupjt2lapt8gv6m4my9v7y44rn3asyxzpmu5tf9lsmh50vc
   - &server_woodpecker_server age1l7u4nf4sszhnnvpvagsvh3v3gv0m03zcfytlvmms5fgevmkyrpmqzeq4y2
+  - &server_woodpecker-agent-x86-1 age1qhr2tsknjhgzzsx6u0wuqkn3tke7xemyxykw094vx3hswly6g3mqj0ccmz
 creation_rules:
+  - path_regex: secrets/woodpecker-agent-x86-1/[^/]+\.yaml$
+    key_groups:
+    - pgp:
+      - *user_pinpox_new
+      age:
+      - *server_woodpecker-agent-x86-1
   - path_regex: secrets/stuart/[^/]+\.yaml$
     key_groups:
     - pgp:
@@ -17,3 +24,9 @@ creation_rules:
       - *user_pinpox_new
       age:
       - *server_woodpecker_server
+  - path_regex: secrets/woodpecker-agents.yaml$ # Shared between runners
+    key_groups:
+    - pgp:
+      - *user_pinpox_new
+      age:
+      - *server_woodpecker-agent-x86-1

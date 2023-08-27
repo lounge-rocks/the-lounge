@@ -13,14 +13,16 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     programs.git.enable = true;
     programs.git.lfs.enable = true;
 
+    # Shared secrets file
+    sops.secrets.agent-envfile.sopsFile = ../../secrets/woodpecker-agents.yaml;
+
     # local runner
     services.woodpecker-agents.agents = {
       exec = {
         enable = true;
         # package = pkgs.lounge-rocks.woodpecker-agent;
-
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
-        environmentFile = [ config.sops.secrets."woodpecker/agent-envfile".path ];
+        environmentFile = [ config.sops.secrets.agent-envfile.path ];
         environment = {
           WOODPECKER_BACKEND = "local";
           WOODPECKER_SERVER = "100.65.12.86:9000";
