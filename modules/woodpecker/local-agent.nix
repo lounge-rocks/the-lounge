@@ -50,9 +50,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
           "/etc/passwd:/etc/passwd"
           "/etc/group:/etc/group"
           "/etc/nix:/etc/nix"
-          "${
-config.environment.etc."ssh/ssh_known_hosts".source
-}:/etc/ssh/ssh_known_hosts"
+          "${config.environment.etc."ssh/ssh_known_hosts".source}:/etc/ssh/ssh_known_hosts"
           "/etc/machine-id"
           # channels are dynamic paths in the nix store, therefore we need to bind mount the whole thing
           "/nix/"
@@ -81,8 +79,8 @@ config.environment.etc."ssh/ssh_known_hosts".source
     # fixes builds that are failing due to lack of disk space on tmpfs
     # 'note: build failure may have been caused by lack of free disk space'
     boot.tmp.cleanOnBoot = true;
-    boot.tmp.tmpfsSize = "4G";
     boot.tmp.useTmpfs = true;
+    boot.tmp.tmpfsSize = "16G";
 
   };
 
