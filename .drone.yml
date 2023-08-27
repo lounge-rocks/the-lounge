@@ -24,8 +24,8 @@ steps:
       - nix flake check
 
 trigger:
-  # branch:
-  #   - main
+  branch:
+    - main
   event:
     - push
 
@@ -80,8 +80,8 @@ steps:
         from_secret: aws_secret
 
 trigger:
-  # branch:
-  #   - main
+  branch:
+    - main
   event:
     - push
 
@@ -114,7 +114,7 @@ steps:
         from_secret: aws_secret
 
 trigger:
-  # branch:
-  #   - main
+  branch:
+    - main
   event:
     - push
