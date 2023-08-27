@@ -42,8 +42,8 @@
     };
     nix-common.enable = true;
     attic.enable = true;
-    woodpecker.docker-agent.enable = true;
-    woodpecker.local-agent.enable = true;
+    # woodpecker.docker-agent.enable = true;
+    # woodpecker.local-agent.enable = true;
     woodpecker.pipeliner.enable = true;
     woodpecker.server.enable = true;
   };
