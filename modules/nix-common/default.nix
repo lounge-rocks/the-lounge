@@ -54,6 +54,8 @@ in {
         # the timeout (in seconds) for establishing connections in the binary cache substituter. 
         connect-timeout = 10
 
+        stalled-download-timeout = 10
+
         # these log lines are only shown on a failed build
         log-lines = 25
 
@@ -63,11 +65,11 @@ in {
       '';
       settings = {
         # binary cache -> build by DroneCI
-        trusted-public-keys = mkIf (cfg.disable-cache != true) [
-          "nix-cache:4FILs79Adxn/798F8qk2PC1U8HaTlaPqptwNJrXNA1g="
-        ];
         substituters = mkIf (cfg.disable-cache != true) [
           "https://cache.lounge.rocks/nix-cache"
+        ];
+        trusted-public-keys = mkIf (cfg.disable-cache != true) [
+          "nix-cache:4FILs79Adxn/798F8qk2PC1U8HaTlaPqptwNJrXNA1g="
         ];
         # Save space by hardlinking store files
         auto-optimise-store = true;
