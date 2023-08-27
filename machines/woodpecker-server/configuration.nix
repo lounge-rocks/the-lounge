@@ -8,7 +8,7 @@
   sops.secrets."woodpecker/attic-envfile" = { };
 
 
-  services.nginx.virtualHosts."cache.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.server.enable {
+  services.nginx.virtualHosts."cache.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.enable {
     addSSL = true;
     enableACME = true;
     locations."/" = {
