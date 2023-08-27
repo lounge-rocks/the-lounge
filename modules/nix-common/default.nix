@@ -54,6 +54,8 @@ in {
         # the timeout (in seconds) for establishing connections in the binary cache substituter. 
         connect-timeout = 10
 
+        stalled-download-timeout = 10
+
         # these log lines are only shown on a failed build
         log-lines = 25
 
@@ -61,22 +63,17 @@ in {
         min-free = ${toString (2 * 1024 * 1024 * 1024)}
         max-free = ${toString (5 * 1024 * 1024 * 1024)}
       '';
-      # binary cache -> build by DroneCI
-      settings.trusted-public-keys = mkIf (cfg.disable-cache != true) [
-        "the-lounge:pb6Cpef3NSdhUCyAL9OW2KiiEPlOX56ctNdKm11r2Ac="
-        "cache.lounge.rocks:uXa8UuAEQoKFtU8Om/hq6d7U+HgcrduTVr8Cfl6JuaY="
-      ];
-      settings.substituters = mkIf (cfg.disable-cache != true) [
-        "https://cache.nixos.org"
-        "https://attic.lounge.rocks/the-lounge"
-        "https://s3.lounge.rocks/nix-cache?priority=50"
-      ];
-      settings.trusted-substituters = mkIf (cfg.disable-cache != true) [
-        "https://cache.nixos.org"
-        "https://s3.lounge.rocks/nix-cache/"
-      ];
-      # Save space by hardlinking store files
-      settings.auto-optimise-store = true;
+      settings = {
+        # binary cache -> build by DroneCI
+        substituters = mkIf (cfg.disable-cache != true) [
+          "https://cache.lounge.rocks/nix-cache"
+        ];
+        trusted-public-keys = mkIf (cfg.disable-cache != true) [
+          "nix-cache:4FILs79Adxn/798F8qk2PC1U8HaTlaPqptwNJrXNA1g="
+        ];
+        # Save space by hardlinking store files
+        auto-optimise-store = true;
+      };
       # Clean up old generations after 30 days
       gc = {
         automatic = true;

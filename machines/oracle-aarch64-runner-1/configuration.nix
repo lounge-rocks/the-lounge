@@ -14,11 +14,10 @@
     nix-build-signature.enable = true;
     nix-common.enable = true;
     tailscale.enable = true;
+    users.MayNiklas.root = true;
   };
 
   networking = { hostName = "oracle-aarch64-runner-1"; };
-
-  mayniklas = { user.root.enable = true; };
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 

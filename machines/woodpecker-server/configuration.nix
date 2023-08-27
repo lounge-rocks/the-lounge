@@ -7,12 +7,8 @@
   sops.secrets."woodpecker/agent-envfile" = { };
   sops.secrets."woodpecker/attic-envfile" = { };
 
-  services.atticd.settings = {
-    listen = "127.0.0.1:7373";
-    api-endpoint = "https://attic.lounge.rocks/";
-  };
 
-  services.nginx.virtualHosts."attic.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.server.enable {
+  services.nginx.virtualHosts."cache.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.enable {
     addSSL = true;
     enableACME = true;
     locations."/" = {
@@ -28,20 +24,20 @@
     hostName = "woodpecker-server";
   };
 
-  # General stuff
-  mayniklas.user.root.enable = true;
-  pinpox.services.openssh.enable = true;
-
   lounge-rocks = {
+    users = {
+      MayNiklas.root = true;
+      pinpox.root = true;
+    };
     cloud-provider.hetzner = {
       enable = true;
       interface = "enp1s0";
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
     nix-common.enable = true;
-    attic.server.enable = true;
-    woodpecker.docker-agent.enable = true;
-    woodpecker.local-agent.enable = true;
+    attic.enable = true;
+    # woodpecker.docker-agent.enable = true;
+    # woodpecker.local-agent.enable = true;
     woodpecker.pipeliner.enable = true;
     woodpecker.server.enable = true;
   };

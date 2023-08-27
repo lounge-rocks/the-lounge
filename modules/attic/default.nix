@@ -1,12 +1,12 @@
 { lib, config, attic, ... }:
 with lib;
-let cfg = config.lounge-rocks.attic.server; in
+let cfg = config.lounge-rocks.attic; in
 {
 
   imports = [ attic.nixosModules.atticd ];
 
-  options.lounge-rocks.attic.server = {
-    enable = mkEnableOption "enable attic server";
+  options.lounge-rocks.attic = {
+    enable = mkEnableOption "attic server";
   };
 
   config = mkIf cfg.enable {
@@ -14,8 +14,21 @@ let cfg = config.lounge-rocks.attic.server; in
     # https://docs.attic.rs/admin-guide/deployment/nixos.html
     # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
 
+    services.postgresql = {
+      enable = true;
+      ensureUsers = [{
+        name = "atticd";
+        ensurePermissions = {
+          "DATABASE atticd" = "ALL PRIVILEGES";
+        };
+      }];
+      ensureDatabases = [ "atticd" ];
+    };
+
     services.atticd = {
       enable = true;
+
+      # TODO: document all the secrets we put in our envfile
 
       # Secrets:
       # ATTIC_SERVER_TOKEN_HS256_SECRET_BASE64="output from openssl"
@@ -25,22 +38,22 @@ let cfg = config.lounge-rocks.attic.server; in
       credentialsFile = config.sops.secrets."woodpecker/attic-envfile".path;
 
       settings = {
+
         # available options:
         # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
-
-        # listen = "127.0.0.1:7373";
-        # api-endpoint = "https://attic.lounge.rocks/";
+        listen = "127.0.0.1:7373";
+        api-endpoint = "https://cache.lounge.rocks/";
 
         storage = {
           type = "s3";
-          region = "eu-central-1";
-          bucket = "attic";
-          endpoint = "https://s3.lounge.rocks";
+          region = "us-east-005";
+          bucket = "lounge-rocks-cache";
+          endpoint = "https://s3.us-east-005.backblazeb2.com";
         };
 
-        compression = {
-          type = "zstd";
-        };
+        database.url = "postgresql:///atticd?user=atticd&host=/run/postgresql";
+
+        compression.type = "zstd";
 
         garbage-collection = {
           interval = "12 hours";
@@ -48,7 +61,6 @@ let cfg = config.lounge-rocks.attic.server; in
         };
 
         # Data chunking
-        #
         # Warning: If you change any of the values here, it will be
         # difficult to reuse existing chunks for newly-uploaded NARs
         # since the cutpoints will be different. As a result, the

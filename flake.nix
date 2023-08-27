@@ -8,28 +8,6 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    ### User repositories (mainly used for users / keys)
-
-    # https://github.com/mayniklas/nixos
-    # MayNiklas NixOS modules
-    mayniklas = {
-      url = "github:mayniklas/nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # https://github.com/pinpox/nixos
-    # pinpox NixOS modules
-    pinpox = {
-      url = "github:pinpox/nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # for some reason this needs to be present for the pinpox keys module to work
-    pinpox-keys = {
-      url = "https://github.com/pinpox.keys";
-      flake = false;
-    };
-
     ### Tools for managing NixOS
 
     # https://github.com/nix-community/disko
@@ -117,8 +95,6 @@
             specialArgs = { flake-self = self; } // inputs;
 
             modules = builtins.attrValues self.nixosModules ++ [
-              mayniklas.nixosModules.user
-              pinpox.nixosModules.openssh
               sops-nix.nixosModules.sops
               (import "${./.}/machines/${x}/configuration.nix" { inherit self; })
             ];

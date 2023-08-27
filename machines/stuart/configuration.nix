@@ -1,13 +1,14 @@
 { self, ... }:
 { pkgs, lib, config, ... }: {
 
-  mayniklas.user.root.enable = true;
-  pinpox.services.openssh.enable = true;
-
   lounge-rocks = {
     cloud-provider.oracle.enable = true;
     nix-build-signature.enable = true;
     nix-common.enable = true;
+    users = {
+      MayNiklas.root = true;
+      pinpox.root = true;
+    };
   };
 
   sops.defaultSopsFile = ../../secrets/stuart/secrets.yaml;

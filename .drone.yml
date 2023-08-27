@@ -39,13 +39,17 @@ platform:
   arch: arm64
 
 steps:
-  - name: init attic
+  - name: login into attic
     commands:
-      - attic --version
+      - attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default
+    environment:
+      ATTIC_KEY:
+        from_secret: attic_key
 
   - name: Build oracle-aarch64-runner-1
     commands:
       - nix build '.#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel'
+      - attic push nix-cache $(nix build --print-out-paths --no-link .#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel)
       - nix run .#s3uploader $(readlink result)
     environment:
       AWS_ACCESS_KEY_ID:
@@ -56,6 +60,7 @@ steps:
   - name: Build stuart
     commands:
       - nix build '.#nixosConfigurations.stuart.config.system.build.toplevel'
+      - attic push nix-cache $(nix build --print-out-paths --no-link .#nixosConfigurations.stuart.config.system.build.toplevel)
       - nix run .#s3uploader $(readlink result)
     environment:
       AWS_ACCESS_KEY_ID:
@@ -66,6 +71,7 @@ steps:
   - name: Build woodpecker-server
     commands:
       - nix build '.#nixosConfigurations.woodpecker-server.config.system.build.toplevel'
+      - attic push nix-cache $(nix build --print-out-paths --no-link .#nixosConfigurations.woodpecker-server.config.system.build.toplevel)
       - nix run .#s3uploader $(readlink result)
     environment:
       AWS_ACCESS_KEY_ID:
@@ -89,13 +95,17 @@ platform:
   arch: amd64
 
 steps:
-  - name: init attic
+  - name: login into attic
     commands:
-      - attic --version
+      - attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default
+    environment:
+      ATTIC_KEY:
+        from_secret: attic_key
 
   - name: Build netcup-x86-runner-1
     commands:
       - nix build '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel'
+      - attic push nix-cache $(nix build --print-out-paths --no-link .#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel)
       - nix run .#s3uploader $(readlink result)
     environment:
       AWS_ACCESS_KEY_ID:
