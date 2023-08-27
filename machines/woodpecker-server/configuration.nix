@@ -14,7 +14,7 @@
     locations."/" = {
       proxyPass = "http://127.0.0.1:7373";
       extraConfig = ''
-        client_max_body_size 1024m;
+        client_max_body_size 8192m;
       '';
     };
   };
