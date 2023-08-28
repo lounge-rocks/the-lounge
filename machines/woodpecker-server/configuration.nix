@@ -19,11 +19,6 @@
     };
   };
 
-  networking = {
-    firewall.allowedTCPPorts = [ 22 ];
-    hostName = "woodpecker-server";
-  };
-
   lounge-rocks = {
     users = {
       MayNiklas.root = true;
@@ -37,10 +32,13 @@
     tailscale.enable = true;
     nix-common.enable = true;
     attic.enable = true;
-    # woodpecker.docker-agent.enable = true;
-    # woodpecker.local-agent.enable = true;
     woodpecker.pipeliner.enable = true;
     woodpecker.server.enable = true;
+  };
+
+  networking = {
+    firewall.allowedTCPPorts = [ 22 ];
+    hostName = "woodpecker-server";
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
