@@ -7,18 +7,6 @@
   sops.secrets."woodpecker/agent-envfile" = { };
   sops.secrets."woodpecker/attic-envfile" = { };
 
-
-  services.nginx.virtualHosts."cache.lounge.rocks" = lib.mkIf config.lounge-rocks.attic.enable {
-    addSSL = true;
-    enableACME = true;
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:7373";
-      extraConfig = ''
-        client_max_body_size 8192m;
-      '';
-    };
-  };
-
   lounge-rocks = {
     users = {
       MayNiklas.root = true;

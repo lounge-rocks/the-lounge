@@ -7,12 +7,28 @@ let cfg = config.lounge-rocks.attic; in
 
   options.lounge-rocks.attic = {
     enable = mkEnableOption "attic server";
+    host = mkOption {
+      type = types.str;
+      default = "cache.lounge.rocks";
+      description = "The hostname of the attic server";
+    };
   };
 
   config = mkIf cfg.enable {
 
     # https://docs.attic.rs/admin-guide/deployment/nixos.html
     # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
+
+    services.nginx.virtualHosts."${cfg.host}" = {
+      addSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:7373";
+        extraConfig = ''
+          client_max_body_size 8192m;
+        '';
+      };
+    };
 
     services.postgresql = {
       enable = true;
@@ -42,7 +58,7 @@ let cfg = config.lounge-rocks.attic; in
         # available options:
         # https://github.com/zhaofengli/attic/blob/main/server/src/config-template.toml
         listen = "127.0.0.1:7373";
-        api-endpoint = "https://cache.lounge.rocks/";
+        api-endpoint = "https://${cfg.host}/";
 
         storage = {
           type = "s3";
