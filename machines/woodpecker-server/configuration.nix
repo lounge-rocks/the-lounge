@@ -22,6 +22,7 @@
     attic.enable = true;
     woodpecker.pipeliner.enable = true;
     woodpecker.server.enable = true;
+    woodpecker.log = "trace";
   };
 
   networking = {
