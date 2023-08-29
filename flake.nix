@@ -65,6 +65,10 @@
       # is is possible to inherit all packages from nixpkgsFor.${system}.lounge-rocks?
       # this would be much cleaner since we would not need to list all packages here
       packages = forAllSystems (system: {
+        woodpecker-pipeline = nixpkgsFor.${system}.callPackage ./pkgs/woodpecker-pipeline {
+          inputs = inputs;
+          flake-self = self;
+        };
         inherit (nixpkgsFor.${system}.lounge-rocks)
           s3uploader
           woodpecker-agent
