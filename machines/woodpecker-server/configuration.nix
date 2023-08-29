@@ -21,7 +21,7 @@
     # nginx.geoIP = true;
     nix-common.enable = true;
     tailscale.enable = true;
-    # woodpecker.pipeliner.enable = true;
+    # woodpecker.pipeliner.enable = true; # TODO fix
     woodpecker.server.enable = true;
     woodpecker.log = "trace";
   };
