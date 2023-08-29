@@ -14,26 +14,11 @@ in {
     # enable our base module that is common across all providers
     lounge-rocks.cloud-provider.enable = true;
 
+    ### aarch64-linux specific configuration ###
     boot = {
-      loader.grub = {
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        device = "nodev";
-      };
-      tmp.cleanOnBoot = true;
-      initrd.kernelModules = [ "nvme" ];
+      kernelParams = lib.optionals (config.nixpkgs.hostPlatform.system == "aarch64-linux") [ ];
+      initrd.kernelModules = lib.optionals (config.nixpkgs.hostPlatform.system == "aarch64-linux") [ ];
     };
-    zramSwap.enable = true;
 
-    fileSystems = {
-      "/boot" = {
-        device = "/dev/disk/by-label/UEFI";
-        fsType = "vfat";
-      };
-      "/" = {
-        device = "/dev/disk/by-label/cloudimg-rootfs";
-        fsType = "ext4";
-      };
-    };
   };
 }
