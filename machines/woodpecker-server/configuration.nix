@@ -21,9 +21,9 @@
     # nginx.geoIP = true;
     nix-common.enable = true;
     tailscale.enable = true;
-    woodpecker.log = "trace";
     # woodpecker.pipeliner.enable = true;
     woodpecker.server.enable = true;
+    woodpecker.log = "trace";
   };
 
   networking = {
