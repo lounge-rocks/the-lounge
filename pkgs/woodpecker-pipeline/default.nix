@@ -1,3 +1,4 @@
+# nix build .#woodpecker-pipeline && cat result| jq '.configs[].data' -r | jq > .woodpecker.yaml
 { pkgs, flake-self, inputs }:
 with pkgs;
 writeText "pipeline" (builtins.toJSON {
@@ -30,7 +31,7 @@ writeText "pipeline" (builtins.toJSON {
               (host:
                 # only build hosts for the arch we are currently building
                 if
-                  (flake-self.nixosConfigurations.${host}.pkgs.stdenv.hostPlatform != arch) then
+                  (flake-self.nixosConfigurations.${host}.pkgs.stdenv.hostPlatform.system != arch) then
                   [ ]
                 else [
                   {
