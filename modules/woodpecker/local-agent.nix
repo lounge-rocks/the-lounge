@@ -80,7 +80,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     # 'note: build failure may have been caused by lack of free disk space'
     boot.tmp.cleanOnBoot = true;
     boot.tmp.useTmpfs = true;
-    boot.tmp.tmpfsSize = "16G";
+    boot.tmp.tmpfsSize = "24G";
 
   };
 
