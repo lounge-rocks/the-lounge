@@ -25,6 +25,8 @@ in {
         proxyPass = "http://127.0.0.1:8000";
         extraConfig = toString (
           optional config.lounge-rocks.nginx.geoIP ''
+            set $allowed 0;
+
             if ($allowed_country = 1) {
                 set $allowed 1;
             }
