@@ -65,6 +65,26 @@ in
           ''
         ]
       );
+      # woodpecker server
+      virtualHosts."${config.lounge-rocks.woodpecker.server.hostName}" = mkIf config.lounge-rocks.woodpecker.server {
+        extraConfig = toString (
+          optional config.lounge-rocks.nginx.geoIP ''
+            set $allowed 0;
+
+            if ($allowed_country = yes) {
+                set $allowed 1;
+            }
+
+            if ($allowed_github = yes) {
+                set $allowed 1;
+            }
+
+            if ($allowed = 0) {
+                return 403;
+            }
+          ''
+        );
+      };
     };
 
   };
