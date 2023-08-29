@@ -17,12 +17,13 @@
       interface = "enp1s0";
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
-    tailscale.enable = true;
-    nix-common.enable = true;
     attic.enable = true;
-    woodpecker.pipeliner.enable = true;
-    woodpecker.server.enable = true;
+    nginx.geoIP = true;
+    nix-common.enable = true;
+    tailscale.enable = true;
     woodpecker.log = "trace";
+    # woodpecker.pipeliner.enable = true;
+    woodpecker.server.enable = true;
   };
 
   networking = {

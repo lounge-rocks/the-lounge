@@ -23,6 +23,13 @@ in {
       enableACME = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8000";
+        extraConfig = toString (
+          optional config.lounge-rocks.nginx.geoIP ''
+            if ($allowed_country = no) {
+                return 444;
+            }
+          ''
+        );
       };
     };
 
