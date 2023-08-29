@@ -27,12 +27,14 @@ in {
           optional config.lounge-rocks.nginx.geoIP ''
             set $allowed 0;
 
-            if ($allowed_country = 1) {
+            if ($allowed_country = yes) {
                 set $allowed 1;
             }
-            if ($allowed_github = 1) {
+
+            if ($allowed_github = yes) {
                 set $allowed 1;
             }
+
             if ($allowed = 0) {
                 return 403;
             }
