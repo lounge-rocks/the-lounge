@@ -1,3 +1,4 @@
+# nix build .\#woodpecker-pipeline && cp result .woodpecker/build-hosts.yml
 { pkgs, flake-self, inputs }:
 with pkgs;
 writeText "pipeline" (builtins.toJSON {
