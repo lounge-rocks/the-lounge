@@ -58,7 +58,7 @@ in
           # we want to allow requests comming from GitHub IPs
           # if a request is not from GitHub, we return no, which will result in a 403
           ''
-            map $remote_addr $allowed_github {
+            geo $allowed_github {
               default no;
               ${lib.concatStringsSep "\n" (map (ip: "${ip} yes;") github-IPs)}
             }
@@ -66,7 +66,7 @@ in
         ]
       );
       # woodpecker server
-      virtualHosts."${config.lounge-rocks.woodpecker.server.hostName}" = mkIf config.lounge-rocks.woodpecker.server {
+      virtualHosts."${config.lounge-rocks.woodpecker.server.hostName}" = mkIf config.lounge-rocks.woodpecker.server.enable {
         extraConfig = toString (
           optional config.lounge-rocks.nginx.geoIP ''
             set $allowed 0;
