@@ -18,7 +18,7 @@
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
     attic.enable = true;
-    nginx.geoIP = true;
+    # nginx.geoIP = true;
     nix-common.enable = true;
     tailscale.enable = true;
     woodpecker.log = "trace";

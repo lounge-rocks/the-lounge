@@ -23,6 +23,7 @@ in {
       enableACME = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8000";
+        # TODO: always accept connections from GitHub IPs
         extraConfig = toString (
           optional config.lounge-rocks.nginx.geoIP ''
             if ($allowed_country = no) {
