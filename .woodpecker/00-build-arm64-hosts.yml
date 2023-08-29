@@ -10,17 +10,20 @@ pipeline:
       - attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default
     secrets: [attic_key]
 
-  - name: build and push oracle-aarch64-runner-1
-    image: bash
-    commands:
-      - attic push nix-cache $(nix build --print-out-paths --no-link .\#nixosConfigurations.oracle-aarch64-runner-1.config.system.build.toplevel)
-
   - name: build and push stuart
     image: bash
     commands:
-      - attic push nix-cache $(nix build --print-out-paths --no-link .\#nixosConfigurations.stuart.config.system.build.toplevel)
+      - nix build '.#nixosConfigurations.stuart.config.system.build.toplevel'
+      - attic push nix-cache ./result
+
+  - name: build and push woodpecker-agent-x86-1
+    image: bash
+    commands:
+      - nix build '.#nixosConfigurations.woodpecker-agent-x86-1.config.system.build.toplevel'
+      - attic push nix-cache ./result
 
   - name: build and push woodpecker-server
     image: bash
     commands:
-      - attic push nix-cache $(nix build --print-out-paths --no-link .\#nixosConfigurations.woodpecker-server.config.system.build.toplevel)
+      - nix build '.#nixosConfigurations.woodpecker-server.config.system.build.toplevel'
+      - attic push nix-cache ./result
