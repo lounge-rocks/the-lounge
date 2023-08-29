@@ -2,40 +2,6 @@
   "labels": {
     "backend": "local"
   },
-  "platform": "linux/amd64",
-  "steps": [
-    {
-      "commands": [
-        "attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default"
-      ],
-      "image": "bash",
-      "name": "Setup Attic",
-      "secrets": [
-        "attic_key"
-      ]
-    },
-    {
-      "commands": [
-        "nix build '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel' -o 'result-netcup-x86-runner-1'",
-        "attic push lounge-rocks:nix-cache 'result-netcup-x86-runner-1'"
-      ],
-      "image": "bash",
-      "name": "Build configuration for netcup-x86-runner-1"
-    },
-    {
-      "commands": [
-        "nix build '.#nixosConfigurations.woodpecker-agent-x86-1.config.system.build.toplevel' -o 'result-woodpecker-agent-x86-1'",
-        "attic push lounge-rocks:nix-cache 'result-woodpecker-agent-x86-1'"
-      ],
-      "image": "bash",
-      "name": "Build configuration for woodpecker-agent-x86-1"
-    }
-  ]
-}
-{
-  "labels": {
-    "backend": "local"
-  },
   "platform": "linux/arm64",
   "steps": [
     {
