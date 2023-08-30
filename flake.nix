@@ -24,12 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Used for allowing GitHub webhooks to trigger our CI
-    github-meta = {
-      url = "https://api.github.com/meta";
-      flake = false;
-    };
-
     ### Applications from outside nixpkgs
 
     # https://github.com/zhaofengli/attic
