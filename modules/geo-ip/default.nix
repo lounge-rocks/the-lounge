@@ -46,6 +46,11 @@ in
             map $geoip2_data_country_iso_code $allowed_country {
               default no;
               DE yes;
+              ES yes;
+              FR yes;
+              GB yes;
+              IT yes;
+              NL yes;
             }
           ''
           # we want to allow GitHub webhooks to trigger our CI
