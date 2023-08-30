@@ -223,6 +223,18 @@
         "type": "github"
       }
     },
+    "github-meta": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-LqHXBfJQT4yqoGV2GmSW0YGkm6h62JZb6Y1c9YvOZjE=",
+        "type": "file",
+        "url": "https://api.github.com/meta"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://api.github.com/meta"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -462,6 +474,7 @@
         "cachix": "cachix",
         "disko": "disko",
         "flake-pipeliner": "flake-pipeliner",
+        "github-meta": "github-meta",
         "nixpkgs": "nixpkgs_4",
         "sops-nix": "sops-nix"
       }
