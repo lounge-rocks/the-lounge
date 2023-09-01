@@ -20,8 +20,8 @@ let cfg = config.lounge-rocks.attic; in
     # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix
 
     services.nginx.virtualHosts."${cfg.host}" = {
-      addSSL = true;
       enableACME = true;
+      forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:7373";
         extraConfig = ''

@@ -19,8 +19,8 @@ in {
 
     # reverse proxy
     services.nginx.virtualHosts."${cfg.hostName}" = {
-      addSSL = true;
       enableACME = true;
+      forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8000";
       };
