@@ -1,5 +1,5 @@
 { self, ... }:
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
 
   lounge-rocks = {
     cloud-provider.netcup.enable = true;
@@ -17,9 +17,15 @@
     users.MayNiklas.root = true;
   };
 
+  lollypops.deployment.ssh = {
+    user = "root";
+    host = "${config.networking.fqdn}";
+  };
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   networking = {
+    domain = "lounge.rocks";
     hostName = "netcup-x86-runner-1";
     interfaces.ens3 = {
       ipv6.addresses = [{

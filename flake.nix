@@ -24,6 +24,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # https://github.com/pinpox/lollypops/
+    # NixOS Deployment Tool
+    lollypops = {
+      url = "github:pinpox/lollypops";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ### Applications from outside nixpkgs
 
     # https://github.com/zhaofengli/attic
@@ -77,6 +84,12 @@
           ;
       });
 
+      apps = forAllSystems (system: {
+        # nix run .\#lollypops -- --list-all
+        # nix run .\#lollypops -- --parallel woodpecker-agent-aarch64-1 woodpecker-agent-x86-1 woodpecker-server 
+        lollypops = lollypops.apps.${system}.default { configFlake = self; };
+      });
+
       nixosModules = builtins.listToAttrs (map
         (x: {
           name = x;
@@ -99,6 +112,7 @@
             specialArgs = { flake-self = self; } // inputs;
 
             modules = builtins.attrValues self.nixosModules ++ [
+              lollypops.nixosModules.lollypops
               sops-nix.nixosModules.sops
               (import "${./.}/machines/${x}/configuration.nix" { inherit self; })
             ];

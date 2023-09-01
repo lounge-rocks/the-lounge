@@ -13,6 +13,11 @@
     };
   };
 
+  lollypops.deployment.ssh = {
+    user = "root";
+    host = "192.168.40.2";
+  };
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   networking.hostName = "woodpecker-agent-x86-1";
 

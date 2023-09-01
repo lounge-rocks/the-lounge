@@ -26,8 +26,15 @@
     woodpecker.log = "trace";
   };
 
+  lollypops.deployment.ssh = {
+    user = "root";
+    host = "hetzner-build-aarch64.lounge.rocks";
+    # host = "${config.networking.fqdn}";
+  };
+
   networking = {
     firewall.allowedTCPPorts = [ 22 ];
+    domain = "lounge.rocks";
     hostName = "woodpecker-server";
   };
 

@@ -14,7 +14,16 @@
   sops.defaultSopsFile = ../../secrets/stuart/secrets.yaml;
   sops.secrets."minio/env" = { restartUnits = [ "minio.service" ]; };
 
-  networking.hostName = "stuart";
+  lollypops.deployment.ssh = {
+    user = "root";
+    host = "s3.lounge.rocks";
+    # host = "${config.networking.fqdn}";
+  };
+
+  networking = {
+    domain = "lounge.rocks";
+    hostName = "stuart";
+  };
 
   networking.firewall.allowedTCPPorts = [ 443 80 ];
 
