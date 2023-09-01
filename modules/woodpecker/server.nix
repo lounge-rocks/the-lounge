@@ -37,10 +37,12 @@ in {
 
       environment = {
         WOODPECKER_HOST = "https://${cfg.hostName}";
-        WOODPECKER_OPEN = "false";
         WOODPECKER_GITHUB = "true";
-        WOODPECKER_ADMIN = "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
+        # https://woodpecker-ci.org/docs/administration/server-config/
+        # `only allow registration of users, who are members of approved organizations`
+        WOODPECKER_OPEN = "true";
         WOODPECKER_ORGS = "lounge-rocks";
+        WOODPECKER_ADMIN = "pinpox,MayNiklas"; # Add multiple users as "user1,user2"
         WOODPECKER_CONFIG_SERVICE_ENDPOINT = mkIf config.lounge-rocks.woodpecker.pipeliner.enable "http://127.0.0.1:8585";
         # WOODPECKER_FORGE_TIMEOUT = "30s";
         WOODPECKER_DEBUG_PRETTY = "true";
