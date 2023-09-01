@@ -6,8 +6,8 @@
 | -------------------------- | ------------ | -------- | ---------------------------------------- | ---------------------------------------- |
 | netcup-x86-runner-1        | netcup       | X86      | netcup-x86-runner-1.lounge.rocks         | drone-exec-runner<br>drone-docker-runner |
 | stuart                     | ORACLE CLOUD | ARM-64   | s3.lounge.rocks<br>minio.s3.lounge.rocks | minio (S3)                               |
-| woodpecker-agent-aarch64-1 | ORACLE CLOUD | ARM-64   | oracle-aarch64-runner-1.lounge.rocks     | wodpecke-agent                           |
-| woodpecker-agent-x86-1     | Proxmox PVE  | X86      |                                          | wodpecke-agent                           |
+| woodpecker-agent-aarch64-1 | ORACLE CLOUD | ARM-64   | oracle-aarch64-runner-1.lounge.rocks     | wodpecker-agent                          |
+| woodpecker-agent-x86-1     | Proxmox PVE  | X86      |                                          | wodpecker-agent                          |
 | woodpecker-server          | Hetzner      | ARM-64   | build.lounge.rocks<br>cache.lounge.rocks | wodpecker-{server,pipeliner}             |
 
 ### Using the binary cache
