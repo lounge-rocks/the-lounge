@@ -12,6 +12,15 @@ let cfg = config.lounge-rocks.attic; in
       default = "cache.lounge.rocks";
       description = "The hostname of the attic server";
     };
+
+    scaling-factor = mkOption {
+      type = types.int;
+      default = 1;
+      description = ''
+        The scaling factor for the chunking parameters.
+        The settings are multiplied by this factor.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
@@ -84,16 +93,16 @@ let cfg = config.lounge-rocks.attic; in
           #
           # If 0, chunking is disabled entirely for newly-uploaded NARs.
           # If 1, all NARs are chunked.
-          nar-size-threshold = 64 * 1024; # 64 KiB
+          nar-size-threshold = cfg.scaling-factor * 64 * 1024; # 64 KiB
 
           # The preferred minimum size of a chunk, in bytes
-          min-size = 16 * 1024; # 16 KiB
+          min-size = cfg.scaling-factor * 16 * 1024; # 16 KiB
 
           # The preferred average size of a chunk, in bytes
-          avg-size = 64 * 1024; # 64 KiB
+          avg-size = cfg.scaling-factor * 64 * 1024; # 64 KiB
 
           # The preferred maximum size of a chunk, in bytes
-          max-size = 256 * 1024; # 256 KiB
+          max-size = cfg.scaling-factor * 256 * 1024; # 256 KiB
         };
       };
     };
