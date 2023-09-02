@@ -17,7 +17,10 @@
       interface = "enp1s0";
       ipv6_address = "2a01:4f8:1c17:636f::";
     };
-    attic.enable = true;
+    attic = {
+      enable = true;
+      scaling-factor = 32;
+    };
     nginx.geoIP = true;
     nix-common.enable = true;
     tailscale.enable = true;
