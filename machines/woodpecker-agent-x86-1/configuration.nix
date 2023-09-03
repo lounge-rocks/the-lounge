@@ -19,6 +19,7 @@
   };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  swapDevices = [{ device = "/var/swapfile"; size = (1024 * 32); }];
   networking.hostName = "woodpecker-agent-x86-1";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
