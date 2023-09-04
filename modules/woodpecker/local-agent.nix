@@ -76,6 +76,10 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     # Allow user to run nix
     nix.settings.allowed-users = [ "woodpecker-agent" ];
 
+    # woodpecker-agent should not garbage collect the nix store
+    # since that would increase our S3 bill
+    lounge-rocks.nix-common.disable-garbage-collection = true;
+
     # fixes builds that are failing due to lack of disk space on tmpfs
     # 'note: build failure may have been caused by lack of free disk space'
     boot.tmp.cleanOnBoot = true;

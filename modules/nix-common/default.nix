@@ -8,6 +8,7 @@ in {
   options.lounge-rocks.nix-common = {
     enable = mkEnableOption "activate nix-common";
     disable-cache = mkEnableOption "not use binary-cache";
+    disable-garbage-collection = mkEnableOption "disable garbage collection";
   };
 
   config = mkIf cfg.enable {
@@ -75,7 +76,8 @@ in {
         auto-optimise-store = true;
       };
       # Clean up old generations after 30 days
-      gc = {
+      # Should not be enabled for CI runners, since it will increase our S3 costs
+      gc = mkIf (cfg.disable-garbage-collection != true) {
         automatic = true;
         dates = "weekly";
         options = "--delete-older-than 30d";
