@@ -104,6 +104,11 @@ let cfg = config.lounge-rocks.attic; in
           # The preferred maximum size of a chunk, in bytes
           max-size = cfg.scaling-factor * 256 * 1024; # 256 KiB
         };
+
+        compression = {
+          type = "zstd";
+        };
+
       };
     };
 
