@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
 
     # Install some basic utilities
-    environment.systemPackages = with pkgs; [ git htop nixfmt nixpkgs-fmt nil ];
+    environment.systemPackages = with pkgs; [ git htop nil nix-top nixfmt nixpkgs-fmt ];
 
     nixpkgs.overlays = [
       attic.overlays.default
