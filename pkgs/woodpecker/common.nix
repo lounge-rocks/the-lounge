@@ -2,7 +2,7 @@
 let
   version = "839c3b8a6d93714f3b3232308f2913cae212dedb";
   srcHash = "sha256-nTFfhSMRbGhGRxRRKpaqCIdYtfRnIRKxLmRd+Jahw2o=";
-  vendorHash = "sha256-nTFfhSMRbGhGRxRRKpaqCIdYtfRnIRKxLmRd+Jahw2o=";
+  vendorHash = "sha256-fMXn3wZehJi1O+T9XP6ijah+OKHnp6k9DMtGB7CZosc=";
   yarnHash = "sha256-sG0sblZKz4qR3PmK1pHHrgiaWEUHadNKEDuhYkLI9OA=";
 in
 {
