@@ -1,9 +1,9 @@
 { lib, fetchFromGitHub }:
 let
-  version = "1.0.2";
-  srcHash = "sha256-OeOKR9lTGXU2qumyXq3s/CI56IX4XiI/ZTRHNoY6MEI=";
-  vendorHash = "sha256-+2wQKNyCb9xtB1TeE1/oSMEvKoXVX9ARZxsNqE2rfrg=";
-  yarnHash = "sha256-QNeQwWU36A05zaARWmqEOhfyZRW68OgF4wTonQLYQfs=";
+  version = "839c3b8a6d93714f3b3232308f2913cae212dedb";
+  srcHash = "sha256-nTFfhSMRbGhGRxRRKpaqCIdYtfRnIRKxLmRd+Jahw2o=";
+  vendorHash = "sha256-nTFfhSMRbGhGRxRRKpaqCIdYtfRnIRKxLmRd+Jahw2o=";
+  yarnHash = "sha256-sG0sblZKz4qR3PmK1pHHrgiaWEUHadNKEDuhYkLI9OA=";
 in
 {
   inherit version yarnHash vendorHash;
@@ -11,7 +11,7 @@ in
   src = fetchFromGitHub {
     owner = "woodpecker-ci";
     repo = "woodpecker";
-    rev = "v${version}";
+    rev = "${version}";
     hash = srcHash;
   };
 
