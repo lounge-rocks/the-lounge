@@ -1,8 +1,8 @@
-{ buildGoModule, callPackage }:
+{ buildGo121Module, callPackage }:
 let
   common = callPackage ./common.nix { };
 in
-buildGoModule {
+buildGo121Module {
   pname = "woodpecker-cli";
   inherit (common) version src ldflags postInstall vendorHash;
 
