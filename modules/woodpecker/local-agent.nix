@@ -9,6 +9,10 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
 
   config = mkIf cfg.enable {
 
+    # our CI runs into problems when storage run
+    lounge-rocks.nix-common.min-free = 20;
+    lounge-rocks.nix-common.max-free = 30;
+
     # Enable git-lfs
     programs.git.enable = true;
     programs.git.lfs.enable = true;

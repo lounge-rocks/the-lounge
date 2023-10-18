@@ -9,6 +9,18 @@ in {
     enable = mkEnableOption "activate nix-common";
     disable-cache = mkEnableOption "not use binary-cache";
     disable-garbage-collection = mkEnableOption "disable garbage collection";
+
+    min-free = mkOption {
+      type = types.int;
+      default = 5;
+      description = "Garbage collect whenever there is less than x GiB left.";
+    };
+    max-free = mkOption {
+      type = types.int;
+      default = 10;
+      description = "Garbage collect until there is at least x GiB left.";
+    };
+
   };
 
   config = mkIf cfg.enable {
@@ -61,8 +73,8 @@ in {
         log-lines = 25
 
         # Free up to 10GiB whenever there is less than 5GiB left.
-        min-free = ${toString (5 * 1024 * 1024 * 1024)}
-        max-free = ${toString (10 * 1024 * 1024 * 1024)}
+        min-free = ${toString (cfg.min-free * 1024 * 1024 * 1024)}
+        max-free = ${toString (cfg.max-free * 1024 * 1024 * 1024)}
       '';
       settings = {
         # binary cache -> build by DroneCI
