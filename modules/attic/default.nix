@@ -123,7 +123,7 @@ let cfg = config.lounge-rocks.attic; in
           # fi
           cd /var/lib/atticd
           export RUST_LOG=debug
-          exec ${config.services.atticd.package}/bin/atticd -f ${config.services.atticd.configFile} --mode garbage-collector-once
+          exec ${config.services.atticd.package}/bin/atticd -f ${config.services.atticd.configFile} "$@"
         '';
       in
       [
