@@ -79,8 +79,8 @@ let cfg = config.lounge-rocks.attic; in
         database.url = "postgresql:///atticd?user=atticd&host=/run/postgresql";
 
         garbage-collection = {
-          interval = "12 hours";
-          default-retention-period = "2 months";
+          interval = "3 hours";
+          default-retention-period = "31 days";
         };
 
         # Data chunking
