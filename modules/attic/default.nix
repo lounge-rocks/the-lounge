@@ -93,7 +93,8 @@ let cfg = config.lounge-rocks.attic; in
           #
           # If 0, chunking is disabled entirely for newly-uploaded NARs.
           # If 1, all NARs are chunked.
-          nar-size-threshold = cfg.scaling-factor * 64 * 1024; # 64 KiB
+          nar-size-threshold = 0;
+          # nar-size-threshold = cfg.scaling-factor * 64 * 1024; # 64 KiB
 
           # The preferred minimum size of a chunk, in bytes
           min-size = cfg.scaling-factor * 16 * 1024; # 16 KiB
