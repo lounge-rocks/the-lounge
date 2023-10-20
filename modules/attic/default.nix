@@ -1,4 +1,4 @@
-{ lib, config, attic, ... }:
+{ lib, config, attic, pkgs, ... }:
 with lib;
 let cfg = config.lounge-rocks.attic; in
 {
@@ -111,6 +111,39 @@ let cfg = config.lounge-rocks.attic; in
 
       };
     };
+
+    environment.systemPackages =
+      let
+        atticadmShim = pkgs.writeShellScript "atticadm" ''
+          # if [ -n "$ATTICADM_PWD" ]; then
+          #   cd "$ATTICADM_PWD"
+          #   if [ "$?" != "0" ]; then
+          #     >&2 echo "Warning: Failed to change directory to $ATTICADM_PWD"
+          #   fi
+          # fi
+          cd /var/lib/atticd
+          export RUST_LOG=debug
+          exec ${config.services.atticd.package}/bin/atticd -f ${config.services.atticd.configFile} --mode garbage-collector-once
+        '';
+      in
+      [
+        (pkgs.writeShellScriptBin "attic-gc" ''
+          exec systemd-run \
+            --quiet \
+            --pty \
+            --same-dir \
+            --wait \
+            --collect \
+            --service-type=exec \
+            --property=EnvironmentFile=${config.services.atticd.credentialsFile} \
+            --property=DynamicUser=yes \
+            --property=User=${config.services.atticd.user} \
+            --property=Environment=ATTICADM_PWD=$(pwd) \
+            --working-directory / \
+            -- \
+            ${atticadmShim} "$@"
+        '')
+      ];
 
   };
 }
