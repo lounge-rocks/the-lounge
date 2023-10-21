@@ -13,6 +13,14 @@ let cfg = config.lounge-rocks.attic; in
       description = "The hostname of the attic server";
     };
 
+    retention-period = mkOption {
+      type = types.int;
+      default = 60 * 60 * 24 * 31;
+      description = ''
+        The default retention period for garbage collection.
+      '';
+    };
+
     scaling-factor = mkOption {
       type = types.int;
       default = 1;
@@ -80,7 +88,7 @@ let cfg = config.lounge-rocks.attic; in
 
         garbage-collection = {
           interval = "12 hours";
-          default-retention-period = "${toString (60*60*24*31)}s";
+          default-retention-period = "${toString (cfg.retention-period)}s";
         };
 
         # Data chunking

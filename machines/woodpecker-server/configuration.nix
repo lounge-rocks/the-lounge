@@ -19,7 +19,8 @@
     };
     attic = {
       enable = true;
-      scaling-factor = 32;
+      scaling-factor = 64;
+      retention-period = 60 * 60 * 24 * 31; # 31 days retention - emptied cache on 21st October 2023
     };
     nginx.geoIP = true;
     nix-common.enable = true;
