@@ -80,7 +80,7 @@ let cfg = config.lounge-rocks.attic; in
 
         garbage-collection = {
           interval = "3 hours";
-          default-retention-period = "31 days";
+          default-retention-period = "${toString (60*60*24*31)}s";
         };
 
         # Data chunking
