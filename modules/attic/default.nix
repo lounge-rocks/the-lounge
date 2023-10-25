@@ -79,9 +79,9 @@ let cfg = config.lounge-rocks.attic; in
 
         storage = {
           type = "s3";
-          region = "us-east-005";
-          bucket = "lounge-rocks-cache";
-          endpoint = "https://s3.us-east-005.backblazeb2.com";
+          region = "eu-central-003";
+          bucket = "lounge-rocks-attic";
+          endpoint = "https://s3.eu-central-003.backblazeb2.com";
         };
 
         database.url = "postgresql:///atticd?user=atticd&host=/run/postgresql";
