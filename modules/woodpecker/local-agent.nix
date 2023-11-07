@@ -74,6 +74,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
         # CI tools
         attic
         cachix
+        crab_share
       ];
     };
 
