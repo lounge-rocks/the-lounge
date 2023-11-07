@@ -45,6 +45,12 @@
       url = "github:cachix/cachix/v1.6";
     };
 
+    # https://github.com/lounge-rocks/crab_share
+    # upload files to an S3 bucket and generate a shareable link.
+    crab_share = {
+      url = "github:lounge-rocks/crab_share";
+    };
+
     # https://github.com/pinpox/woodpecker-flake-pipeliner
     # Woodpecker configuration Service to dynamically generate pipelines from nix flakes
     flake-pipeliner = {

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, self, nixpkgs, attic, cachix, ... }:
+{ config, pkgs, lib, self, nixpkgs, attic, cachix, crab_share, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.nix-common;
@@ -31,7 +31,10 @@ in {
     nixpkgs.overlays = [
       attic.overlays.default
       # apps from external flakes
-      (final: prev: { cachix = cachix.packages.${pkgs.system}.cachix; })
+      (final: prev: {
+        cachix = cachix.packages.${pkgs.system}.cachix;
+        crab_share = crab_share.packages.${pkgs.system}.crab_share;
+      })
       # our packages are accessible via lounge-rocks.<name>
       self.overlays.default
     ];
