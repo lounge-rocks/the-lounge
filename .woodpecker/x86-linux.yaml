@@ -1,0 +1,67 @@
+{
+  "labels": {
+    "backend": "local"
+  },
+  "platform": "linux/amd64",
+  "steps": [
+    {
+      "commands": [
+        "nix flake show"
+      ],
+      "image": "bash",
+      "name": "Nix flake show"
+    },
+    {
+      "commands": [
+        "attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default"
+      ],
+      "image": "bash",
+      "name": "Setup Attic",
+      "secrets": [
+        "attic_key"
+      ]
+    },
+    {
+      "commands": [
+        "nix build '.#nixosConfigurations.netcup-x86-runner-1.config.system.build.toplevel' -o 'result-netcup-x86-runner-1'"
+      ],
+      "image": "bash",
+      "name": "Build netcup-x86-runner-1"
+    },
+    {
+      "commands": [
+        "nix path-info --closure-size -h $(readlink -f 'result-netcup-x86-runner-1')"
+      ],
+      "image": "bash",
+      "name": "Show netcup-x86-runner-1 info"
+    },
+    {
+      "commands": [
+        "attic push lounge-rocks:nix-cache 'result-netcup-x86-runner-1'"
+      ],
+      "image": "bash",
+      "name": "Push netcup-x86-runner-1 to Attic"
+    },
+    {
+      "commands": [
+        "nix build '.#nixosConfigurations.woodpecker-agent-x86-1.config.system.build.toplevel' -o 'result-woodpecker-agent-x86-1'"
+      ],
+      "image": "bash",
+      "name": "Build woodpecker-agent-x86-1"
+    },
+    {
+      "commands": [
+        "nix path-info --closure-size -h $(readlink -f 'result-woodpecker-agent-x86-1')"
+      ],
+      "image": "bash",
+      "name": "Show woodpecker-agent-x86-1 info"
+    },
+    {
+      "commands": [
+        "attic push lounge-rocks:nix-cache 'result-woodpecker-agent-x86-1'"
+      ],
+      "image": "bash",
+      "name": "Push woodpecker-agent-x86-1 to Attic"
+    }
+  ]
+}

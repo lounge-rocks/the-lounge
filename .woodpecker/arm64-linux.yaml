@@ -1,0 +1,88 @@
+{
+  "labels": {
+    "backend": "local"
+  },
+  "platform": "linux/arm64",
+  "steps": [
+    {
+      "commands": [
+        "nix flake show"
+      ],
+      "image": "bash",
+      "name": "Nix flake show"
+    },
+    {
+      "commands": [
+        "attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default"
+      ],
+      "image": "bash",
+      "name": "Setup Attic",
+      "secrets": [
+        "attic_key"
+      ]
+    },
+    {
+      "commands": [
+        "nix build '.#nixosConfigurations.stuart.config.system.build.toplevel' -o 'result-stuart'"
+      ],
+      "image": "bash",
+      "name": "Build stuart"
+    },
+    {
+      "commands": [
+        "nix path-info --closure-size -h $(readlink -f 'result-stuart')"
+      ],
+      "image": "bash",
+      "name": "Show stuart info"
+    },
+    {
+      "commands": [
+        "attic push lounge-rocks:nix-cache 'result-stuart'"
+      ],
+      "image": "bash",
+      "name": "Push stuart to Attic"
+    },
+    {
+      "commands": [
+        "nix build '.#nixosConfigurations.woodpecker-agent-aarch64-1.config.system.build.toplevel' -o 'result-woodpecker-agent-aarch64-1'"
+      ],
+      "image": "bash",
+      "name": "Build woodpecker-agent-aarch64-1"
+    },
+    {
+      "commands": [
+        "nix path-info --closure-size -h $(readlink -f 'result-woodpecker-agent-aarch64-1')"
+      ],
+      "image": "bash",
+      "name": "Show woodpecker-agent-aarch64-1 info"
+    },
+    {
+      "commands": [
+        "attic push lounge-rocks:nix-cache 'result-woodpecker-agent-aarch64-1'"
+      ],
+      "image": "bash",
+      "name": "Push woodpecker-agent-aarch64-1 to Attic"
+    },
+    {
+      "commands": [
+        "nix build '.#nixosConfigurations.woodpecker-server.config.system.build.toplevel' -o 'result-woodpecker-server'"
+      ],
+      "image": "bash",
+      "name": "Build woodpecker-server"
+    },
+    {
+      "commands": [
+        "nix path-info --closure-size -h $(readlink -f 'result-woodpecker-server')"
+      ],
+      "image": "bash",
+      "name": "Show woodpecker-server info"
+    },
+    {
+      "commands": [
+        "attic push lounge-rocks:nix-cache 'result-woodpecker-server'"
+      ],
+      "image": "bash",
+      "name": "Push woodpecker-server to Attic"
+    }
+  ]
+}
