@@ -1,4 +1,4 @@
-# cp --no-preserve=all -r $(nix build .\#woodpecker-pipeline --print-out-paths --no-link)/.woodpecker .
+# nix run .\#woodpecker-pipeline
 { pkgs, lib, stdenv, flake-self, inputs }:
 with pkgs;
 let
@@ -71,21 +71,24 @@ let
           ])
         ]);
     }));
+
+  copy-script = (pkgs.writeShellScriptBin "woodpecker-pipeline" ''
+    # make sure .woodpecker folder exists
+    mkdir -p .woodpecker
+
+    # empty content of .woodpecker folder
+    rm -rf .woodpecker/*
+    
+    # copy pipelines to .woodpecker folder
+    cat ${pipelineFor.aarch64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > .woodpecker/arm64-linux.yaml
+    cat ${pipelineFor.x86_64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > .woodpecker/x86-linux.yaml
+  '');
 in
 stdenv.mkDerivation {
   pname = "woodpecker-pipeline";
   version = "0.1.0";
-
-  src = ./.;
-
-  # Needed if no src is used. Alternatively place script in
-  # separate file and include it as src
   dontUnpack = true;
-
   installPhase = ''
-    mkdir -p $out
-    mkdir -p $out/.woodpecker
-    cat ${pipelineFor.aarch64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > $out/.woodpecker/arm64-linux.yaml
-    cat ${pipelineFor.x86_64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > $out/.woodpecker/x86-linux.yaml
+    cp -r ${copy-script} $out
   '';
 }
