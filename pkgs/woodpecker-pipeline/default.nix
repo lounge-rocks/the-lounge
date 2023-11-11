@@ -1,71 +1,91 @@
-# nix build .#woodpecker-pipeline && cat result| jq '.configs[].data' -r | jq > .woodpecker/x86-linux.yaml
-# nix build .#woodpecker-pipeline && cat result| jq '.configs[].data' -r | jq > .woodpecker/arm64-linux.yaml
-{ pkgs, lib, flake-self, inputs }:
+# cp --no-preserve=all -r $(nix build .\#woodpecker-pipeline --print-out-paths --no-link)/.woodpecker .
+{ pkgs, lib, stdenv, flake-self, inputs }:
 with pkgs;
-writeText "pipeline" (builtins.toJSON {
-  configs =
-    let
-      # Map platform names between woodpecker and nix
-      woodpecker-platforms = {
-        "aarch64-linux" = "linux/arm64";
-        "x86_64-linux" = "linux/amd64";
-      };
-      nixFlakeShow = {
-        name = "Nix flake show";
-        image = "bash";
-        commands = [ "nix flake show" ];
-      };
-      atticSetupStep = {
-        name = "Setup Attic";
-        image = "bash";
-        commands = [
-          "attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default"
-        ];
-        secrets = [ "attic_key" ];
-      };
-    in
-    pkgs.lib.lists.flatten ([
-      (map
-        (arch: {
-          name = "Hosts with arch: ${arch}";
-          data = (builtins.toJSON {
-            labels.backend = "local";
-            # platform will be deprecated in the future!
-            platform = woodpecker-platforms."${arch}";
-            steps = pkgs.lib.lists.flatten ([ nixFlakeShow ] ++ [ atticSetupStep ]
-              ++ (map
-              (host:
-                # only build hosts for the arch we are currently building
-                if (flake-self.nixosConfigurations.${host}.pkgs.stdenv.hostPlatform.system
-                  != arch) then
-                  [ ]
-                else [
-                  {
-                    name = "Build ${host}";
-                    image = "bash";
-                    commands = [
-                      "nix build '.#nixosConfigurations.${host}.config.system.build.toplevel' -o 'result-${host}'"
-                    ];
-                  }
-                  {
-                    "name" = "Show ${host} info";
-                    "image" = "bash";
-                    "commands" = [
-                      "nix path-info --closure-size -h $(readlink -f 'result-${host}')"
-                    ];
-                  }
-                  {
-                    name = "Push ${host} to Attic";
-                    image = "bash";
-                    commands =
-                      [ "attic push lounge-rocks:nix-cache 'result-${host}'" ];
-                  }
-                ])
-              (builtins.attrNames flake-self.nixosConfigurations)));
-          });
-        }) [
-        "x86_64-linux"
-        "aarch64-linux"
-      ])
-    ]);
-})
+let
+  supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+  forAllSystems = lib.genAttrs supportedSystems;
+  pipelineFor =
+    forAllSystems (system: writeText "pipeline" (builtins.toJSON {
+      configs =
+        let
+          # Map platform names between woodpecker and nix
+          woodpecker-platforms = {
+            "aarch64-linux" = "linux/arm64";
+            "x86_64-linux" = "linux/amd64";
+          };
+          nixFlakeShow = {
+            name = "Nix flake show";
+            image = "bash";
+            commands = [ "nix flake show" ];
+          };
+          atticSetupStep = {
+            name = "Setup Attic";
+            image = "bash";
+            commands = [
+              "attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default"
+            ];
+            secrets = [ "attic_key" ];
+          };
+        in
+        pkgs.lib.lists.flatten ([
+          (map
+            (arch: {
+              name = "Hosts with arch: ${arch}";
+              data = (builtins.toJSON {
+                labels.backend = "local";
+                # platform will be deprecated in the future!
+                platform = woodpecker-platforms."${arch}";
+                steps = pkgs.lib.lists.flatten ([ nixFlakeShow ] ++ [ atticSetupStep ]
+                  ++ (map
+                  (host:
+                    # only build hosts for the arch we are currently building
+                    if (flake-self.nixosConfigurations.${host}.pkgs.stdenv.hostPlatform.system
+                      != arch) then
+                      [ ]
+                    else [
+                      {
+                        name = "Build ${host}";
+                        image = "bash";
+                        commands = [
+                          "nix build '.#nixosConfigurations.${host}.config.system.build.toplevel' -o 'result-${host}'"
+                        ];
+                      }
+                      {
+                        "name" = "Show ${host} info";
+                        "image" = "bash";
+                        "commands" = [
+                          "nix path-info --closure-size -h $(readlink -f 'result-${host}')"
+                        ];
+                      }
+                      {
+                        name = "Push ${host} to Attic";
+                        image = "bash";
+                        commands =
+                          [ "attic push lounge-rocks:nix-cache 'result-${host}'" ];
+                      }
+                    ])
+                  (builtins.attrNames flake-self.nixosConfigurations)));
+              });
+            }) [
+            "${system}"
+          ])
+        ]);
+    }));
+in
+stdenv.mkDerivation {
+  pname = "woodpecker-pipeline";
+  version = "0.1.0";
+
+  src = ./.;
+
+  # Needed if no src is used. Alternatively place script in
+  # separate file and include it as src
+  dontUnpack = true;
+
+  installPhase = ''
+    mkdir -p $out
+    mkdir -p $out/.woodpecker
+    cat ${pipelineFor.aarch64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > $out/.woodpecker/arm64-linux.yaml
+    cat ${pipelineFor.x86_64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > $out/.woodpecker/x86-linux.yaml
+  '';
+}
