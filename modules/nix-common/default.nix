@@ -80,12 +80,15 @@ in {
         max-free = ${toString (cfg.max-free * 1024 * 1024 * 1024)}
       '';
       settings = {
-        # binary cache -> build by DroneCI
         substituters = mkIf (cfg.disable-cache != true) [
           "https://cache.lounge.rocks/nix-cache"
+          "https://cuda-maintainers.cachix.org"
+          "https://numtide.cachix.org"
         ];
         trusted-public-keys = mkIf (cfg.disable-cache != true) [
           "nix-cache:4FILs79Adxn/798F8qk2PC1U8HaTlaPqptwNJrXNA1g="
+          "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+          "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
         ];
         # Save space by hardlinking store files
         auto-optimise-store = true;
