@@ -20,7 +20,8 @@
     attic = {
       enable = true;
       scaling-factor = 64;
-      retention-period = 60 * 60 * 24 * 31; # 31 days retention - emptied cache on 21st October 2023
+      # 60 days retention - created cache on 25st October 2023
+      retention-period = 60 * 60 * 24 * 60;
     };
     nginx.geoIP = true;
     nix-common.enable = true;
