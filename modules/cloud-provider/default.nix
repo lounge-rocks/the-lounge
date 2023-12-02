@@ -37,7 +37,7 @@ in
     # We want to standardize our partitions and bootloaders across all providers.
     # See: https://github.com/lounge-rocks/the-lounge/issues/16
     # Currently Hetzner and Proxmox are standardized.
-    disko.devices.disk.main = mkIf (cfg.hetzner.enable || cfg.oracle.enable || cfg.proxmox.enable) {
+    disko.devices.disk.main = {
       type = "disk";
       device = cfg.primaryDisk;
       content = {
@@ -85,7 +85,7 @@ in
     # We want to standardize our partitions and bootloaders across all providers.
     # See: https://github.com/lounge-rocks/the-lounge/issues/16
     # Currently Hetzner and Proxmox are standardized.
-    boot.loader.grub = mkIf (cfg.hetzner.enable || cfg.oracle.enable || cfg.proxmox.enable) {
+    boot.loader.grub = {
       devices = [ cfg.primaryDisk ];
       efiSupport = true;
       efiInstallAsRemovable = true;

@@ -7,29 +7,42 @@ in {
 
   options.lounge-rocks.cloud-provider.netcup = {
     enable = mkEnableOption "netcup configuration";
+    interface = mkOption {
+      type = types.str;
+      default = "ens3";
+      description = "Interface to use";
+    };
+    ipv6_address = mkOption {
+      type = types.str;
+      default = "NONE";
+      description = "IPv6 address of the server";
+    };
   };
 
   config = mkIf cfg.enable {
 
-    # enable our base module that is common across all providers
-    lounge-rocks.cloud-provider.enable = true;
+    # set cfg.ipv6_address to the IPv6 address of the server
+    # set cfg.interface to the interface to use
+    networking = {
+      interfaces.${cfg.interface} = {
+        ipv6.addresses = (mkIf (cfg.ipv6_address != "NONE")) [
+          {
+            address = "${cfg.ipv6_address}";
+            prefixLength = 64;
+          }
+        ];
+      };
+    };
 
-    # Filesystems
-    fileSystems."/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
+    lounge-rocks.cloud-provider = {
+      # enable our base module that is common across all providers
+      enable = true;
+      # make sure VIRTIO disk driver is set
+      primaryDisk = "/dev/vda";
     };
 
     # Bootloader
     boot.kernelParams = [ "console=ttyS0" ];
-    boot.loader.grub.devices = [ config.lounge-rocks.cloud-provider.primaryDisk ];
-    boot.loader.timeout = 15;
-
-    # swapfile
-    swapDevices = [{
-      device = "/var/swapfile";
-      size = (1024 * 8);
-    }];
 
   };
 }
