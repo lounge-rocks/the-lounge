@@ -14,6 +14,8 @@ in
 
   config = mkIf cfg.enable {
 
+    lounge-rocks.nginx.enable = true;
+
     services = {
       jitsi-videobridge.openFirewall = true;
       jitsi-meet = {
