@@ -35,8 +35,7 @@
     local-evaluation = true;
     ssh = {
       user = "root";
-      host = "hetzner-build-aarch64.lounge.rocks";
-      # host = "${config.networking.fqdn}";
+      host = "build.lounge.rocks";
     };
   };
 
