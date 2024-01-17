@@ -11,7 +11,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
 
     # our CI runs into problems when storage run
     lounge-rocks.nix-common.min-free = 30;
-    lounge-rocks.nix-common.max-free = 50;
+    lounge-rocks.nix-common.max-free = 60;
 
     # Enable git-lfs
     programs.git.enable = true;
