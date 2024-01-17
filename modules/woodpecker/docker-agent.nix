@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ pkgs, lib, config, ... }:
 with lib;
 let cfg = config.lounge-rocks.woodpecker.docker-agent; in
 {
@@ -15,6 +15,7 @@ let cfg = config.lounge-rocks.woodpecker.docker-agent; in
     services.woodpecker-agents = {
       agents.docker = {
         enable = true;
+        package = pkgs.lounge-rocks.woodpecker-agent;
         environment = {
           WOODPECKER_SERVER = "100.65.12.86:9000";
           WOODPECKER_MAX_WORKFLOWS = "1";

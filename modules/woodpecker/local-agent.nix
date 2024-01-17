@@ -24,7 +24,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     services.woodpecker-agents.agents = {
       exec = {
         enable = true;
-        # package = pkgs.lounge-rocks.woodpecker-agent;
+        package = pkgs.lounge-rocks.woodpecker-agent;
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
         environmentFile = [ config.sops.secrets.agent-envfile.path ];
         environment = {

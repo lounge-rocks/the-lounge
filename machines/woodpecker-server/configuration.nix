@@ -27,7 +27,10 @@
     nix-common.enable = true;
     tailscale.enable = true;
     # woodpecker.pipeliner.enable = true; # TODO fix
-    woodpecker.server.enable = true;
+    woodpecker.server = {
+      enable = true;
+      oci = true;
+    };
     woodpecker.log = "trace";
   };
 
