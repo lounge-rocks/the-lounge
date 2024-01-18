@@ -29,11 +29,11 @@ in {
     environment.systemPackages = with pkgs; [ git htop nil nix-top nixfmt nixpkgs-fmt ];
 
     nixpkgs.overlays = [
-      attic.overlays.default
       # apps from external flakes
       (final: prev: {
-        cachix = cachix.packages.${pkgs.system}.cachix;
-        crab_share = crab_share.packages.${pkgs.system}.crab_share;
+        inherit (attic.packages.${pkgs.system}) attic;
+        inherit (cachix.packages.${pkgs.system}) cachix;
+        inherit (crab_share.packages.${pkgs.system}) crab_share;
       })
       # our packages are accessible via lounge-rocks.<name>
       self.overlays.default

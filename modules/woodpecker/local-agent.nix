@@ -10,8 +10,8 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
   config = mkIf cfg.enable {
 
     # our CI runs into problems when storage run
-    lounge-rocks.nix-common.min-free = 20;
-    lounge-rocks.nix-common.max-free = 30;
+    lounge-rocks.nix-common.min-free = 30;
+    lounge-rocks.nix-common.max-free = 60;
 
     # Enable git-lfs
     programs.git.enable = true;
@@ -24,7 +24,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     services.woodpecker-agents.agents = {
       exec = {
         enable = true;
-        # package = pkgs.lounge-rocks.woodpecker-agent;
+        package = pkgs.lounge-rocks.woodpecker-agent;
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
         environmentFile = [ config.sops.secrets.agent-envfile.path ];
         environment = {
