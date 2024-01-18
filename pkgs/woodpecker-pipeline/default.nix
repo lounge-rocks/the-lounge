@@ -70,24 +70,15 @@ let
           ])
         ]);
     }));
-
-  copy-script = (pkgs.writeShellScriptBin "woodpecker-pipeline" ''
-    # make sure .woodpecker folder exists
-    mkdir -p .woodpecker
-
-    # empty content of .woodpecker folder
-    rm -rf .woodpecker/*
-    
-    # copy pipelines to .woodpecker folder
-    cat ${pipelineFor.aarch64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > .woodpecker/arm64-linux.yaml
-    cat ${pipelineFor.x86_64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > .woodpecker/x86-linux.yaml
-  '');
 in
-stdenv.mkDerivation {
-  pname = "woodpecker-pipeline";
-  version = "0.1.0";
-  dontUnpack = true;
-  installPhase = ''
-    cp -r ${copy-script} $out
-  '';
-}
+pkgs.writeShellScriptBin "woodpecker-pipeline" ''
+  # make sure .woodpecker folder exists
+  mkdir -p .woodpecker
+
+  # empty content of .woodpecker folder
+  rm -rf .woodpecker/*
+    
+  # copy pipelines to .woodpecker folder
+  cat ${pipelineFor.aarch64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > .woodpecker/arm64-linux.yaml
+  cat ${pipelineFor.x86_64-linux} | ${pkgs.jq}/bin/jq '.configs[].data' -r | ${pkgs.jq}/bin/jq > .woodpecker/x86-linux.yaml
+''
