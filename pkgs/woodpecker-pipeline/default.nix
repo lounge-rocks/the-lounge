@@ -32,8 +32,10 @@ let
             (arch: {
               name = "Hosts with arch: ${arch}";
               data = (builtins.toJSON {
-                labels.backend = "local";
-                labels.platform = woodpecker-platforms."${arch}";
+                labels = {
+                  backend = "local";
+                  platform = woodpecker-platforms."${arch}";
+                };
                 steps = pkgs.lib.lists.flatten ([ nixFlakeShow ] ++ [ atticSetupStep ]
                   ++ (map
                   (host:
@@ -46,7 +48,7 @@ let
                         name = "Build ${host}";
                         image = "bash";
                         commands = [
-                          "nix build '.#nixosConfigurations.${host}.config.system.build.toplevel' -o 'result-${host}'"
+                          "nix build --print-out-paths '.#nixosConfigurations.${host}.config.system.build.toplevel' -o 'result-${host}'"
                         ];
                       }
                       {

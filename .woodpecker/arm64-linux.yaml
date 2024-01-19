@@ -23,7 +23,7 @@
     },
     {
       "commands": [
-        "nix build '.#nixosConfigurations.stuart.config.system.build.toplevel' -o 'result-stuart'"
+        "nix build --print-out-paths '.#nixosConfigurations.stuart.config.system.build.toplevel' -o 'result-stuart'"
       ],
       "image": "bash",
       "name": "Build stuart"
@@ -44,7 +44,7 @@
     },
     {
       "commands": [
-        "nix build '.#nixosConfigurations.woodpecker-agent-aarch64-1.config.system.build.toplevel' -o 'result-woodpecker-agent-aarch64-1'"
+        "nix build --print-out-paths '.#nixosConfigurations.woodpecker-agent-aarch64-1.config.system.build.toplevel' -o 'result-woodpecker-agent-aarch64-1'"
       ],
       "image": "bash",
       "name": "Build woodpecker-agent-aarch64-1"
@@ -65,7 +65,7 @@
     },
     {
       "commands": [
-        "nix build '.#nixosConfigurations.woodpecker-server.config.system.build.toplevel' -o 'result-woodpecker-server'"
+        "nix build --print-out-paths '.#nixosConfigurations.woodpecker-server.config.system.build.toplevel' -o 'result-woodpecker-server'"
       ],
       "image": "bash",
       "name": "Build woodpecker-server"
