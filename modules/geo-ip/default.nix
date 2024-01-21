@@ -3,6 +3,11 @@ with lib;
 let cfg = config.lounge-rocks.nginx; in
 {
 
+  imports = [
+    ./locationOptions.nix
+    ./vhostOptions.nix
+  ];
+
   options.lounge-rocks.nginx = {
     geoIP = mkEnableOption "enable GeoIP";
   };
