@@ -29,7 +29,7 @@
     # woodpecker.pipeliner.enable = true; # TODO fix
     woodpecker.server = {
       enable = true;
-      oci = true;
+      # oci = true;
     };
     woodpecker.log = "trace";
   };

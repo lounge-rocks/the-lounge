@@ -54,7 +54,7 @@ in {
       backend = "docker";
       containers.woodpecker-server = {
         # https://hub.docker.com/r/woodpeckerci/woodpecker-server/tags?page=1&ordering=name
-        image = "woodpeckerci/woodpecker-server:v2.2.2";
+        image = "woodpeckerci/woodpecker-server:v2.3.0";
         volumes = [ "/var/lib/woodpecker-server-oci/:/var/lib/woodpecker/" ];
         environment = {
           WOODPECKER_HOST = "https://${cfg.hostName}";
