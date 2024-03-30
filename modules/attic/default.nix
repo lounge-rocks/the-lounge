@@ -51,9 +51,8 @@ let cfg = config.lounge-rocks.attic; in
       enable = true;
       ensureUsers = [{
         name = "atticd";
-        ensurePermissions = {
-          "DATABASE atticd" = "ALL PRIVILEGES";
-        };
+        # TODO: needs to be migrated into the new optionscd
+        # ensurePermissions = { "DATABASE atticd" = "ALL PRIVILEGES"; };
       }];
       ensureDatabases = [ "atticd" ];
     };
