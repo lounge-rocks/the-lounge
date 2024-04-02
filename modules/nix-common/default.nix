@@ -1,4 +1,4 @@
-{ config, pkgs, lib, self, nixpkgs, attic, cachix, crab_share, ... }:
+{ config, pkgs, lib, self, nixpkgs, attic, crab_share, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.nix-common;
@@ -32,7 +32,6 @@ in {
       # apps from external flakes
       (final: prev: {
         inherit (attic.packages.${pkgs.system}) attic;
-        inherit (cachix.packages.${pkgs.system}) cachix;
         inherit (crab_share.packages.${pkgs.system}) crab_share;
       })
       # our packages are accessible via lounge-rocks.<name>

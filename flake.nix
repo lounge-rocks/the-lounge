@@ -39,12 +39,6 @@
       url = "github:zhaofengli/attic";
     };
 
-    # https://github.com/cachix/cachix
-    # Command line client for Nix binary cache hosting
-    cachix = {
-      url = "github:cachix/cachix/v1.6";
-    };
-
     # https://github.com/lounge-rocks/crab_share
     # upload files to an S3 bucket and generate a shareable link.
     crab_share = {
