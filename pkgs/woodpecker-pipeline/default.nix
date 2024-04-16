@@ -36,6 +36,11 @@ let
                   backend = "local";
                   platform = woodpecker-platforms."${arch}";
                 };
+                when = pkgs.lib.lists.flatten ([
+                  { event = "manual"; }
+                  { event = "push"; branch = "main"; }
+                  { event = "push"; branch = "update_flake_lock_action"; }
+                ]);
                 steps = pkgs.lib.lists.flatten ([ nixFlakeShow ] ++ [ atticSetupStep ]
                   ++ (map
                   (host:
