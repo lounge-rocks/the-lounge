@@ -5,7 +5,7 @@
 {
 
   lounge-rocks = {
-    cloud-provider.enable = true;
+    cloud-provider.proxmox.enable = true;
     nix-common.enable = true;
     tailscale.enable = true;
     users.MayNiklas.root = true;
@@ -20,31 +20,7 @@
     host = "192.168.40.2";
   };
 
-  boot = {
-    kernelModules = [ "kvm-amd" ];
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
-    initrd = {
-      availableKernelModules = [
-        "9p"
-        "9pnet_virtio"
-        "ata_piix"
-        "sd_mod"
-        "sr_mod"
-        "uas"
-        "uhci_hcd"
-        "virtio_blk"
-        "virtio_mmio"
-        "virtio_net"
-        "virtio_pci"
-        "virtio_scsi"
-      ];
-      kernelModules = [
-        "virtio_balloon"
-        "virtio_console"
-        "virtio_rng"
-      ];
-    };
-  };
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   swapDevices = [{ device = "/var/swapfile"; size = (1024 * 32); }];
   networking.hostName = "woodpecker-agent-x86-1";

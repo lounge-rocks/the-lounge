@@ -31,6 +31,8 @@ in {
       "9p"
       "9pnet_virtio"
       "ata_piix"
+      "sd_mod"
+      "sr_mod"
       "uas"
       "uhci_hcd"
       "virtio_blk"
@@ -39,8 +41,15 @@ in {
       "virtio_pci"
       "virtio_scsi"
     ];
-    boot.initrd.kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
-    boot.kernelModules = [ "kvm-intel" ];
+    boot.initrd.kernelModules = [
+      "virtio_balloon"
+      "virtio_console"
+      "virtio_rng"
+    ];
+    boot.kernelModules = [
+      "kvm-amd"
+      "kvm-intel"
+    ];
 
   };
 }
