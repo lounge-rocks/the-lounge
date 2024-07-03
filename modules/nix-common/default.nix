@@ -26,7 +26,7 @@ in {
   config = mkIf cfg.enable {
 
     # Install some basic utilities
-    environment.systemPackages = with pkgs; [ git htop nil nix-top nixfmt nixpkgs-fmt ];
+    environment.systemPackages = with pkgs; [ git htop nil nixfmt nixpkgs-fmt ];
 
     nixpkgs.overlays = [
       # apps from external flakes
