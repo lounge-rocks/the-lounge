@@ -16,6 +16,10 @@ in
 
     lounge-rocks.nginx.enable = true;
 
+    nixpkgs.config.permittedInsecurePackages = [
+      "jitsi-meet-1.0.8043"
+    ];
+
     services = {
       jitsi-videobridge.openFirewall = true;
       jitsi-meet = {
