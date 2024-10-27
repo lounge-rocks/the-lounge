@@ -33,12 +33,6 @@
 
     ### Applications from outside nixpkgs
 
-    # https://github.com/zhaofengli/attic
-    # Multi-tenant Nix Binary Cache
-    attic = {
-      url = "github:zhaofengli/attic";
-    };
-
     # https://github.com/lounge-rocks/crab_share
     # upload files to an S3 bucket and generate a shareable link.
     crab_share = {

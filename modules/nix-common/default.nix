@@ -1,4 +1,4 @@
-{ config, pkgs, lib, self, nixpkgs, attic, crab_share, nix-fast-build, ... }:
+{ config, pkgs, lib, self, nixpkgs, crab_share, nix-fast-build, ... }:
 
 with lib;
 let cfg = config.lounge-rocks.nix-common;
@@ -31,7 +31,6 @@ in {
     nixpkgs.overlays = [
       # apps from external flakes
       (final: prev: {
-        inherit (attic.packages.${pkgs.system}) attic;
         inherit (crab_share.packages.${pkgs.system}) crab_share;
         inherit (nix-fast-build.packages.${pkgs.system}) nix-fast-build;
       })

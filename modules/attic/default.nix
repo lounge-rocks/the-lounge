@@ -1,9 +1,7 @@
-{ lib, config, attic, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 with lib;
 let cfg = config.lounge-rocks.attic; in
 {
-
-  imports = [ attic.nixosModules.atticd ];
 
   options.lounge-rocks.attic = {
     enable = mkEnableOption "attic server";
@@ -67,7 +65,7 @@ let cfg = config.lounge-rocks.attic; in
       # openssl rand 64 | base64 -w0
 
       # Replace with absolute path to your credentials file
-      credentialsFile = config.sops.secrets."woodpecker/attic-envfile".path;
+      environmentFile = config.sops.secrets."woodpecker/attic-envfile".path;
 
       settings = {
 
@@ -118,39 +116,6 @@ let cfg = config.lounge-rocks.attic; in
 
       };
     };
-
-    environment.systemPackages =
-      let
-        atticadmShim = pkgs.writeShellScript "atticadm" ''
-          # if [ -n "$ATTICADM_PWD" ]; then
-          #   cd "$ATTICADM_PWD"
-          #   if [ "$?" != "0" ]; then
-          #     >&2 echo "Warning: Failed to change directory to $ATTICADM_PWD"
-          #   fi
-          # fi
-          cd /var/lib/atticd
-          export RUST_LOG=debug
-          exec ${config.services.atticd.package}/bin/atticd -f ${config.services.atticd.configFile} "$@"
-        '';
-      in
-      [
-        (pkgs.writeShellScriptBin "attic-gc" ''
-          exec systemd-run \
-            --quiet \
-            --pty \
-            --same-dir \
-            --wait \
-            --collect \
-            --service-type=exec \
-            --property=EnvironmentFile=${config.services.atticd.credentialsFile} \
-            --property=DynamicUser=yes \
-            --property=User=${config.services.atticd.user} \
-            --property=Environment=ATTICADM_PWD=$(pwd) \
-            --working-directory / \
-            -- \
-            ${atticadmShim} "$@"
-        '')
-      ];
 
   };
 }
