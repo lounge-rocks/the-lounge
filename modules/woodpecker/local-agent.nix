@@ -72,7 +72,7 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
         nix
 
         # CI tools
-        attic
+        attic-client
         crab_share
         nix-fast-build
       ];
