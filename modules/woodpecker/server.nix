@@ -10,7 +10,7 @@ in {
     hostName = mkOption {
       type = types.str;
       default = "build.lounge.rocks";
-      description = "The hostname of the attic server";
+      description = "The hostname of the woodpecker server";
     };
   };
 
