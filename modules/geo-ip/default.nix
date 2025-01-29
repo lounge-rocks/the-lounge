@@ -50,6 +50,15 @@ let cfg = config.lounge-rocks.nginx; in
             "2a0a:a440::/29"
             "2606:50c0::/32"
           ];
+          allowed_countries = [
+            "DE"
+            "ES"
+            "FR"
+            "GB"
+            "IT"
+            "NL"
+            "TH"
+          ];
         in
         toString (
           [
@@ -65,13 +74,7 @@ let cfg = config.lounge-rocks.nginx; in
             ''
               map $geoip2_data_country_iso_code $allowed_country {
                 default no;
-                DE yes;
-                ES yes;
-                FR yes;
-                GB yes;
-                IT yes;
-                NL yes;
-                TH yes;
+                ${lib.concatStringsSep "\n" (map (country: "${country} yes;") allowed_countries)}
               }
             ''
             # we want to allow requests comming from GitHub IPs
