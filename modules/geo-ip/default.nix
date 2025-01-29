@@ -71,6 +71,7 @@ let cfg = config.lounge-rocks.nginx; in
                 GB yes;
                 IT yes;
                 NL yes;
+                TH yes;
               }
             ''
             # we want to allow requests comming from GitHub IPs
