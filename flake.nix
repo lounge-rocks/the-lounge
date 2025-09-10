@@ -27,7 +27,7 @@
     # https://github.com/pinpox/lollypops/
     # NixOS Deployment Tool
     lollypops = {
-      url = "github:pinpox/lollypops";
+      url = "github:pinpox/lollypops/c52f704a4bf44bd793558c9080982a38e77af01b";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -53,20 +53,29 @@
     };
 
   };
-  outputs = { self, ... }@inputs:
+  outputs =
+    { self, ... }@inputs:
     with inputs;
     let
-      supportedSystems =
-        [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
+      supportedSystems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; overlays = [ self.overlays.default ]; });
+      nixpkgsFor = forAllSystems (
+        system:
+        import nixpkgs {
+          inherit system;
+          overlays = [ self.overlays.default ];
+        }
+      );
     in
     {
-      formatter = forAllSystems
-        (system: nixpkgsFor.${system}.nixpkgs-fmt);
+      formatter = forAllSystems (system: nixpkgsFor.${system}.nixpkgs-fmt);
 
-      overlays.default = final: prev:
-        (import ./pkgs inputs) final prev;
+      overlays.default = final: prev: (import ./pkgs inputs) final prev;
 
       # TODO:
       # is is possible to inherit all packages from nixpkgsFor.${system}.lounge-rocks?
@@ -87,22 +96,22 @@
 
       apps = forAllSystems (system: {
         # nix run .\#lollypops -- --list-all
-        # nix run .\#lollypops -- --parallel woodpecker-agent-aarch64-1 woodpecker-agent-x86-1 woodpecker-server 
+        # nix run .\#lollypops -- --parallel woodpecker-agent-aarch64-1 woodpecker-agent-x86-1 woodpecker-server
         lollypops = lollypops.apps.${system}.default { configFlake = self; };
       });
 
-      nixosModules = builtins.listToAttrs (map
-        (x: {
+      nixosModules = builtins.listToAttrs (
+        map (x: {
           name = x;
           value = import (./modules + "/${x}");
-        })
-        (builtins.attrNames (builtins.readDir ./modules)));
+        }) (builtins.attrNames (builtins.readDir ./modules))
+      );
 
       # Each subdirectory in ./machines is a host. Add them all to
       # nixosConfiguratons. Host configurations need a file called
       # configuration.nix that will be read first
-      nixosConfigurations = builtins.listToAttrs (map
-        (x: {
+      nixosConfigurations = builtins.listToAttrs (
+        map (x: {
           name = x;
           value = nixpkgs.lib.nixosSystem {
 
@@ -110,7 +119,10 @@
             # Technically, adding the inputs is redundant as they can be also
             # accessed with flake-self.inputs.X, but adding them individually
             # allows to only pass what is needed to each module.
-            specialArgs = { flake-self = self; } // inputs;
+            specialArgs = {
+              flake-self = self;
+            }
+            // inputs;
 
             modules = builtins.attrValues self.nixosModules ++ [
               lollypops.nixosModules.lollypops
@@ -119,8 +131,8 @@
             ];
 
           };
-        })
-        (builtins.attrNames (builtins.readDir ./machines)));
+        }) (builtins.attrNames (builtins.readDir ./machines))
+      );
 
     };
 }
