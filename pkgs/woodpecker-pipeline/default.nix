@@ -24,7 +24,9 @@ let
             commands = [
               "attic login lounge-rocks https://cache.lounge.rocks $ATTIC_KEY --set-default"
             ];
-            secrets = [ "attic_key" ];
+            environment = {
+              ATTIC_KEY.from_secret = "attic_key";
+            };
           };
         in
         pkgs.lib.lists.flatten ([
