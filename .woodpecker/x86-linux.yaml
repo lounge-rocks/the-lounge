@@ -25,27 +25,6 @@
     },
     {
       "commands": [
-        "nix build --print-out-paths '.#nixosConfigurations.meet.config.system.build.toplevel' -o 'result-meet'"
-      ],
-      "image": "bash",
-      "name": "Build meet"
-    },
-    {
-      "commands": [
-        "nix path-info --closure-size -h $(readlink -f 'result-meet')"
-      ],
-      "image": "bash",
-      "name": "Show meet info"
-    },
-    {
-      "commands": [
-        "attic push lounge-rocks:nix-cache 'result-meet'"
-      ],
-      "image": "bash",
-      "name": "Push meet to Attic"
-    },
-    {
-      "commands": [
         "nix build --print-out-paths '.#nixosConfigurations.woodpecker-agent-x86-1.config.system.build.toplevel' -o 'result-woodpecker-agent-x86-1'"
       ],
       "image": "bash",
