@@ -43,6 +43,27 @@
       ],
       "image": "bash",
       "name": "Push woodpecker-agent-x86-1 to Attic"
+    },
+    {
+      "commands": [
+        "nix build --print-out-paths '.#nixosConfigurations.woodpecker-agent-x86-2.config.system.build.toplevel' -o 'result-woodpecker-agent-x86-2'"
+      ],
+      "image": "bash",
+      "name": "Build woodpecker-agent-x86-2"
+    },
+    {
+      "commands": [
+        "nix path-info --closure-size -h $(readlink -f 'result-woodpecker-agent-x86-2')"
+      ],
+      "image": "bash",
+      "name": "Show woodpecker-agent-x86-2 info"
+    },
+    {
+      "commands": [
+        "attic push lounge-rocks:nix-cache 'result-woodpecker-agent-x86-2'"
+      ],
+      "image": "bash",
+      "name": "Push woodpecker-agent-x86-2 to Attic"
     }
   ],
   "when": [
