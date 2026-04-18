@@ -1,9 +1,20 @@
-{ config, pkgs, lib, self, nixpkgs, crab_share, nix-fast-build, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  self,
+  nixpkgs,
+  crab_share,
+  nix-fast-build,
+  ...
+}:
 
 with lib;
-let cfg = config.lounge-rocks.nix-common;
+let
+  cfg = config.lounge-rocks.nix-common;
 
-in {
+in
+{
 
   options.lounge-rocks.nix-common = {
     enable = mkEnableOption "activate nix-common";
@@ -26,7 +37,13 @@ in {
   config = mkIf cfg.enable {
 
     # Install some basic utilities
-    environment.systemPackages = with pkgs; [ git htop nil nixfmt nixpkgs-fmt ];
+    environment.systemPackages = with pkgs; [
+      git
+      htop
+      nil
+      nixfmt
+      nixpkgs-fmt
+    ];
 
     nixpkgs.overlays = [
       # apps from external flakes

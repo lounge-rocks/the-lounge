@@ -1,11 +1,20 @@
-{ self, ... }:
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
 
-  sops.defaultSopsFile = ../../secrets/woodpecker-server/secrets.yaml;
-  sops.secrets."woodpecker/server-envfile" = { };
-  sops.secrets."woodpecker/agent-envfile" = { };
-  sops.secrets."woodpecker/attic-envfile" = { };
+  clan.core.vars.generators.woodpecker-server-envfile = {
+    files.env = { };
+  };
+  clan.core.vars.generators.woodpecker-agent-envfile = {
+    files.env = { };
+  };
+  clan.core.vars.generators.woodpecker-attic-envfile = {
+    files.env = { };
+  };
 
   lounge-rocks = {
     users = {
@@ -22,6 +31,7 @@
       scaling-factor = 64;
       # 365 days retention (created cache on 25st October 2023)
       retention-period = 365 * 24 * 60 * 60;
+      envFile = config.clan.core.vars.generators.woodpecker-attic-envfile.files.env.path;
     };
     nginx.geoIP = true;
     nix-common.enable = true;
@@ -29,17 +39,9 @@
     # woodpecker.pipeliner.enable = true; # TODO fix
     woodpecker.server = {
       enable = true;
-      # oci = true;
+      envFile = config.clan.core.vars.generators.woodpecker-server-envfile.files.env.path;
     };
     woodpecker.log = "trace";
-  };
-
-  lollypops.deployment = {
-    local-evaluation = true;
-    ssh = {
-      user = "root";
-      host = "build.lounge.rocks";
-    };
   };
 
   networking = {

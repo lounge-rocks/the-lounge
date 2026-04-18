@@ -1,6 +1,14 @@
-{ self, ... }:
-{ pkgs, lib, config, ... }:
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
+
+  clan.core.vars.generators.woodpecker-agent-envfile = {
+    files.env = { };
+  };
 
   lounge-rocks = {
     cloud-provider.oracle.enable = true;
@@ -8,15 +16,15 @@
     tailscale.enable = true;
     users.MayNiklas.root = true;
     woodpecker = {
-      docker-agent.enable = true;
-      local-agent.enable = true;
+      docker-agent = {
+        enable = true;
+        envFile = config.clan.core.vars.generators.woodpecker-agent-envfile.files.env.path;
+      };
+      local-agent = {
+        enable = true;
+        envFile = config.clan.core.vars.generators.woodpecker-agent-envfile.files.env.path;
+      };
     };
-  };
-
-  lollypops.deployment.ssh = {
-    user = "root";
-    host = "oracle-aarch64-runner-1.lounge.rocks";
-    # host = "${config.networking.fqdn}";
   };
 
   networking = {

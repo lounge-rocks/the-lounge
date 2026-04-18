@@ -1,5 +1,4 @@
-inputs:
-self: super: {
+inputs: self: super: {
 
   # our packages are accessible via lounge-rocks.<name>
   lounge-rocks = {

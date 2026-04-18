@@ -1,7 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.nix-build-signature;
-in {
+let
+  cfg = config.lounge-rocks.nix-build-signature;
+in
+{
 
   options.lounge-rocks.nix-build-signature = {
     enable = mkEnableOption "activate nix-build-signature";

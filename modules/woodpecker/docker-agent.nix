@@ -1,16 +1,24 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.woodpecker.docker-agent; in
+let
+  cfg = config.lounge-rocks.woodpecker.docker-agent;
+in
 {
 
   options.lounge-rocks.woodpecker.docker-agent = {
     enable = mkEnableOption "enable docker woodpecker agent";
+    envFile = mkOption {
+      type = types.path;
+      description = "Path to the environment file with woodpecker agent secrets";
+    };
   };
 
   config = mkIf cfg.enable {
-
-    # Shared secrets file
-    sops.secrets.agent-envfile.sopsFile = ../../secrets/woodpecker-agents.yaml;
 
     services.woodpecker-agents = {
       agents.docker = {
@@ -24,7 +32,7 @@ let cfg = config.lounge-rocks.woodpecker.docker-agent; in
           WOODPECKER_HEALTHCHECK = "false";
         };
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
-        environmentFile = [ config.sops.secrets.agent-envfile.path ];
+        environmentFile = [ cfg.envFile ];
         extraGroups = [ "docker" ];
       };
     };
@@ -40,7 +48,9 @@ let cfg = config.lounge-rocks.woodpecker.docker-agent; in
     systemd.services.woodpecker-agent-docker = {
       after = [ "docker.socket" ];
       restartIfChanged = false;
-      serviceConfig = { BindPaths = [ "/var/run/docker.sock" ]; };
+      serviceConfig = {
+        BindPaths = [ "/var/run/docker.sock" ];
+      };
     };
 
   };

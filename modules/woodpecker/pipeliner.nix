@@ -1,7 +1,15 @@
-{ pkgs, lib, config, flake-pipeliner, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  flake-pipeliner,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.woodpecker.pipeliner;
-in {
+let
+  cfg = config.lounge-rocks.woodpecker.pipeliner;
+in
+{
 
   imports = [
     flake-pipeliner.nixosModules.flake-pipeliner

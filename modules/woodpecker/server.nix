@@ -1,7 +1,14 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.woodpecker.server;
-in {
+let
+  cfg = config.lounge-rocks.woodpecker.server;
+in
+{
 
   ### TODO: create a common module for NGINX / ACME stuff
   options.lounge-rocks.woodpecker.server = {
@@ -11,6 +18,10 @@ in {
       type = types.str;
       default = "build.lounge.rocks";
       description = "The hostname of the woodpecker server";
+    };
+    envFile = mkOption {
+      type = types.path;
+      description = "Path to the environment file with woodpecker server secrets";
     };
   };
 
@@ -34,7 +45,7 @@ in {
 
       # Secrets in env file: WOODPECKER_GITHUB_CLIENT, WOODPECKER_GITHUB_SECRET,
       # WOODPECKER_AGENT_SECRET, WOODPECKER_PROMETHEUS_AUTH_TOKEN
-      environmentFile = config.sops.secrets."woodpecker/server-envfile".path;
+      environmentFile = cfg.envFile;
 
       environment = {
         WOODPECKER_HOST = "https://${cfg.hostName}";
@@ -64,13 +75,14 @@ in {
           WOODPECKER_ADMIN = "pinpox,MayNiklas";
           WOODPECKER_DEBUG_PRETTY = "true";
         };
-        environmentFiles = [ "${config.sops.secrets."woodpecker/server-envfile".path}" ];
+        environmentFiles = [ "${cfg.envFile}" ];
         extraOptions = [ "--network=host" ];
       };
     };
 
-    networking.firewall.interfaces.tailscale0.allowedTCPPorts =
-      mkIf config.services.tailscale.enable [ 9000 ];
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = mkIf config.services.tailscale.enable [
+      9000
+    ];
 
   };
 

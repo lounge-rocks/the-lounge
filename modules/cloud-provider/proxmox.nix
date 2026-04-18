@@ -10,9 +10,11 @@
 
 { config, lib, ... }:
 with lib;
-let cfg = config.lounge-rocks.cloud-provider.proxmox;
+let
+  cfg = config.lounge-rocks.cloud-provider.proxmox;
 
-in {
+in
+{
 
   options.lounge-rocks.cloud-provider.proxmox = {
     enable = mkEnableOption "proxmox configuration";

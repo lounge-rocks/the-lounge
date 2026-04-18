@@ -1,6 +1,13 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.attic; in
+let
+  cfg = config.lounge-rocks.attic;
+in
 {
 
   options.lounge-rocks.attic = {
@@ -27,6 +34,11 @@ let cfg = config.lounge-rocks.attic; in
         The settings are multiplied by this factor.
       '';
     };
+
+    envFile = mkOption {
+      type = types.path;
+      description = "Path to the environment file with attic secrets";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -47,11 +59,13 @@ let cfg = config.lounge-rocks.attic; in
 
     services.postgresql = {
       enable = true;
-      ensureUsers = [{
-        name = "atticd";
-        # TODO: needs to be migrated into the new optionscd
-        # ensurePermissions = { "DATABASE atticd" = "ALL PRIVILEGES"; };
-      }];
+      ensureUsers = [
+        {
+          name = "atticd";
+          # TODO: needs to be migrated into the new optionscd
+          # ensurePermissions = { "DATABASE atticd" = "ALL PRIVILEGES"; };
+        }
+      ];
       ensureDatabases = [ "atticd" ];
     };
 
@@ -65,7 +79,7 @@ let cfg = config.lounge-rocks.attic; in
       # openssl rand 64 | base64 -w0
 
       # Replace with absolute path to your credentials file
-      environmentFile = config.sops.secrets."woodpecker/attic-envfile".path;
+      environmentFile = cfg.envFile;
 
       settings = {
 

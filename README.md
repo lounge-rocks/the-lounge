@@ -1,14 +1,16 @@
 # the lounge - infrastructure
 
+Managed with [clan](https://clan.lol).
+
 ### Systems
 
-| Machine                    | cloud        | platform | DNS entries                              | services                                 |
-| -------------------------- | ------------ | -------- | ---------------------------------------- | ---------------------------------------- |
-| netcup-x86-runner-1        | netcup       | X86      | netcup-x86-runner-1.lounge.rocks         | drone-exec-runner<br>drone-docker-runner |
-| stuart                     | ORACLE CLOUD | ARM-64   | s3.lounge.rocks<br>minio.s3.lounge.rocks | minio (S3)                               |
-| woodpecker-agent-aarch64-1 | ORACLE CLOUD | ARM-64   | oracle-aarch64-runner-1.lounge.rocks     | wodpecker-agent                          |
-| woodpecker-agent-x86-1     | Proxmox PVE  | X86      |                                          | wodpecker-agent                          |
-| woodpecker-server          | Hetzner      | ARM-64   | build.lounge.rocks<br>cache.lounge.rocks | wodpecker-{server,pipeliner}             |
+| Machine                      | Cloud        | Platform | DNS entries                              | Services                                   |
+| ---------------------------- | ------------ | -------- | ---------------------------------------- | ------------------------------------------ |
+| stuart                       | Oracle Cloud | ARM-64   | s3.lounge.rocks<br>minio.s3.lounge.rocks | MinIO (S3), nix cache proxy                |
+| woodpecker-server            | Hetzner      | ARM-64   | build.lounge.rocks<br>cache.lounge.rocks | woodpecker-server, attic cache             |
+| woodpecker-agent-aarch64-1   | Oracle Cloud | ARM-64   | oracle-aarch64-runner-1.lounge.rocks     | woodpecker-agent                           |
+| woodpecker-agent-x86-1       | Proxmox PVE  | X86      |                                          | woodpecker-agent                           |
+| woodpecker-agent-x86-2       | Proxmox PVE  | X86      |                                          | woodpecker-agent                           |
 
 ### Using the binary cache
 
@@ -21,26 +23,30 @@
 }
 ```
 
-### Using unstable channel
+### Deployment
+
+Update a single machine:
 
 ```sh
-nix-channel --add https://nixos.org/channels/nixos-unstable nixos
-nix-channel --update
+clan machines update stuart
 ```
 
-## Initial Rebuild
+Update all machines:
 
 ```sh
-nixos-rebuild switch --flake '.#stuart' --target-host root@s3.lounge.rocks --build-host root@s3.lounge.rocks
+clan machines update
 ```
 
-## Secrets
+Build locally and deploy to remote:
 
-1. Get key for machine:
-
+```sh
+clan machines update stuart --build-host localhost
 ```
-nix-shell -p ssh-to-age --run 'ssh-keyscan example.com | ssh-to-age'
-```
-2. Edit `.sops.yml`
-3. Create `secrets/example.com` accordingly
 
+### Secrets
+
+Secrets are managed with clan vars using the age backend. Admin age keys are
+defined in `user-keys.nix`.
+
+See the [clan vars
+documentation](https://clan.lol/docs/25.11/guides/vars/vars-backend/) for usage.
