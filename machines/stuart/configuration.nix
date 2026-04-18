@@ -1,5 +1,10 @@
-{ self, ... }:
-{ pkgs, lib, config, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
 
   lounge-rocks = {
     cloud-provider.oracle.enable = true;
@@ -11,13 +16,8 @@
     };
   };
 
-  sops.defaultSopsFile = ../../secrets/stuart/secrets.yaml;
-  sops.secrets."minio/env" = { restartUnits = [ "minio.service" ]; };
-
-  lollypops.deployment.ssh = {
-    user = "root";
-    host = "s3.lounge.rocks";
-    # host = "${config.networking.fqdn}";
+  clan.core.vars.generators.minio-env = {
+    files.env = { };
   };
 
   networking = {
@@ -25,7 +25,10 @@
     hostName = "stuart";
   };
 
-  networking.firewall.allowedTCPPorts = [ 443 80 ];
+  networking.firewall.allowedTCPPorts = [
+    443
+    80
+  ];
 
   services.minio = {
     enable = true;
@@ -33,10 +36,7 @@
     consoleAddress = "127.0.0.1:9001";
     region = "eu-central-1";
 
-    rootCredentialsFile = config.sops.secrets."minio/env".path;
-
-    # dataDir = [ "/mnt/data/minio/data" ];
-    # configDir = "/mnt/data/minio/config";
+    rootCredentialsFile = config.clan.core.vars.generators.minio-env.files.env.path;
   };
 
   systemd.services.minio = {
@@ -70,7 +70,9 @@
         addSSL = true;
         enableACME = true;
         locations = {
-          "/" = { proxyPass = "http://localhost:9000/nix-cache/"; };
+          "/" = {
+            proxyPass = "http://localhost:9000/nix-cache/";
+          };
         };
       };
 
@@ -109,12 +111,6 @@
 
       # Minio s3 backend
       "s3.lounge.rocks" = {
-
-        # listen = [{
-        #   addr = "192.168.7.1";
-        #   port = 443;
-        #   ssl = true;
-        # }];
 
         addSSL = true;
         enableACME = true;

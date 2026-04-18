@@ -1,4 +1,10 @@
-{ lib, config, modulesPath, disko, ... }:
+{
+  lib,
+  config,
+  modulesPath,
+  disko,
+  ...
+}:
 with lib;
 let
   cfg = config.lounge-rocks.cloud-provider;
@@ -89,6 +95,7 @@ in
       devices = [ cfg.primaryDisk ];
       efiSupport = true;
       efiInstallAsRemovable = true;
+      configurationLimit = 10;
     };
 
     # Currently all our providers use KVM / QEMU

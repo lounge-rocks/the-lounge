@@ -1,10 +1,21 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.woodpecker.local-agent; in
+let
+  cfg = config.lounge-rocks.woodpecker.local-agent;
+in
 {
 
   options.lounge-rocks.woodpecker.local-agent = {
     enable = mkEnableOption "enable local woodpecker agent";
+    envFile = mkOption {
+      type = types.path;
+      description = "Path to the environment file with woodpecker agent secrets";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -17,16 +28,13 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
     programs.git.enable = true;
     programs.git.lfs.enable = true;
 
-    # Shared secrets file
-    sops.secrets.agent-envfile.sopsFile = ../../secrets/woodpecker-agents.yaml;
-
     # local runner
     services.woodpecker-agents.agents = {
       exec = {
         enable = true;
         # package = pkgs.lounge-rocks.woodpecker-agent;
         # Secrets in envfile: WOODPECKER_AGENT_SECRET
-        environmentFile = [ config.sops.secrets.agent-envfile.path ];
+        environmentFile = [ cfg.envFile ];
         environment = {
           WOODPECKER_BACKEND = "local";
           WOODPECKER_SERVER = "100.65.12.86:9000";
@@ -44,12 +52,14 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
 
       serviceConfig = {
         # Same option as upstream, without @setuid
-        SystemCallFilter = lib.mkForce
-          "~@clock @privileged @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io @reboot @swap";
+        SystemCallFilter = lib.mkForce "~@clock @privileged @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io @reboot @swap";
 
         User = "woodpecker-agent";
 
-        BindPaths = [ "/nix/var/nix/daemon-socket/socket" "/run/nscd/socket" ];
+        BindPaths = [
+          "/nix/var/nix/daemon-socket/socket"
+          "/run/nscd/socket"
+        ];
         BindReadOnlyPaths = [
           "/etc/passwd:/etc/passwd"
           "/etc/group:/etc/group"

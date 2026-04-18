@@ -1,6 +1,8 @@
 { lib, config, ... }:
 with lib;
-let cfg = config.lounge-rocks.nginx; in
+let
+  cfg = config.lounge-rocks.nginx;
+in
 {
 
   options.lounge-rocks.nginx = {
@@ -29,7 +31,10 @@ let cfg = config.lounge-rocks.nginx; in
       '';
     };
 
-    networking.firewall.allowedTCPPorts = [ 443 80 ];
+    networking.firewall.allowedTCPPorts = [
+      443
+      80
+    ];
 
   };
 }

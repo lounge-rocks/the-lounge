@@ -1,9 +1,16 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
-let cfg = config.lounge-rocks.cloud-provider.netcup;
+let
+  cfg = config.lounge-rocks.cloud-provider.netcup;
 
-in {
+in
+{
 
   options.lounge-rocks.cloud-provider.netcup = {
     enable = mkEnableOption "netcup configuration";

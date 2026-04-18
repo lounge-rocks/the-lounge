@@ -1,8 +1,14 @@
-# nix run .\#lollypops -- woodpecker-agent-x86-1
-# nix run github:numtide/nixos-anywhere -- --flake .#woodpecker-agent-x86-1 -p 22 root@<IP>
-{ self, ... }:
-{ pkgs, lib, config, ... }:
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
+
+  clan.core.vars.generators.woodpecker-agent-envfile = {
+    files.env = { };
+  };
 
   lounge-rocks = {
     cloud-provider.proxmox.enable = true;
@@ -10,19 +16,25 @@
     tailscale.enable = true;
     users.MayNiklas.root = true;
     woodpecker = {
-      docker-agent.enable = true;
-      local-agent.enable = true;
+      docker-agent = {
+        enable = true;
+        envFile = config.clan.core.vars.generators.woodpecker-agent-envfile.files.env.path;
+      };
+      local-agent = {
+        enable = true;
+        envFile = config.clan.core.vars.generators.woodpecker-agent-envfile.files.env.path;
+      };
     };
-  };
-
-  lollypops.deployment.ssh = {
-    user = "root";
-    host = "192.168.40.2";
   };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  swapDevices = [{ device = "/var/swapfile"; size = (1024 * 32); }];
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = (1024 * 32);
+    }
+  ];
   networking.hostName = "woodpecker-agent-x86-1";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

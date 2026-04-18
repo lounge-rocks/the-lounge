@@ -1,7 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.lounge-rocks.tailscale;
-in {
+let
+  cfg = config.lounge-rocks.tailscale;
+in
+{
 
   options.lounge-rocks.tailscale = {
     enable = mkEnableOption "tailscale";

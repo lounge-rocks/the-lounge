@@ -2,6 +2,12 @@
   description = "lounge.rocks - infrastructure";
   inputs = {
 
+    # https://git.clan.lol/clan/clan-core
+    # Clan framework
+    clan-core = {
+      url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
+    };
+
     # https://github.com/nixos/nixpkgs
     # Nix Packages collection & NixOS
     nixpkgs = {
@@ -14,20 +20,6 @@
     # Format disks with nix-config
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # https://github.com/Mic92/sops-nix
-    # Atomic secret provisioning for NixOS based on sops
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # https://github.com/pinpox/lollypops/
-    # NixOS Deployment Tool
-    lollypops = {
-      url = "github:pinpox/lollypops/c52f704a4bf44bd793558c9080982a38e77af01b";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -52,10 +44,17 @@
       url = "github:Mic92/nix-fast-build";
     };
 
+    treefmt-nix.follows = "clan-core/treefmt-nix";
+
   };
   outputs =
-    { self, ... }@inputs:
-    with inputs;
+    {
+      self,
+      clan-core,
+      nixpkgs,
+      treefmt-nix,
+      ...
+    }@inputs:
     let
       supportedSystems = [
         "aarch64-darwin"
@@ -71,15 +70,31 @@
           overlays = [ self.overlays.default ];
         }
       );
+
+      clan = clan-core.lib.clan {
+        inherit self;
+        imports = [ ./clan.nix ];
+        specialArgs = {
+          flake-self = self;
+          inherit self inputs;
+        }
+        // builtins.removeAttrs inputs [ "self" ];
+      };
     in
     {
-      formatter = forAllSystems (system: nixpkgsFor.${system}.nixpkgs-fmt);
+      inherit (clan.config) nixosConfigurations nixosModules clanInternals;
+      clan = clan.config;
+
+      formatter = forAllSystems (
+        system:
+        (treefmt-nix.lib.evalModule nixpkgs.legacyPackages.${system} {
+          projectRootFile = "flake.nix";
+          programs.nixfmt.enable = true;
+        }).config.build.wrapper
+      );
 
       overlays.default = final: prev: (import ./pkgs inputs) final prev;
 
-      # TODO:
-      # is is possible to inherit all packages from nixpkgsFor.${system}.lounge-rocks?
-      # this would be much cleaner since we would not need to list all packages here
       packages = forAllSystems (system: {
         woodpecker-pipeline = nixpkgsFor.${system}.callPackage ./pkgs/woodpecker-pipeline {
           inputs = inputs;
@@ -88,51 +103,16 @@
         inherit (nixpkgsFor.${system}.lounge-rocks)
           s3uploader
           upload-nixos-iso
-          # woodpecker-agent
-          # woodpecker-cli
-          # woodpecker-server
           ;
       });
 
-      apps = forAllSystems (system: {
-        # nix run .\#lollypops -- --list-all
-        # nix run .\#lollypops -- --parallel woodpecker-agent-aarch64-1 woodpecker-agent-x86-1 woodpecker-server
-        lollypops = lollypops.apps.${system}.default { configFlake = self; };
+      devShells = forAllSystems (system: {
+        default = nixpkgs.legacyPackages.${system}.mkShell {
+          packages = [
+            clan-core.packages.${system}.clan-cli
+          ];
+        };
       });
-
-      nixosModules = builtins.listToAttrs (
-        map (x: {
-          name = x;
-          value = import (./modules + "/${x}");
-        }) (builtins.attrNames (builtins.readDir ./modules))
-      );
-
-      # Each subdirectory in ./machines is a host. Add them all to
-      # nixosConfiguratons. Host configurations need a file called
-      # configuration.nix that will be read first
-      nixosConfigurations = builtins.listToAttrs (
-        map (x: {
-          name = x;
-          value = nixpkgs.lib.nixosSystem {
-
-            # Make inputs and the flake itself accessible as module parameters.
-            # Technically, adding the inputs is redundant as they can be also
-            # accessed with flake-self.inputs.X, but adding them individually
-            # allows to only pass what is needed to each module.
-            specialArgs = {
-              flake-self = self;
-            }
-            // inputs;
-
-            modules = builtins.attrValues self.nixosModules ++ [
-              lollypops.nixosModules.lollypops
-              sops-nix.nixosModules.sops
-              (import "${./.}/machines/${x}/configuration.nix" { inherit self; })
-            ];
-
-          };
-        }) (builtins.attrNames (builtins.readDir ./machines))
-      );
 
     };
 }

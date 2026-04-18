@@ -1,8 +1,10 @@
 { config, lib, ... }:
 with lib;
-let cfg = config.lounge-rocks.cloud-provider.hetzner;
+let
+  cfg = config.lounge-rocks.cloud-provider.hetzner;
 
-in {
+in
+{
 
   options.lounge-rocks.cloud-provider.hetzner = {
     enable = mkEnableOption "hetzner configuration";
@@ -26,10 +28,12 @@ in {
     ### Networking ###
     networking = {
       interfaces.${cfg.interface} = {
-        ipv6.addresses = (mkIf (cfg.ipv6_address != "NONE")) [{
-          address = "${cfg.ipv6_address}";
-          prefixLength = 64;
-        }];
+        ipv6.addresses = (mkIf (cfg.ipv6_address != "NONE")) [
+          {
+            address = "${cfg.ipv6_address}";
+            prefixLength = 64;
+          }
+        ];
       };
       defaultGateway6 = (mkIf (cfg.ipv6_address != "NONE")) {
         address = "fe80::1";
