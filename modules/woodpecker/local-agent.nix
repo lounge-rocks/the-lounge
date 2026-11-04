@@ -65,11 +65,15 @@ let cfg = config.lounge-rocks.woodpecker.local-agent; in
         woodpecker-plugin-git
         bash
         coreutils
+        curl
         git
         git-lfs
         gnutar
         gzip
+        jq
         nix
+        ripgrep
+        yq
 
         # CI tools
         attic-client
