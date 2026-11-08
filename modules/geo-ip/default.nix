@@ -43,6 +43,9 @@ let cfg = config.lounge-rocks.nginx; in
           # - a script that pulls the IP's into a file
           # - the file is being used / imported by NGINX
           github-IPs = [
+            "9.234.106.48/28"
+            "9.234.98.160/28"
+            "9.234.98.176/28"
             "192.30.252.0/22"
             "185.199.108.0/22"
             "140.82.112.0/20"
