@@ -5,7 +5,7 @@
     # https://github.com/nixos/nixpkgs
     # Nix Packages collection & NixOS
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-unstable";
+      url = "github:nixos/nixpkgs/nixos-unstable-small";
     };
 
     ### Tools for managing NixOS
