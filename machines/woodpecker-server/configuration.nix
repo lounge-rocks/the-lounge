@@ -7,6 +7,8 @@
   sops.secrets."woodpecker/agent-envfile" = { };
   sops.secrets."woodpecker/attic-envfile" = { };
 
+  services.postgresql.package = pkgs.postgresql_17;
+
   lounge-rocks = {
     users = {
       MayNiklas.root = true;
